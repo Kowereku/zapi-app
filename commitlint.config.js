@@ -51,7 +51,6 @@ export default {
     "scope-empty": [2, "never"],
     "subject-empty": [2, "never"],
     "subject-full-stop": [2, "never", "."],
-    "subject-case": [2, "never", "start-case", "pascal-case", "upper-case"],
     "header-max-length": [2, "always", 100],
     "jira-in-scope": [2, "always"],
     "body-leading-blank": [2, "always"],
