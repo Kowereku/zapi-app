@@ -1,0 +1,34 @@
+name: Validate Branch Name
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  branch-naming:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name format
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+
+          # Pattern: <type>/<JIRA-TICKET>-<short-summary>
+          # Example: feat/PROJ-123-add-oauth
+          if [[ ! $BRANCH_NAME =~ ^(feat|fix|docs|style|refactor|perf|test|chore|ci|revert)/[A-Z]{2,}-[0-9]+-[a-z0-9\-]+$ ]]; then
+            echo "❌ Invalid branch name: $BRANCH_NAME"
+            echo ""
+            echo "Branch name must follow: <type>/<JIRA-TICKET>-<short-summary>"
+            echo ""
+            echo "Valid types: feat, fix, docs, style, refactor, perf, test, chore, ci, revert"
+            echo ""
+            echo "Examples:"
+            echo "  ✅ feat/PROJ-123-add-oauth"
+            echo "  ✅ fix/ABC-456-button-alignment"
+            echo "  ✅ docs/JIRA-789-update-api"
+            echo "  ❌ feature/add-oauth (missing type pattern)"
+            echo "  ❌ feat/proj-123-add-oauth (JIRA ticket must be uppercase)"
+            echo "  ❌ feat/PROJ-123_add_oauth (use hyphens, not underscores)"
+            exit 1
+          fi
+
+          echo "✅ Branch name is valid: $BRANCH_NAME"
