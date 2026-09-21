@@ -1,0 +1,13 @@
+{
+  "common": {
+    "close": "Zamknij",
+    "loading": "Ładowanie…",
+    "language": "Język",
+    "lightMode": "Tryb jasny",
+    "darkMode": "Tryb ciemny"
+  },
+  "start": {
+    "logIn": "Zaloguj się",
+    "signUp": "Zarejestruj się"
+  }
+}

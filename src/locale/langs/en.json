@@ -1,0 +1,13 @@
+{
+  "common": {
+    "close": "Close",
+    "loading": "Loading…",
+    "language": "Language",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
+  },
+  "start": {
+    "logIn": "Log in",
+    "signUp": "Sign up"
+  }
+}
