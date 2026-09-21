@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { LanguageSelect } from '@/components/LanguageSelect'
 import { ThemeToggle } from '@/components/ThemeToggle'
@@ -22,17 +23,17 @@ export function StartPage() {
 
         <div className="mt-6 flex w-full max-w-3xl flex-col gap-4 sm:flex-row sm:justify-between">
           <div className="sm:w-80">
-            <a href="/login" className={buttonVariants({ size: 'lg', fullWidth: true })}>
+            <Link to="/login" className={buttonVariants({ size: 'lg', fullWidth: true })}>
               {t('start.logIn')}
-            </a>
+            </Link>
           </div>
           <div className="sm:w-80">
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className={buttonVariants({ variant: 'secondary', size: 'lg', fullWidth: true })}
             >
               {t('start.signUp')}
-            </a>
+            </Link>
           </div>
         </div>
       </main>

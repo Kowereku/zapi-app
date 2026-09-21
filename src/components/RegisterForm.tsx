@@ -49,7 +49,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         type="password"
         autoComplete="new-password"
         error={errors.password && t('auth.errors.passwordLength')}
-        {...register('password', { required: true, minLength: 6, maxLength: 128 })}
+        {...register('password', { required: true, minLength: 6, maxLength: 32 })}
       />
       <TextField
         label={t('auth.confirmPassword')}

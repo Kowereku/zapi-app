@@ -35,10 +35,10 @@ const buildApiRequestError = async (response: Response) => {
   )
 }
 
-const apiFetch = (endpoint: string, options: RequestInit = {}) => {
+const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const token = session.getToken()
 
-  return fetch(`${API_URL}${endpoint}`, {
+  const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -46,6 +46,11 @@ const apiFetch = (endpoint: string, options: RequestInit = {}) => {
       ...options.headers,
     },
   })
+
+  // An expired or invalid token ends the session.
+  if (response.status === 401 && token) session.clear()
+
+  return response
 }
 
 export const login = async (body: {
@@ -69,6 +74,12 @@ export const register = async (body: {
     method: 'POST',
     body: JSON.stringify(body),
   })
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getCurrentUser = async (): Promise<User> => {
+  const response = await apiFetch('/api/auth/me')
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }

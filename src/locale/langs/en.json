@@ -25,12 +25,26 @@
       "required": "This field is required.",
       "usernameLength": "Username must be 3-50 characters.",
       "emailInvalid": "Enter a valid email address.",
-      "passwordLength": "Password must be 6-128 characters.",
+      "passwordLength": "Password must be 6-32 characters.",
       "passwordMismatch": "Passwords don't match."
     }
   },
   "errors": {
     "network": "Can't reach the server. Check your connection and try again.",
     "unexpected": "Something went wrong. Please try again."
+  },
+  "nav": {
+    "xp": "{{count}} XP",
+    "streak_one": "{{count}} day",
+    "streak_other": "{{count}} days",
+    "logOut": "Log out"
+  },
+  "home": {
+    "welcome": "Welcome aboard, {{username}}! 👋",
+    "intro": "Choose your first course and start writing code in Dual Mode. Every task earns you XP and learning progress."
+  },
+  "notFound": {
+    "message": "Quack! This page doesn't exist.",
+    "backHome": "Back to start"
   }
 }
