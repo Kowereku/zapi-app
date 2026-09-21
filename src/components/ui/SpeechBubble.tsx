@@ -1,0 +1,12 @@
+import type { ComponentProps } from 'react'
+
+export function SpeechBubble({ children, ...props }: Omit<ComponentProps<'div'>, 'className'>) {
+  return (
+    <div
+      className="relative rounded-card bg-surface px-7 py-5 text-2xl font-medium text-ink before:absolute before:bottom-5 before:-left-3 before:size-6 before:rotate-45 before:rounded-sm before:bg-surface before:content-['']"
+      {...props}
+    >
+      <div className="relative">{children}</div>
+    </div>
+  )
+}
