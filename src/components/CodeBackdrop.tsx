@@ -1,12 +1,15 @@
-/** Positions taken from the 1440×1024 Figma frames, expressed as percentages. */
+import { useState } from 'react'
+
 const snippets = [
-  { text: '< >', position: 'left-[9%] top-[14%]' },
-  { text: 'cout << "" << endl();', position: 'right-[11%] top-[10%]' },
-  { text: '{ }', position: 'right-[11%] top-[26%]' },
-  { text: '[ ]', position: 'left-[17%] top-[39%]' },
-  { text: 'console.log();', position: 'right-[10%] top-[48%]' },
-  { text: 'System.out.println();', position: 'bottom-[8%] left-[8%]' },
-] as const
+  '< >',
+  'cout << "" << endl();',
+  '{ }',
+  '[ ]',
+  'console.log();',
+  'System.out.println();',
+]
+
+const random = (min: number, max: number) => min + Math.random() * (max - min)
 
 export function CodeBackdrop() {
   return (
@@ -14,14 +17,32 @@ export function CodeBackdrop() {
       aria-hidden
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden select-none"
     >
-      {snippets.map(({ text, position }) => (
-        <span
-          key={text}
-          className={`absolute text-3xl whitespace-nowrap text-on-page-muted md:text-5xl ${position}`}
-        >
-          {text}
-        </span>
+      {snippets.map((text) => (
+        <FallingSnippet key={text} text={text} />
       ))}
     </div>
+  )
+}
+
+function FallingSnippet({ text }: { text: string }) {
+  const [left, setLeft] = useState(() => random(0, 75))
+  const [top] = useState(() => random(5, 90))
+  const [duration] = useState(() => random(30, 50))
+  const [delay] = useState(() => -random(0, duration))
+
+  return (
+    <span
+      className="absolute text-3xl whitespace-nowrap text-on-page-muted motion-safe:animate-fall md:text-5xl"
+      style={{
+        left: `${left}%`,
+        top: `${top}%`,
+        animationDuration: `${duration}s`,
+        animationDelay: `${delay}s`,
+      }}
+      // Respawn in a new column each time the snippet falls off the bottom.
+      onAnimationIteration={() => setLeft(random(0, 75))}
+    >
+      {text}
+    </span>
   )
 }

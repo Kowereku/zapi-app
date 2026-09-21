@@ -1,69 +1,82 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 
-/*
- * Theme switching is driven by <html data-theme="dark|light"> (see lib/theme.ts).
- * The dark teal palette is the one drawn in Figma. The light palette is a first pass
- * behind the Start Page "LIGHT MODE" toggle and still needs a design.
- */
-@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
-
-/*
- * Semantic tokens that change per theme. Values marked "Figma" were read from the file;
- * values marked "est." were estimated from screenshots — confirm them in Figma Inspect.
- */
-:root,
-[data-theme='dark'] {
-  --page-bg-center: #2b8591; /* est. */
-  --page-bg-edge: #05596a; /* est. */
+:root {
+  --page-bg-center: #2b8591;
+  --page-bg-edge: #05596a;
   --on-page: #ffffff;
-  --on-page-muted: rgb(255 255 255 / 0.2); /* background code snippets (est.) */
-  --chrome: #d9d9d9; /* top header bar (est.) */
-  color-scheme: dark;
+  --on-page-muted: rgb(255 255 255 / 0.2);
+  --chrome: #d9d9d9;
+  --surface: #ffffff;
+  --ink: #202940;
+  --field: #d9d9d9;
+  --tile: #0b7f8f;
+  --tile-hover: #0e8fa0;
+  --feedback: #073f4a;
+  color-scheme: light;
 }
 
-[data-theme='light'] {
-  --page-bg-center: #f1fafb;
-  --page-bg-edge: #cde9ec;
-  --on-page: #202940;
-  --on-page-muted: rgb(5 89 106 / 0.18);
-  --chrome: #ffffff;
-  color-scheme: light;
+[data-theme='dark'] {
+  --page-bg-center: #12262c;
+  --page-bg-edge: #071316;
+  --on-page: #dfe6e8;
+  --on-page-muted: rgb(223 230 232 / 0.22);
+  --chrome: #0f1d22;
+  --surface: #14232a;
+  --ink: #dfe6e8;
+  --field: #22343b;
+  --tile: #0f4c55;
+  --tile-hover: #15606b;
+  --feedback: #0a191d;
+  --color-white: #dfe6e8;
+  color-scheme: dark;
 }
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* Brand palette */
-  --color-primary: #ffcc00; /* Figma: Log in / LOG IN / Start buttons */
+  --color-primary: #ffcc00;
   --color-primary-hover: #f0bf00;
-  --color-ink: #202940; /* Figma: headings and text on white */
-  --color-surface: #ffffff; /* Figma: panels, cards, speech bubbles */
-  --color-field: #d9d9d9; /* est.: filled text inputs */
-  --color-tile: #0b7f8f; /* est.: secondary button, answer tiles, option rows */
-  --color-tile-hover: #0e8fa0;
-  --color-success: #8bd12f; /* est.: CONTINUE */
-  --color-badge: #34c759; /* est.: "Beginner" badge */
-  --color-danger: #f23b3b; /* est.: hearts */
-  --color-warning: #f7902b; /* est.: failure icon */
-  --color-feedback: #073f4a; /* est.: bottom feedback bar */
+  --color-on-primary: #202940;
+  --color-success: #8bd12f;
+  --color-badge: #34c759;
+  --color-danger: #f23b3b;
+  --color-warning: #f7902b;
 
-  /* Mascot palette (Figma, Register/Login ducks) */
+  /* Mascot palette */
   --color-duck-body: #ffdd00;
   --color-duck-head: #ffcc00;
   --color-duck-wing: #ffb617;
   --color-duck-beak: #ff8d28;
   --color-duck-mouth: #ff2d55;
 
-  /* Theme-aware colours, usable as bg-page-edge, text-on-page, etc. */
+  /* Theme-aware colours */
   --color-page-center: var(--page-bg-center);
   --color-page-edge: var(--page-bg-edge);
   --color-on-page: var(--on-page);
   --color-on-page-muted: var(--on-page-muted);
   --color-chrome: var(--chrome);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-field: var(--field);
+  --color-tile: var(--tile);
+  --color-tile-hover: var(--tile-hover);
+  --color-feedback: var(--feedback);
 
   --radius-card: 0.5rem;
   --radius-tile: 0.375rem;
+
+  --animate-fall: fall linear infinite;
+
+  @keyframes fall {
+    from {
+      top: -15%;
+    }
+    to {
+      top: 110%;
+    }
+  }
 }
 
 @layer base {

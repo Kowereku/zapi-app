@@ -3,11 +3,34 @@
     "close": "Zamknij",
     "loading": "Ładowanie…",
     "language": "Język",
-    "lightMode": "Tryb jasny",
     "darkMode": "Tryb ciemny"
   },
   "start": {
     "logIn": "Zaloguj się",
     "signUp": "Zarejestruj się"
+  },
+  "auth": {
+    "logInTitle": "Zaloguj się",
+    "signUpTitle": "Zarejestruj się",
+    "usernameOrEmail": "Email lub nazwa użytkownika",
+    "username": "Nazwa użytkownika",
+    "email": "Adres email",
+    "password": "Hasło",
+    "confirmPassword": "Powtórz hasło",
+    "logInButton": "Zaloguj się",
+    "signUpButton": "Zarejestruj się",
+    "forgotPassword": "Nie pamiętasz hasła?",
+    "legal": "Logując się do Polycode, akceptujesz nasz <bold>Regulamin</bold> i <bold>Politykę prywatności</bold>.",
+    "errors": {
+      "required": "To pole jest wymagane.",
+      "usernameLength": "Nazwa użytkownika musi mieć 3-50 znaków.",
+      "emailInvalid": "Podaj poprawny adres email.",
+      "passwordLength": "Hasło musi mieć 6-128 znaków.",
+      "passwordMismatch": "Hasła nie są takie same."
+    }
+  },
+  "errors": {
+    "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
+    "unexpected": "Coś poszło nie tak. Spróbuj ponownie."
   }
 }
