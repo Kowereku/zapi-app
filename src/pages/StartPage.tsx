@@ -16,8 +16,8 @@ export function StartPage() {
 
       <main className="flex flex-1 flex-col items-center justify-center gap-6 py-8">
         <Mascot variant="rubberDuck" size="hero" />
-        <h1 className="text-5xl font-extrabold tracking-tight text-white uppercase sm:text-7xl lg:text-8xl">
-          {t('brand')}
+        <h1 className="text-5xl font-extrabold tracking-tight text-on-page uppercase sm:text-7xl lg:text-8xl">
+          Polycode
         </h1>
 
         <div className="mt-6 flex w-full max-w-3xl flex-col gap-4 sm:flex-row sm:justify-between">
