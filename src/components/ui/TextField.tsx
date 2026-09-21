@@ -12,7 +12,7 @@ export function TextField({ label, error, id, ...props }: TextFieldProps) {
   const errorId = `${inputId}-error`
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-0.5">
       <label htmlFor={inputId} className="sr-only">
         {label}
       </label>
@@ -28,11 +28,9 @@ export function TextField({ label, error, id, ...props }: TextFieldProps) {
         )}
         {...props}
       />
-      {error && (
-        <p id={errorId} role="alert" className="text-sm font-medium text-danger">
-          {error}
-        </p>
-      )}
+      <p id={errorId} role="alert" className="min-h-5 text-sm/5 font-medium text-danger">
+        {error}
+      </p>
     </div>
   )
 }

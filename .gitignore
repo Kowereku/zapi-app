@@ -25,3 +25,6 @@ dist-ssr
 
 # Environmental variables
 .env
+
+# AI markdown files
+CLAUDE.md

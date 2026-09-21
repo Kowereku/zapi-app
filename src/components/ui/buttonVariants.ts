@@ -2,7 +2,7 @@ import { cn } from '@/utils/cn'
 
 const variants = {
   /** Yellow - log in, sign up, start */
-  primary: 'bg-primary text-ink hover:bg-primary-hover',
+  primary: 'bg-primary text-on-primary hover:bg-primary-hover',
   /** Teal with white border - sign up*/
   secondary: 'border border-white bg-tile text-white hover:bg-tile-hover',
   /** Green with white border - continue */
