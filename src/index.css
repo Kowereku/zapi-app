@@ -13,6 +13,7 @@
   --tile: #0b7f8f;
   --tile-hover: #0e8fa0;
   --feedback: #073f4a;
+  --brand: #0b7f8f;
   color-scheme: light;
 }
 
@@ -28,6 +29,7 @@
   --tile: #0f4c55;
   --tile-hover: #15606b;
   --feedback: #0a191d;
+  --brand: #5fb8c4;
   --color-white: #dfe6e8;
   color-scheme: dark;
 }
@@ -63,6 +65,7 @@
   --color-tile: var(--tile);
   --color-tile-hover: var(--tile-hover);
   --color-feedback: var(--feedback);
+  --color-brand: var(--brand);
 
   --radius-card: 0.5rem;
   --radius-tile: 0.375rem;

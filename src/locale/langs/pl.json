@@ -25,12 +25,28 @@
       "required": "To pole jest wymagane.",
       "usernameLength": "Nazwa użytkownika musi mieć 3-50 znaków.",
       "emailInvalid": "Podaj poprawny adres email.",
-      "passwordLength": "Hasło musi mieć 6-128 znaków.",
+      "passwordLength": "Hasło musi mieć 6-32 znaków.",
       "passwordMismatch": "Hasła nie są takie same."
     }
   },
   "errors": {
     "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
     "unexpected": "Coś poszło nie tak. Spróbuj ponownie."
+  },
+  "nav": {
+    "xp": "{{count}} XP",
+    "streak_one": "{{count}} dzień",
+    "streak_few": "{{count}} dni",
+    "streak_many": "{{count}} dni",
+    "streak_other": "{{count}} dni",
+    "logOut": "Wyloguj"
+  },
+  "home": {
+    "welcome": "Witaj na pokładzie, {{username}}! 👋",
+    "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
+  },
+  "notFound": {
+    "message": "Kwa! Ta strona nie istnieje.",
+    "backHome": "Wróć na start"
   }
 }

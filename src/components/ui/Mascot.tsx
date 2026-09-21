@@ -6,6 +6,7 @@ import duckRegister from '@/assets/mascot/duckRegister.svg'
 const sources = { ducky, rubberDuck, duckLogin, duckRegister }
 
 const sizes = {
+  icon: 'size-10',
   md: 'w-36 sm:w-44',
   peek: 'w-60',
   hero: 'w-48 sm:w-72 lg:w-88',
