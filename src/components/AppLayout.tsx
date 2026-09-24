@@ -10,7 +10,7 @@ export function AppLayout() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { data: user, error } = useCurrentUser()
+  const { data: user, error, isPending } = useCurrentUser()
 
   if (error instanceof ApiRequestError && error.status === 401) {
     return <Navigate to="/login" replace />
@@ -30,12 +30,16 @@ export function AppLayout() {
           <span className="text-2xl font-extrabold text-brand uppercase sm:text-4xl">Polycode</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm font-medium sm:gap-6 sm:text-base">
-          {user && (
-            <>
-              <span>⚡ {t('nav.xp', { count: user.total_xp })}</span>
-              <span>🔥 {t('nav.streak', { count: user.streak_days })}</span>
-              <span className="hidden sm:inline">👤 {user.username}</span>
-            </>
+          {isPending ? (
+            <span aria-hidden className="h-5 w-32 animate-pulse rounded-full bg-ink/10 sm:w-64" />
+          ) : (
+            user && (
+              <>
+                <span>⚡ {t('nav.xp', { count: user.total_xp })}</span>
+                <span>🔥 {t('nav.streak', { count: user.streak_days })}</span>
+                <span className="hidden sm:inline">👤 {user.username}</span>
+              </>
+            )
           )}
           <button type="button" onClick={logOut} className="hover:underline">
             {t('nav.logOut')} &gt;

@@ -26,7 +26,8 @@
       "usernameLength": "Username must be 3-50 characters.",
       "emailInvalid": "Enter a valid email address.",
       "passwordLength": "Password must be 6-32 characters.",
-      "passwordMismatch": "Passwords don't match."
+      "passwordMismatch": "Passwords don't match.",
+      "accountCreated": "Your account was created, but we couldn't log you in. Please log in."
     }
   },
   "errors": {
