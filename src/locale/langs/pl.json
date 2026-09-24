@@ -26,7 +26,8 @@
       "usernameLength": "Nazwa użytkownika musi mieć 3-50 znaków.",
       "emailInvalid": "Podaj poprawny adres email.",
       "passwordLength": "Hasło musi mieć 6-32 znaków.",
-      "passwordMismatch": "Hasła nie są takie same."
+      "passwordMismatch": "Hasła nie są takie same.",
+      "accountCreated": "Konto zostało utworzone, ale nie udało się zalogować. Zaloguj się."
     }
   },
   "errors": {

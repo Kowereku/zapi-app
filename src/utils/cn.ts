@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
-/** Join class names for conditional rendering. */
+/** Join class names, letting a passed className. */
 export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs)
+  return twMerge(clsx(inputs))
 }

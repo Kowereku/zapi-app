@@ -2,7 +2,7 @@ import { storage } from './storage'
 
 export type Theme = 'dark' | 'light'
 
-const STORAGE_KEY = 'theme'
+const STORAGE_KEY = 'polycode.theme'
 const listeners = new Set<() => void>()
 
 export function getTheme(): Theme {

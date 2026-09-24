@@ -1,3 +1,4 @@
+import { cn } from '@/utils/cn'
 import ducky from '@/assets/mascot/ducky.svg'
 import rubberDuck from '@/assets/mascot/rubberDuck.svg'
 import duckLogin from '@/assets/mascot/duckLogin.svg'
@@ -15,16 +16,17 @@ const sizes = {
 type MascotProps = {
   variant: keyof typeof sources
   size?: keyof typeof sizes
+  className?: string
 }
 
-export function Mascot({ variant, size = 'md' }: MascotProps) {
+export function Mascot({ variant, size = 'md', className }: MascotProps) {
   return (
     <img
       src={sources[variant]}
       alt=""
       aria-hidden
       draggable={false}
-      className={`pointer-events-none shrink-0 select-none ${sizes[size]}`}
+      className={cn('pointer-events-none shrink-0 select-none', sizes[size], className)}
     />
   )
 }

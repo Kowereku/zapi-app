@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
-import { useRegister } from '@/hooks/useRegister'
+import { AccountCreatedError, useRegister } from '@/hooks/useRegister'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 type RegisterValues = {
@@ -67,7 +67,9 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             role="alert"
             className="absolute bottom-full mb-1 w-full text-center text-sm/5 font-medium text-danger"
           >
-            {getErrorMessage(registerUser.error, t)}
+            {registerUser.error instanceof AccountCreatedError
+              ? t('auth.errors.accountCreated')
+              : getErrorMessage(registerUser.error, t)}
           </p>
         )}
         <Button type="submit" size="lg" fullWidth loading={registerUser.isPending}>
