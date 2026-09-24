@@ -1,12 +1,12 @@
 import { useId, type ComponentProps } from 'react'
 import { cn } from '@/utils/cn'
 
-type TextFieldProps = Omit<ComponentProps<'input'>, 'placeholder' | 'className'> & {
+type TextFieldProps = Omit<ComponentProps<'input'>, 'placeholder'> & {
   label: string
   error?: string
 }
 
-export function TextField({ label, error, id, ...props }: TextFieldProps) {
+export function TextField({ label, error, id, className, ...props }: TextFieldProps) {
   const generatedId = useId()
   const inputId = id ?? generatedId
   const errorId = `${inputId}-error`
@@ -25,6 +25,7 @@ export function TextField({ label, error, id, ...props }: TextFieldProps) {
           'h-14 w-full rounded-card bg-field px-5 text-lg font-semibold text-ink',
           'placeholder:text-ink/70 focus-visible:outline-tile',
           error && 'ring-2 ring-danger',
+          className,
         )}
         {...props}
       />

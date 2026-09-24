@@ -1,6 +1,6 @@
 import { session } from '@/lib/session'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '')
 
 export type User = {
   id: number
@@ -30,7 +30,9 @@ const buildApiRequestError = async (response: Response) => {
   const data = await response.json().catch(() => null)
   const detail = Array.isArray(data?.detail) ? data.detail[0]?.msg : data?.detail
   return new ApiRequestError(
-    detail || `API error: ${response.status} ${response.statusText}`,
+    typeof detail === 'string' && detail
+      ? detail
+      : `API error: ${response.status} ${response.statusText}`,
     response.status,
   )
 }
