@@ -1,0 +1,51 @@
+{
+  "common": {
+    "close": "Close",
+    "loading": "Loading…",
+    "language": "Language",
+    "darkMode": "Dark mode"
+  },
+  "start": {
+    "logIn": "Log in",
+    "signUp": "Sign up"
+  },
+  "auth": {
+    "logInTitle": "Log in",
+    "signUpTitle": "Sign up",
+    "usernameOrEmail": "Email or username",
+    "username": "Username",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "logInButton": "Log in",
+    "signUpButton": "Sign up",
+    "forgotPassword": "Forgot your password?",
+    "legal": "By signing in to Polycode, you agree to our <bold>Terms</bold> and <bold>Privacy Policy</bold>.",
+    "errors": {
+      "required": "This field is required.",
+      "usernameLength": "Username must be 3-50 characters.",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordLength": "Password must be 6-32 characters.",
+      "passwordMismatch": "Passwords don't match.",
+      "accountCreated": "Your account was created, but we couldn't log you in. Please log in."
+    }
+  },
+  "errors": {
+    "network": "Can't reach the server. Check your connection and try again.",
+    "unexpected": "Something went wrong. Please try again."
+  },
+  "nav": {
+    "xp": "{{count}} XP",
+    "streak_one": "{{count}} day",
+    "streak_other": "{{count}} days",
+    "logOut": "Log out"
+  },
+  "home": {
+    "welcome": "Welcome aboard, {{username}}! 👋",
+    "intro": "Choose your first course and start writing code in Dual Mode. Every task earns you XP and learning progress."
+  },
+  "notFound": {
+    "message": "Quack! This page doesn't exist.",
+    "backHome": "Back to start"
+  }
+}

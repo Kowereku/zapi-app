@@ -1,0 +1,53 @@
+{
+  "common": {
+    "close": "Zamknij",
+    "loading": "Ładowanie…",
+    "language": "Język",
+    "darkMode": "Tryb ciemny"
+  },
+  "start": {
+    "logIn": "Zaloguj się",
+    "signUp": "Zarejestruj się"
+  },
+  "auth": {
+    "logInTitle": "Zaloguj się",
+    "signUpTitle": "Zarejestruj się",
+    "usernameOrEmail": "Email lub nazwa użytkownika",
+    "username": "Nazwa użytkownika",
+    "email": "Adres email",
+    "password": "Hasło",
+    "confirmPassword": "Powtórz hasło",
+    "logInButton": "Zaloguj się",
+    "signUpButton": "Zarejestruj się",
+    "forgotPassword": "Nie pamiętasz hasła?",
+    "legal": "Logując się do Polycode, akceptujesz nasz <bold>Regulamin</bold> i <bold>Politykę prywatności</bold>.",
+    "errors": {
+      "required": "To pole jest wymagane.",
+      "usernameLength": "Nazwa użytkownika musi mieć 3-50 znaków.",
+      "emailInvalid": "Podaj poprawny adres email.",
+      "passwordLength": "Hasło musi mieć 6-32 znaków.",
+      "passwordMismatch": "Hasła nie są takie same.",
+      "accountCreated": "Konto zostało utworzone, ale nie udało się zalogować. Zaloguj się."
+    }
+  },
+  "errors": {
+    "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
+    "unexpected": "Coś poszło nie tak. Spróbuj ponownie."
+  },
+  "nav": {
+    "xp": "{{count}} XP",
+    "streak_one": "{{count}} dzień",
+    "streak_few": "{{count}} dni",
+    "streak_many": "{{count}} dni",
+    "streak_other": "{{count}} dni",
+    "logOut": "Wyloguj"
+  },
+  "home": {
+    "welcome": "Witaj na pokładzie, {{username}}! 👋",
+    "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
+  },
+  "notFound": {
+    "message": "Kwa! Ta strona nie istnieje.",
+    "backHome": "Wróć na start"
+  }
+}
