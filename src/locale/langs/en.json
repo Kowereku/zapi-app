@@ -44,6 +44,48 @@
     "welcome": "Welcome aboard, {{username}}! 👋",
     "intro": "Choose your first course and start writing code in Dual Mode. Every task earns you XP and learning progress."
   },
+  "courses": {
+    "available": "Available courses",
+    "progress": "Progress: {{percent}}%",
+    "progressLabel": "Course progress",
+    "start": "Start",
+    "continue": "Continue",
+    "module": "Module {{number}} · {{title}}",
+    "status": {
+      "done": "Completed",
+      "current": "Current lesson",
+      "locked": "Locked"
+    }
+  },
+  "lesson": {
+    "exit": "Exit lesson",
+    "progress": "Lesson progress",
+    "hearts_one": "{{count}} heart left",
+    "hearts_other": "{{count}} hearts left",
+    "check": "Check",
+    "continue": "Continue",
+    "correct": "Great job!",
+    "wrong": "Don't worry, just keep up!",
+    "nextQuestion": "Ready for the next question?",
+    "correctAnswer": "Correct answer:",
+    "answer": "Your answer",
+    "codeLabel": "Your code",
+    "codePlaceholder": "Type your code here…",
+    "empty": "Quack! This lesson has no exercises yet.",
+    "backToCourse": "Back to course",
+    "outOfHearts": "Oh no, you're out of hearts! Take a breath and try the lesson again.",
+    "tryAgain": "Try again",
+    "complete": {
+      "title": "Lesson complete! 🎉",
+      "xp": "+{{count}} XP",
+      "noXp": "Already completed, so no XP this time.",
+      "mistakes_one": "{{count}} mistake",
+      "mistakes_other": "{{count}} mistakes",
+      "saving": "Saving your progress…",
+      "retry": "Try saving again",
+      "next": "Next lesson"
+    }
+  },
   "notFound": {
     "message": "Quack! This page doesn't exist.",
     "backHome": "Back to start"

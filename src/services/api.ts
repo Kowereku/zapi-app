@@ -17,6 +17,66 @@ export type Token = {
   token_type: string
 }
 
+export type CourseListItem = {
+  id: number
+  name: string
+  description: string | null
+  icon_url: string | null
+  modules_count: number
+  lessons_count: number
+}
+
+export type Lesson = {
+  id: number
+  module_id: number
+  title: string
+  xp_reward: number
+}
+
+export type Module = {
+  id: number
+  course_id: number
+  title: string
+  order_index: number
+  lessons: Lesson[]
+}
+
+export type CourseDetail = {
+  id: number
+  name: string
+  description: string | null
+  icon_url: string | null
+  modules: Module[]
+}
+
+export type Exercise = {
+  id: number
+  lesson_id: number
+  type: 'multiple_choice' | 'code' | 'fill_in_blank' | 'true_false' | 'block_assembly' | 'matching'
+  content: string
+  code_snippet: string | null
+  correct_answer: string
+  /** Choices or tiles (`string[]`), matching pairs (`[left, right][]`), or `null`. */
+  options: string[] | [string, string][] | null
+}
+
+export type LessonDetail = {
+  id: number
+  module_id: number
+  title: string
+  xp_reward: number
+  exercises: Exercise[]
+}
+
+export type CompletedLesson = {
+  lesson_id: number
+  course_id: number
+}
+
+export type Progress = {
+  completed_lessons: CompletedLesson[]
+}
+
 export class ApiRequestError extends Error {
   status: number
 
@@ -82,6 +142,45 @@ export const register = async (body: {
 
 export const getCurrentUser = async (): Promise<User> => {
   const response = await apiFetch('/api/auth/me')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getCourses = async (): Promise<CourseListItem[]> => {
+  const response = await apiFetch('/api/courses')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getCourse = async (course_id: number): Promise<CourseDetail> => {
+  const response = await apiFetch(`/api/courses/${course_id}`)
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getLesson = async (lesson_id: number): Promise<LessonDetail> => {
+  const response = await apiFetch(`/api/lessons/${lesson_id}`)
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getProgress = async (): Promise<Progress> => {
+  const response = await apiFetch('/api/progress')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const completeLesson = async ({
+  lesson_id,
+  mistakes_made,
+}: {
+  lesson_id: number
+  mistakes_made: number
+}): Promise<User> => {
+  const response = await apiFetch(`/api/lessons/${lesson_id}/complete`, {
+    method: 'POST',
+    body: JSON.stringify({ mistakes_made }),
+  })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }
