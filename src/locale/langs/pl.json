@@ -46,6 +46,52 @@
     "welcome": "Witaj na pokładzie, {{username}}! 👋",
     "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
   },
+  "courses": {
+    "available": "Dostępne kursy",
+    "progress": "Postęp: {{percent}}%",
+    "progressLabel": "Postęp kursu",
+    "start": "Start",
+    "continue": "Kontynuuj",
+    "module": "Moduł {{number}} · {{title}}",
+    "status": {
+      "done": "Ukończona",
+      "current": "Bieżąca lekcja",
+      "locked": "Zablokowana"
+    }
+  },
+  "lesson": {
+    "exit": "Wyjdź z lekcji",
+    "progress": "Postęp lekcji",
+    "hearts_one": "Zostało {{count}} serce",
+    "hearts_few": "Zostały {{count}} serca",
+    "hearts_many": "Zostało {{count}} serc",
+    "hearts_other": "Zostało {{count}} serca",
+    "check": "Sprawdź",
+    "continue": "Dalej",
+    "correct": "Świetna robota!",
+    "wrong": "Nie przejmuj się, działaj dalej!",
+    "nextQuestion": "Gotowy na kolejne pytanie?",
+    "correctAnswer": "Poprawna odpowiedź:",
+    "answer": "Twoja odpowiedź",
+    "codeLabel": "Twój kod",
+    "codePlaceholder": "Wpisz tutaj swój kod…",
+    "empty": "Kwa! Ta lekcja nie ma jeszcze zadań.",
+    "backToCourse": "Wróć do kursu",
+    "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
+    "tryAgain": "Spróbuj ponownie",
+    "complete": {
+      "title": "Lekcja ukończona! 🎉",
+      "xp": "+{{count}} XP",
+      "noXp": "Lekcja była już ukończona, więc tym razem bez XP.",
+      "mistakes_one": "{{count}} błąd",
+      "mistakes_few": "{{count}} błędy",
+      "mistakes_many": "{{count}} błędów",
+      "mistakes_other": "{{count}} błędu",
+      "saving": "Zapisywanie postępu…",
+      "retry": "Spróbuj zapisać ponownie",
+      "next": "Następna lekcja"
+    }
+  },
   "notFound": {
     "message": "Kwa! Ta strona nie istnieje.",
     "backHome": "Wróć na start"
