@@ -5,7 +5,9 @@ import { AppLayout } from '@/components/AppLayout'
 import { CodeBackdrop } from '@/components/CodeBackdrop'
 import { queryClient } from '@/lib/queryClient'
 import { session } from '@/lib/session'
+import { CoursePage } from '@/pages/CoursePage'
 import { HomePage } from '@/pages/HomePage'
+import { LessonPage } from '@/pages/LessonPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { RegisterPage } from '@/pages/RegisterPage'
@@ -44,8 +46,12 @@ const router = createBrowserRouter([
     children: [
       {
         Component: AppLayout,
-        children: [{ path: '/home', Component: HomePage }],
+        children: [
+          { path: '/home', Component: HomePage },
+          { path: '/courses/:course_id', Component: CoursePage },
+        ],
       },
+      { path: '/courses/:course_id/lessons/:lesson_id', Component: LessonPage },
     ],
   },
 ])
