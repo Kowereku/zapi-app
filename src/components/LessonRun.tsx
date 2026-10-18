@@ -17,9 +17,11 @@ import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import type { Exercise, LessonDetail } from '@/services/api'
 
 const optionTypes: Exercise['type'][] = ['block_assembly', 'multiple_choice', 'matching']
+const codeTypes: Exercise['type'][] = ['code', 'block_assembly']
 
 type LessonRunProps = {
   lesson: LessonDetail
+  language: string
   alreadyCompleted: boolean
   coursePath: string
   nextPath: string | null
@@ -28,6 +30,7 @@ type LessonRunProps = {
 
 export function LessonRun({
   lesson,
+  language,
   alreadyCompleted,
   coursePath,
   nextPath,
@@ -129,7 +132,9 @@ export function LessonRun({
           <MultipleChoiceExercise key={exercise.id} {...exerciseProps} />
         )}
         {exercise.type === 'matching' && <MatchingExercise key={exercise.id} {...exerciseProps} />}
-        {exercise.type === 'code' && <CodeExercise key={exercise.id} {...exerciseProps} />}
+        {exercise.type === 'code' && (
+          <CodeExercise key={exercise.id} language={language} {...exerciseProps} />
+        )}
       </main>
 
       <footer>
@@ -137,6 +142,7 @@ export function LessonRun({
           <FeedbackPanel
             correct={correct === true}
             answer={(exercise.type === 'code' && exercise.code_snippet) || exercise.correct_answer}
+            language={codeTypes.includes(exercise.type) ? language : null}
             onContinue={next}
           />
         ) : (
