@@ -7,15 +7,11 @@ import { shuffle } from '@/utils/shuffle'
 
 type BlockAssemblyExerciseProps = {
   exercise: Exercise
-  disabled: boolean
-  onChange: (correct: boolean | null) => void
+  checked: boolean
+  onChange: (correct: boolean | null, answer: string) => void
 }
 
-export function BlockAssemblyExercise({
-  exercise,
-  disabled,
-  onChange,
-}: BlockAssemblyExerciseProps) {
+export function BlockAssemblyExercise({ exercise, checked, onChange }: BlockAssemblyExerciseProps) {
   const { t } = useTranslation()
   // Tiles can repeat (e.g. two "("), so each one gets its index as an id.
   const [pool] = useState(() =>
@@ -24,12 +20,9 @@ export function BlockAssemblyExercise({
   const [picked, setPicked] = useState<typeof pool>([])
 
   const update = (next: typeof pool) => {
+    const answer = next.map((tile) => tile.text).join(' ')
     setPicked(next)
-    onChange(
-      next.length === 0
-        ? null
-        : next.map((tile) => tile.text).join(' ') === exercise.correct_answer,
-    )
+    onChange(next.length === 0 ? null : answer === exercise.correct_answer, answer)
   }
 
   return (
@@ -42,7 +35,7 @@ export function BlockAssemblyExercise({
         {picked.map((tile) => (
           <Tile
             key={tile.id}
-            disabled={disabled}
+            disabled={checked}
             onClick={() => update(picked.filter((item) => item.id !== tile.id))}
           >
             {tile.text}
@@ -55,7 +48,7 @@ export function BlockAssemblyExercise({
           return (
             <Tile
               key={tile.id}
-              disabled={disabled || isPicked}
+              disabled={checked || isPicked}
               onClick={() => update([...picked, tile])}
               className={cn(isPicked && 'invisible')}
             >

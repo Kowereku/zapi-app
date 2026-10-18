@@ -4,6 +4,8 @@ import { cn } from '@/utils/cn'
 const states = {
   default: 'border-white bg-tile hover:bg-tile-hover',
   selected: 'border-primary bg-tile-hover ring-2 ring-primary',
+  correct: 'border-success bg-success text-on-primary disabled:opacity-100',
+  wrong: 'border-danger bg-danger disabled:opacity-100',
 }
 
 type TileProps = ComponentProps<'button'> & {
