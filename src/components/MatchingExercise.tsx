@@ -5,23 +5,28 @@ import { shuffle } from '@/utils/shuffle'
 
 type MatchingExerciseProps = {
   exercise: Exercise
-  disabled: boolean
-  onChange: (correct: boolean | null) => void
+  checked: boolean
+  onChange: (correct: boolean | null, answer: string) => void
 }
 
-export function MatchingExercise({ exercise, disabled, onChange }: MatchingExerciseProps) {
+export function MatchingExercise({ exercise, checked, onChange }: MatchingExerciseProps) {
   const options = exercise.options as [string, string][]
   // Left and right sides are referred to by the index of their original pair.
   const [rights] = useState(() => shuffle(options.map((_, index) => index)))
   const [pairs, setPairs] = useState<{ left: number; right: number }[]>([])
   const [left, setLeft] = useState<number | null>(null)
 
+  const isCorrect = (pair: (typeof pairs)[number]) =>
+    options[pair.left][1] === options[pair.right][1]
+
   const update = (next: typeof pairs) => {
     setPairs(next)
     onChange(
-      next.length === options.length
-        ? next.every((pair) => options[pair.left][1] === options[pair.right][1])
-        : null,
+      next.length === options.length ? next.every(isCorrect) : null,
+      [...next]
+        .sort((a, b) => a.left - b.left)
+        .map((pair) => options[pair.right][1])
+        .join('\n'),
     )
   }
 
@@ -32,8 +37,8 @@ export function MatchingExercise({ exercise, disabled, onChange }: MatchingExerc
           {pairs.map((pair) => (
             <li key={pair.left}>
               <Tile
-                state="selected"
-                disabled={disabled}
+                state={checked ? (isCorrect(pair) ? 'correct' : 'wrong') : 'selected'}
+                disabled={checked}
                 onClick={() => update(pairs.filter((item) => item !== pair))}
                 className="w-full justify-between"
               >
@@ -54,7 +59,7 @@ export function MatchingExercise({ exercise, disabled, onChange }: MatchingExerc
                   key={index}
                   state={left === index ? 'selected' : 'default'}
                   aria-pressed={left === index}
-                  disabled={disabled}
+                  disabled={checked}
                   onClick={() => setLeft(index)}
                 >
                   {text}
@@ -68,7 +73,7 @@ export function MatchingExercise({ exercise, disabled, onChange }: MatchingExerc
               !pairs.some((pair) => pair.right === index) && (
                 <Tile
                   key={index}
-                  disabled={disabled || left === null}
+                  disabled={checked || left === null}
                   onClick={() => {
                     if (left === null) return
                     update([...pairs, { left, right: index }])
