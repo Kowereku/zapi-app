@@ -46,6 +46,7 @@ export type CourseDetail = {
   name: string
   description: string | null
   icon_url: string | null
+  language: string
   modules: Module[]
 }
 
