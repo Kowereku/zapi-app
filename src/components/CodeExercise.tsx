@@ -1,9 +1,12 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Editor from 'react-simple-code-editor'
 import type { Exercise } from '@/services/api'
+import { highlight } from '@/utils/highlight'
 
 type CodeExerciseProps = {
   exercise: Exercise
+  language: string
   disabled: boolean
   onChange: (correct: boolean | null) => void
 }
@@ -15,29 +18,31 @@ const normalize = (code: string) =>
     .filter(Boolean)
     .join('\n')
 
-export function CodeExercise({ exercise, disabled, onChange }: CodeExerciseProps) {
+export function CodeExercise({ exercise, language, disabled, onChange }: CodeExerciseProps) {
   const { t } = useTranslation()
   const id = useId()
+  const [code, setCode] = useState('')
 
   return (
     <div className="mx-auto w-full max-w-3xl">
       <label htmlFor={id} className="sr-only">
         {t('lesson.codeLabel')}
       </label>
-      <textarea
-        id={id}
-        rows={6}
-        spellCheck={false}
+      <Editor
+        textareaId={id}
+        value={code}
+        highlight={(value) => highlight(value, language)}
+        padding={16}
         disabled={disabled}
         placeholder={t('lesson.codePlaceholder')}
-        onChange={(event) =>
+        onValueChange={(value) => {
+          setCode(value)
           onChange(
-            event.target.value.trim()
-              ? normalize(event.target.value) === normalize(exercise.code_snippet ?? '')
-              : null,
+            value.trim() ? normalize(value) === normalize(exercise.code_snippet ?? '') : null,
           )
-        }
-        className="w-full rounded-card bg-field p-4 font-mono text-base text-ink placeholder:text-ink/60 focus-visible:outline-tile disabled:opacity-60"
+        }}
+        textareaClassName="placeholder:text-ink/60 focus-visible:outline-none"
+        className="min-h-44 w-full rounded-card bg-field font-mono text-base text-ink has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-tile has-disabled:opacity-60"
       />
     </div>
   )

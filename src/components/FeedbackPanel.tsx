@@ -1,14 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/utils/cn'
+import { highlight } from '@/utils/highlight'
 
 type FeedbackPanelProps = {
   correct: boolean
   answer: string
+  language: string | null
   onContinue: () => void
 }
 
-export function FeedbackPanel({ correct, answer, onContinue }: FeedbackPanelProps) {
+export function FeedbackPanel({ correct, answer, language, onContinue }: FeedbackPanelProps) {
   const { t } = useTranslation()
 
   return (
@@ -27,12 +29,20 @@ export function FeedbackPanel({ correct, answer, onContinue }: FeedbackPanelProp
           <p className="text-2xl font-bold sm:text-3xl">
             {correct ? t('lesson.correct') : t('lesson.wrong')}
           </p>
-          {!correct && (
-            <p className="text-lg">
-              {t('lesson.correctAnswer')}{' '}
-              <code className="font-mono whitespace-pre-wrap">{answer}</code>
-            </p>
-          )}
+          {!correct &&
+            (language ? (
+              <>
+                <p className="text-lg">{t('lesson.correctAnswer')}</p>
+                <pre className="my-2 rounded-card bg-field p-3 text-left font-mono text-base whitespace-pre-wrap text-ink">
+                  <code dangerouslySetInnerHTML={{ __html: highlight(answer, language) }} />
+                </pre>
+              </>
+            ) : (
+              <p className="text-lg">
+                {t('lesson.correctAnswer')}{' '}
+                <code className="font-mono whitespace-pre-wrap">{answer}</code>
+              </p>
+            ))}
           <p className="text-lg">{t('lesson.nextQuestion')}</p>
         </div>
         <Button variant="success" size="lg" onClick={onContinue} autoFocus>
