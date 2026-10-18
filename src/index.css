@@ -14,6 +14,12 @@
   --tile-hover: #0e8fa0;
   --feedback: #073f4a;
   --brand: #0b7f8f;
+  --code-keyword: #9b1c6c;
+  --code-string: #1d6b2b;
+  --code-number: #8a4b00;
+  --code-function: #5b2bb5;
+  --code-comment: #4f5866;
+  --code-tag: #075e8c;
   color-scheme: light;
 }
 
@@ -31,6 +37,12 @@
   --feedback: #0a191d;
   --brand: #5fb8c4;
   --color-white: #dfe6e8;
+  --code-keyword: #f28fc9;
+  --code-string: #a8d98a;
+  --code-number: #f5b971;
+  --code-function: #c3a6ff;
+  --code-comment: #8fa3aa;
+  --code-tag: #7cc7f2;
   color-scheme: dark;
 }
 
@@ -102,5 +114,31 @@
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer components {
+  .token.keyword,
+  .token.boolean {
+    color: var(--code-keyword);
+  }
+  .token.string,
+  .token.attr-value {
+    color: var(--code-string);
+  }
+  .token.number {
+    color: var(--code-number);
+  }
+  .token.function,
+  .token.builtin,
+  .token.class-name {
+    color: var(--code-function);
+  }
+  .token.comment {
+    color: var(--code-comment);
+  }
+  .token.tag,
+  .token.attr-name {
+    color: var(--code-tag);
   }
 }
