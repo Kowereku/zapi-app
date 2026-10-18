@@ -4,28 +4,34 @@ import type { Exercise } from '@/services/api'
 
 type MultipleChoiceExerciseProps = {
   exercise: Exercise
-  disabled: boolean
-  onChange: (correct: boolean | null) => void
+  checked: boolean
+  onChange: (correct: boolean | null, answer: string) => void
 }
 
 export function MultipleChoiceExercise({
   exercise,
-  disabled,
+  checked,
   onChange,
 }: MultipleChoiceExerciseProps) {
   const [selected, setSelected] = useState<number | null>(null)
+
+  const state = (option: string, index: number) => {
+    if (checked && option === exercise.correct_answer) return 'correct'
+    if (checked && selected === index) return 'wrong'
+    return selected === index ? 'selected' : 'default'
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
       {(exercise.options as string[]).map((option, index) => (
         <Tile
           key={index}
-          state={selected === index ? 'selected' : 'default'}
+          state={state(option, index)}
           aria-pressed={selected === index}
-          disabled={disabled}
+          disabled={checked}
           onClick={() => {
             setSelected(index)
-            onChange(option === exercise.correct_answer)
+            onChange(option === exercise.correct_answer, option)
           }}
         >
           <span

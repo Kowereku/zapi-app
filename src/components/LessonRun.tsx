@@ -17,7 +17,6 @@ import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import type { Exercise, LessonDetail } from '@/services/api'
 
 const optionTypes: Exercise['type'][] = ['block_assembly', 'multiple_choice', 'matching']
-const codeTypes: Exercise['type'][] = ['code', 'block_assembly']
 
 type LessonRunProps = {
   lesson: LessonDetail
@@ -44,6 +43,7 @@ export function LessonRun({
   const [hearts, setHearts] = useState(5)
   const [mistakes_made, setMistakesMade] = useState(0)
   const [correct, setCorrect] = useState<boolean | null>(null)
+  const [answer, setAnswer] = useState('')
   const [checked, setChecked] = useState(false)
   const [xp, setXp] = useState(0)
 
@@ -84,7 +84,14 @@ export function LessonRun({
   if (view === 'outOfHearts') return <OutOfHearts coursePath={coursePath} onRetry={onRetry} />
 
   const exercise = exercises[index]
-  const exerciseProps = { exercise, disabled: checked, onChange: setCorrect }
+  const exerciseProps = {
+    exercise,
+    checked,
+    onChange: (nextCorrect: boolean | null, nextAnswer: string) => {
+      setCorrect(nextCorrect)
+      setAnswer(nextAnswer)
+    },
+  }
 
   const check = () => {
     setChecked(true)
@@ -105,6 +112,7 @@ export function LessonRun({
     } else {
       setIndex(index + 1)
       setCorrect(null)
+      setAnswer('')
       setChecked(false)
     }
   }
@@ -141,8 +149,9 @@ export function LessonRun({
         {checked ? (
           <FeedbackPanel
             correct={correct === true}
-            answer={(exercise.type === 'code' && exercise.code_snippet) || exercise.correct_answer}
-            language={codeTypes.includes(exercise.type) ? language : null}
+            exercise={exercise}
+            answer={answer}
+            language={language}
             onContinue={next}
           />
         ) : (
