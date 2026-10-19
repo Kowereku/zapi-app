@@ -31,6 +31,7 @@ export type Lesson = {
   module_id: number
   title: string
   xp_reward: number
+  is_quiz: boolean
 }
 
 export type Module = {
@@ -53,7 +54,14 @@ export type CourseDetail = {
 export type Exercise = {
   id: number
   lesson_id: number
-  type: 'multiple_choice' | 'code' | 'fill_in_blank' | 'true_false' | 'block_assembly' | 'matching'
+  type:
+    | 'multiple_choice'
+    | 'code'
+    | 'fill_in_blank'
+    | 'true_false'
+    | 'block_assembly'
+    | 'matching'
+    | 'chat'
   content: string
   code_snippet: string | null
   correct_answer: string
@@ -66,6 +74,7 @@ export type LessonDetail = {
   module_id: number
   title: string
   xp_reward: number
+  is_quiz: boolean
   exercises: Exercise[]
 }
 
@@ -76,6 +85,16 @@ export type CompletedLesson = {
 
 export type Progress = {
   completed_lessons: CompletedLesson[]
+}
+
+export type ChatMessage = {
+  role: 'assistant' | 'user'
+  content: string
+}
+
+export type ExerciseChatRead = {
+  passed: boolean
+  reply: string
 }
 
 export class ApiRequestError extends Error {
@@ -181,6 +200,21 @@ export const completeLesson = async ({
   const response = await apiFetch(`/api/lessons/${lesson_id}/complete`, {
     method: 'POST',
     body: JSON.stringify({ mistakes_made }),
+  })
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const chatExercise = async ({
+  exercise_id,
+  messages,
+}: {
+  exercise_id: number
+  messages: ChatMessage[]
+}): Promise<ExerciseChatRead> => {
+  const response = await apiFetch(`/api/exercises/${exercise_id}/chat`, {
+    method: 'POST',
+    body: JSON.stringify({ messages }),
   })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
