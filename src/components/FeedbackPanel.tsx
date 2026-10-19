@@ -9,6 +9,7 @@ type FeedbackPanelProps = {
   exercise: Exercise
   answer: string
   language: string
+  note: string | null
   onContinue: () => void
 }
 
@@ -17,6 +18,7 @@ export function FeedbackPanel({
   exercise,
   answer,
   language,
+  note,
   onContinue,
 }: FeedbackPanelProps) {
   const { t } = useTranslation()
@@ -37,6 +39,7 @@ export function FeedbackPanel({
           <p className="text-2xl font-bold sm:text-3xl">
             {correct ? t('lesson.correct') : t('lesson.wrong')}
           </p>
+          {note && <p className="text-lg">{note}</p>}
           {!correct && (
             <>
               <p className="text-lg">{t('lesson.correctAnswer')}</p>
