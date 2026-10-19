@@ -1,4 +1,5 @@
 import { session } from '@/lib/session'
+import i18n from '@/locale'
 
 const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '')
 
@@ -124,6 +125,7 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
     ...options,
     headers: {
       'Content-Type': 'application/json',
+      'Accept-Language': i18n.language,
       ...(token && { Authorization: `Bearer ${token}` }),
       ...options.headers,
     },
