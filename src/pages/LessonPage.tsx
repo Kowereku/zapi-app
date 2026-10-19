@@ -74,6 +74,7 @@ export function LessonPage() {
       // A new lesson or a retry starts a fresh run (question 1, full hearts).
       key={`${lesson_id}-${attempt}`}
       lesson={lesson.data}
+      courseId={course_id}
       language={course.data.language}
       alreadyCompleted={alreadyCompleted}
       coursePath={coursePath}

@@ -11,6 +11,9 @@ type FeedbackPanelProps = {
   language: string
   note: string | null
   onContinue: () => void
+  continueLabel?: string
+  loading?: boolean
+  disabled?: boolean
 }
 
 export function FeedbackPanel({
@@ -20,6 +23,9 @@ export function FeedbackPanel({
   language,
   note,
   onContinue,
+  continueLabel,
+  loading = false,
+  disabled = false,
 }: FeedbackPanelProps) {
   const { t } = useTranslation()
 
@@ -48,8 +54,15 @@ export function FeedbackPanel({
           )}
           <p className="text-lg">{t('lesson.nextQuestion')}</p>
         </div>
-        <Button variant="success" size="lg" onClick={onContinue} autoFocus>
-          {t('lesson.continue')}
+        <Button
+          variant="success"
+          size="lg"
+          onClick={onContinue}
+          loading={loading}
+          disabled={disabled}
+          autoFocus
+        >
+          {continueLabel ?? t('lesson.continue')}
         </Button>
       </div>
     </div>

@@ -15,12 +15,15 @@ import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
+import { useSaveUserLessonProgress } from '@/hooks/useUserLessonProgress'
 import type { Exercise, LessonDetail } from '@/services/api'
+import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const optionTypes: Exercise['type'][] = ['block_assembly', 'multiple_choice', 'matching']
 
 type LessonRunProps = {
   lesson: LessonDetail
+  courseId: number
   language: string
   alreadyCompleted: boolean
   coursePath: string
@@ -30,6 +33,7 @@ type LessonRunProps = {
 
 export function LessonRun({
   lesson,
+  courseId,
   language,
   alreadyCompleted,
   coursePath,
@@ -38,8 +42,9 @@ export function LessonRun({
 }: LessonRunProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const completeLesson = useCompleteLesson()
+  const completeLesson = useCompleteLesson(courseId)
   const checkExercise = useCheckExercise()
+  const saveProgress = useSaveUserLessonProgress()
   const [view, setView] = useState<'question' | 'complete' | 'outOfHearts'>('question')
   const [index, setIndex] = useState(0)
   const [hearts, setHearts] = useState(5)
@@ -49,6 +54,8 @@ export function LessonRun({
   const [checked, setChecked] = useState(false)
   const [note, setNote] = useState<string | null>(null)
   const [xp, setXp] = useState(0)
+  const [isCompleting, setIsCompleting] = useState(false)
+  const [alertError, setAlertError] = useState<string | null>(null)
 
   // Only exercises with the data their type needs can be played.
   const exercises = lesson.exercises.filter((exercise) =>
@@ -68,16 +75,42 @@ export function LessonRun({
     )
   }
 
-  const save = () => completeLesson.mutate({ lesson_id: lesson.id, mistakes_made })
+  const handleFinish = async () => {
+    if (isCompleting) return
+    setIsCompleting(true)
+    setAlertError(null)
+
+    try {
+      await completeLesson.mutateAsync({ lesson_id: lesson.id, mistakes_made })
+
+      // Also record final lesson progress state as completed
+      await saveProgress
+        .mutateAsync({
+          lesson_id: lesson.id,
+          body: {
+            status: 'completed',
+            last_position: exercises.length,
+          },
+        })
+        .catch(() => null)
+
+      setXp(alreadyCompleted ? 0 : lesson.xp_reward)
+      setView('complete')
+    } catch (err) {
+      setAlertError(getErrorMessage(err, t))
+    } finally {
+      setIsCompleting(false)
+    }
+  }
 
   if (view === 'complete') {
     return (
       <LessonComplete
         xp={xp}
         mistakes_made={mistakes_made}
-        pending={completeLesson.isPending}
+        pending={isCompleting || completeLesson.isPending}
         error={completeLesson.error}
-        onRetry={save}
+        onRetry={handleFinish}
         coursePath={coursePath}
         nextPath={nextPath}
       />
@@ -87,16 +120,31 @@ export function LessonRun({
   if (view === 'outOfHearts') return <OutOfHearts coursePath={coursePath} onRetry={onRetry} />
 
   const exercise = exercises[index]
+  const checking = checkExercise.isPending || saveProgress.isPending
   const exerciseProps = {
     exercise,
-    checked: checked || checkExercise.isPending,
+    checked: checked || checking,
     onChange: (nextCorrect: boolean | null, nextAnswer: string) => {
       setCorrect(nextCorrect)
       setAnswer(nextAnswer)
     },
   }
 
-  const finish = (passed: boolean, nextNote: string | null) => {
+  const finish = async (passed: boolean, nextNote: string | null) => {
+    if (passed) {
+      try {
+        await saveProgress.mutateAsync({
+          lesson_id: lesson.id,
+          body: {
+            status: 'in_progress',
+            last_position: index + 1,
+          },
+        })
+      } catch (err) {
+        setAlertError(getErrorMessage(err, t))
+        return
+      }
+    }
     setCorrect(passed)
     setNote(nextNote)
     setChecked(true)
@@ -107,6 +155,7 @@ export function LessonRun({
   }
 
   const check = () => {
+    setAlertError(null)
     if (exercise.type !== 'code' || correct) {
       finish(correct === true, null)
       return
@@ -123,19 +172,23 @@ export function LessonRun({
   const next = () => {
     if (hearts === 0) {
       setView('outOfHearts')
-    } else if (index === exercises.length - 1) {
-      // Read now: progress is refetched after saving and would flip alreadyCompleted.
-      setXp(alreadyCompleted ? 0 : lesson.xp_reward)
-      setView('complete')
-      save()
-    } else {
-      setIndex(index + 1)
-      setCorrect(null)
-      setAnswer('')
-      setNote(null)
-      setChecked(false)
+      return
     }
+
+    if (index === exercises.length - 1) {
+      handleFinish()
+      return
+    }
+
+    setIndex(index + 1)
+    setCorrect(null)
+    setAnswer('')
+    setNote(null)
+    setChecked(false)
+    setAlertError(null)
   }
+
+  const isLastQuestion = index === exercises.length - 1
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -165,6 +218,22 @@ export function LessonRun({
         )}
       </main>
 
+      {alertError && (
+        <div
+          role="alert"
+          className="mx-auto mb-4 flex w-full max-w-4xl items-center justify-between rounded-card border border-danger/40 bg-surface px-4 py-3 text-sm font-semibold text-danger shadow-md sm:text-base"
+        >
+          <span>⚠️ {alertError}</span>
+          <button
+            type="button"
+            onClick={() => setAlertError(null)}
+            className="cursor-pointer text-sm font-bold text-danger/80 uppercase hover:text-danger"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <footer>
         {checked ? (
           <FeedbackPanel
@@ -174,6 +243,9 @@ export function LessonRun({
             language={language}
             note={note}
             onContinue={next}
+            continueLabel={isLastQuestion ? t('lesson.finish') : t('lesson.continue')}
+            loading={isCompleting}
+            disabled={isCompleting}
           />
         ) : (
           <div className="border-t border-on-page-muted px-4 py-6">
@@ -181,8 +253,8 @@ export function LessonRun({
               <Button
                 variant="success"
                 size="lg"
-                disabled={correct === null}
-                loading={checkExercise.isPending}
+                disabled={correct === null || checking}
+                loading={checking}
                 onClick={check}
               >
                 {t('lesson.check')}

@@ -64,6 +64,7 @@
     "hearts_other": "{{count}} hearts left",
     "check": "Check",
     "continue": "Continue",
+    "finish": "Finish lesson",
     "correct": "Great job!",
     "wrong": "Don't worry, just keep up!",
     "nextQuestion": "Ready for the next question?",

@@ -102,6 +102,21 @@ export type ExerciseCheckRead = {
   passed: boolean
 }
 
+export type UserProgressUpdate = {
+  status?: string | null
+  last_position?: unknown
+}
+
+export type UserProgress = {
+  user_id: number
+  lesson_id: number
+  status: string
+  last_position?: unknown
+  completed_at: string | null
+  mistakes_made: number
+  updated_at: string
+}
+
 export class ApiRequestError extends Error {
   status: number
 
@@ -247,3 +262,23 @@ export const warmUpAi = async (): Promise<void> => {
   const response = await apiFetch('/api/ai/warmup', { method: 'POST' })
   if (!response.ok) throw await buildApiRequestError(response)
 }
+
+export const saveUserLessonProgress = async (
+  lesson_id: number,
+  body: UserProgressUpdate,
+): Promise<UserProgress> => {
+  const response = await apiFetch(`/api/progress/users/me/lessons/${lesson_id}/progress`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getUserLessonProgress = async (lesson_id: number): Promise<UserProgress> => {
+  const response = await apiFetch(`/api/progress/users/me/lessons/${lesson_id}/progress`)
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const saveProgress = saveUserLessonProgress
