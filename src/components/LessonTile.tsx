@@ -27,7 +27,7 @@ export function LessonTile({ lesson, status, to }: LessonTileProps) {
   const content = (
     <>
       <span aria-hidden className="w-6 text-center text-xl font-bold">
-        {icons[status]}
+        {lesson.is_quiz && status !== 'locked' ? '🏆' : icons[status]}
       </span>
       <span className="flex-1 text-lg font-semibold">{lesson.title}</span>
       {/* Replaying a done lesson gives no XP, so only upcoming lessons show it. */}

@@ -92,6 +92,25 @@
       "next": "Następna lekcja"
     }
   },
+  "quiz": {
+    "exit": "Wyjdź z quizu",
+    "progress": "Postęp quizu",
+    "next": "Dalej",
+    "passedTitle": "Kurs ukończony! 🎉",
+    "failedTitle": "Jeszcze nie tym razem",
+    "score": "Twój wynik: {{percent}}%",
+    "needed": "Aby zdać, potrzebujesz {{percent}}%.",
+    "xp": "+{{count}} XP",
+    "noXp": "Quiz był już zdany, więc tym razem bez XP.",
+    "review": "Przejrzyj swoje błędy",
+    "yourAnswer": "Twoja odpowiedź:",
+    "correctAnswer": "Poprawna odpowiedź:",
+    "retake": "Podejdź ponownie",
+    "messageLabel": "Twoja odpowiedź dla Ducky'ego",
+    "send": "Wyślij",
+    "thinking": "Ducky się zastanawia…",
+    "continue": "Dalej"
+  },
   "notFound": {
     "message": "Kwa! Ta strona nie istnieje.",
     "backHome": "Wróć na start"
