@@ -1,9 +1,11 @@
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Editor from 'react-simple-code-editor'
+import EditorModule from 'react-simple-code-editor'
 import type { Exercise } from '@/services/api'
 import { highlight } from '@/utils/highlight'
 import { splitTokens } from '@/utils/markMistakes'
+
+const Editor = (EditorModule as unknown as { default: typeof EditorModule }).default
 
 type CodeExerciseProps = {
   exercise: Exercise
