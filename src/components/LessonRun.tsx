@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import type { Exercise, LessonDetail } from '@/services/api'
 
@@ -38,6 +39,7 @@ export function LessonRun({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const completeLesson = useCompleteLesson()
+  const checkExercise = useCheckExercise()
   const [view, setView] = useState<'question' | 'complete' | 'outOfHearts'>('question')
   const [index, setIndex] = useState(0)
   const [hearts, setHearts] = useState(5)
@@ -45,6 +47,7 @@ export function LessonRun({
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
   const [checked, setChecked] = useState(false)
+  const [note, setNote] = useState<string | null>(null)
   const [xp, setXp] = useState(0)
 
   // Only exercises with the data their type needs can be played.
@@ -86,19 +89,35 @@ export function LessonRun({
   const exercise = exercises[index]
   const exerciseProps = {
     exercise,
-    checked,
+    checked: checked || checkExercise.isPending,
     onChange: (nextCorrect: boolean | null, nextAnswer: string) => {
       setCorrect(nextCorrect)
       setAnswer(nextAnswer)
     },
   }
 
-  const check = () => {
+  const finish = (passed: boolean, nextNote: string | null) => {
+    setCorrect(passed)
+    setNote(nextNote)
     setChecked(true)
-    if (!correct) {
+    if (!passed) {
       setHearts(hearts - 1)
       setMistakesMade(mistakes_made + 1)
     }
+  }
+
+  const check = () => {
+    if (exercise.type !== 'code' || correct) {
+      finish(correct === true, null)
+      return
+    }
+    checkExercise.mutate(
+      { exercise_id: exercise.id, answer },
+      {
+        onSuccess: (result) => finish(result.passed, null),
+        onError: () => finish(false, t('lesson.aiFallback')),
+      },
+    )
   }
 
   const next = () => {
@@ -113,6 +132,7 @@ export function LessonRun({
       setIndex(index + 1)
       setCorrect(null)
       setAnswer('')
+      setNote(null)
       setChecked(false)
     }
   }
@@ -152,12 +172,19 @@ export function LessonRun({
             exercise={exercise}
             answer={answer}
             language={language}
+            note={note}
             onContinue={next}
           />
         ) : (
           <div className="border-t border-on-page-muted px-4 py-6">
             <div className="mx-auto flex max-w-4xl justify-end">
-              <Button variant="success" size="lg" disabled={correct === null} onClick={check}>
+              <Button
+                variant="success"
+                size="lg"
+                disabled={correct === null}
+                loading={checkExercise.isPending}
+                onClick={check}
+              >
                 {t('lesson.check')}
               </Button>
             </div>
