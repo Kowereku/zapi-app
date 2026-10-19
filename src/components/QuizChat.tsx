@@ -18,7 +18,7 @@ type QuizChatProps = {
 }
 
 export function QuizChat({ exercise, onPassed }: QuizChatProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const chat = useChatExercise()
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: exercise.content },
@@ -37,6 +37,7 @@ export function QuizChat({ exercise, onPassed }: QuizChatProps) {
       {
         exercise_id: exercise.id,
         messages: next.length > maxMessages ? [next[0], ...next.slice(1 - maxMessages)] : next,
+        locale: i18n.language,
       },
       {
         onSuccess: (result) => {

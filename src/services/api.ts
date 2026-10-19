@@ -210,14 +210,21 @@ export const completeLesson = async ({
 export const chatExercise = async ({
   exercise_id,
   messages,
+  locale,
 }: {
   exercise_id: number
   messages: ChatMessage[]
+  locale: string
 }): Promise<ExerciseChatRead> => {
   const response = await apiFetch(`/api/exercises/${exercise_id}/chat`, {
     method: 'POST',
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, locale }),
   })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
+}
+
+export const warmUpAi = async (): Promise<void> => {
+  const response = await apiFetch('/api/ai/warmup', { method: 'POST' })
+  if (!response.ok) throw await buildApiRequestError(response)
 }
