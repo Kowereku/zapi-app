@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { LessonRun } from '@/components/LessonRun'
+import { QuizRun } from '@/components/QuizRun'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
 import { useCourse } from '@/hooks/useCourse'
@@ -50,6 +51,21 @@ export function LessonPage() {
   const lessons = course.data.modules.flatMap((module) => module.lessons)
   const position = lessons.findIndex((item) => item.id === lesson_id)
   const next = position === -1 ? undefined : lessons[position + 1]
+  const alreadyCompleted = progress.data.completed_lessons.some(
+    (item) => item.lesson_id === lesson_id,
+  )
+
+  if (lesson.data.is_quiz) {
+    return (
+      <QuizRun
+        key={`${lesson_id}-${attempt}`}
+        lesson={lesson.data}
+        alreadyCompleted={alreadyCompleted}
+        coursePath={coursePath}
+        onRetry={() => setAttempt(attempt + 1)}
+      />
+    )
+  }
 
   return (
     <LessonRun
@@ -57,9 +73,7 @@ export function LessonPage() {
       key={`${lesson_id}-${attempt}`}
       lesson={lesson.data}
       language={course.data.language}
-      alreadyCompleted={progress.data.completed_lessons.some(
-        (item) => item.lesson_id === lesson_id,
-      )}
+      alreadyCompleted={alreadyCompleted}
       coursePath={coursePath}
       nextPath={next ? `${coursePath}/lessons/${next.id}` : null}
       onRetry={() => setAttempt(attempt + 1)}

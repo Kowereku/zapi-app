@@ -86,6 +86,25 @@
       "next": "Next lesson"
     }
   },
+  "quiz": {
+    "exit": "Exit quiz",
+    "progress": "Quiz progress",
+    "next": "Next",
+    "passedTitle": "Course complete! 🎉",
+    "failedTitle": "Not quite there yet",
+    "score": "Your score: {{percent}}%",
+    "needed": "You need {{percent}}% to pass.",
+    "xp": "+{{count}} XP",
+    "noXp": "Quiz already passed, so no XP this time.",
+    "review": "Review your mistakes",
+    "yourAnswer": "Your answer:",
+    "correctAnswer": "Correct answer:",
+    "retake": "Retake quiz",
+    "messageLabel": "Your answer to Ducky",
+    "send": "Send",
+    "thinking": "Ducky is thinking…",
+    "continue": "Continue"
+  },
   "notFound": {
     "message": "Quack! This page doesn't exist.",
     "backHome": "Back to start"
