@@ -79,6 +79,7 @@
     "backToCourse": "Wróć do kursu",
     "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
     "tryAgain": "Spróbuj ponownie",
+    "aiFallback": "Ducky nie mógł tego sprawdzić, więc porównaliśmy twój kod z wzorcową odpowiedzią.",
     "complete": {
       "title": "Lekcja ukończona! 🎉",
       "xp": "+{{count}} XP",

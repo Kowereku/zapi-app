@@ -98,6 +98,10 @@ export type ExerciseChatRead = {
   reply: string
 }
 
+export type ExerciseCheckRead = {
+  passed: boolean
+}
+
 export class ApiRequestError extends Error {
   status: number
 
@@ -219,6 +223,21 @@ export const chatExercise = async ({
   const response = await apiFetch(`/api/exercises/${exercise_id}/chat`, {
     method: 'POST',
     body: JSON.stringify({ messages, locale }),
+  })
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const checkExercise = async ({
+  exercise_id,
+  answer,
+}: {
+  exercise_id: number
+  answer: string
+}): Promise<ExerciseCheckRead> => {
+  const response = await apiFetch(`/api/exercises/${exercise_id}/check`, {
+    method: 'POST',
+    body: JSON.stringify({ answer }),
   })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()

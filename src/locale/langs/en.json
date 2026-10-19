@@ -75,6 +75,7 @@
     "backToCourse": "Back to course",
     "outOfHearts": "Oh no, you're out of hearts! Take a breath and try the lesson again.",
     "tryAgain": "Try again",
+    "aiFallback": "Ducky couldn't check this one, so your code was compared with the model answer.",
     "complete": {
       "title": "Lesson complete! 🎉",
       "xp": "+{{count}} XP",
