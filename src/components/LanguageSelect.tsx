@@ -1,9 +1,11 @@
 import { useId } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { LANGUAGES } from '@/locale'
 
 export function LanguageSelect() {
   const { t, i18n } = useTranslation()
+  const queryClient = useQueryClient()
   const id = useId()
 
   return (
@@ -12,7 +14,9 @@ export function LanguageSelect() {
       <select
         id={id}
         value={i18n.resolvedLanguage}
-        onChange={(event) => void i18n.changeLanguage(event.target.value)}
+        onChange={(event) =>
+          void i18n.changeLanguage(event.target.value).then(() => queryClient.invalidateQueries())
+        }
         className="cursor-pointer bg-transparent font-semibold uppercase"
       >
         {LANGUAGES.map(({ code, label }) => (
