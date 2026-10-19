@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Mascot } from '@/components/ui/Mascot'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { useWarmUpAi } from '@/hooks/useWarmUpAi'
 import { session } from '@/lib/session'
 import { ApiRequestError } from '@/services/api'
 
@@ -11,6 +12,7 @@ export function AppLayout() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { data: user, error, isPending } = useCurrentUser()
+  useWarmUpAi()
 
   if (error instanceof ApiRequestError && error.status === 401) {
     return <Navigate to="/login" replace />
