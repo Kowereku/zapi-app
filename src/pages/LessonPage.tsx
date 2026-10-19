@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import { useCourse } from '@/hooks/useCourse'
 import { useLesson } from '@/hooks/useLesson'
 import { useProgress } from '@/hooks/useProgress'
+import { useWarmUpAi } from '@/hooks/useWarmUpAi'
 import { ApiRequestError } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
@@ -21,6 +22,7 @@ export function LessonPage() {
   const lesson = useLesson(lesson_id)
   const course = useCourse(course_id)
   const progress = useProgress()
+  useWarmUpAi()
   const coursePath = `/courses/${course_id}`
   const error = lesson.error ?? course.error ?? progress.error
 
