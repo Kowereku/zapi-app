@@ -38,8 +38,7 @@
     "xp": "{{count}} XP",
     "streak_one": "{{count}} day",
     "streak_other": "{{count}} days",
-    "logOut": "Log out",
-    "profile": "Profile"
+    "logOut": "Log out"
   },
   "achievements": {
     "title": "Achievements",

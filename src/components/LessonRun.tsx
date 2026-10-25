@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { useBadgeAnnouncements } from '@/hooks/useBadgeAnnouncements'
 import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import { useSaveUserLessonProgress } from '@/hooks/useUserLessonProgress'
@@ -45,6 +46,7 @@ export function LessonRun({
   const completeLesson = useCompleteLesson(courseId)
   const checkExercise = useCheckExercise()
   const saveProgress = useSaveUserLessonProgress()
+  const badgeAnnouncements = useBadgeAnnouncements()
   const [view, setView] = useState<'question' | 'complete' | 'outOfHearts'>('question')
   const [index, setIndex] = useState(0)
   const [hearts, setHearts] = useState(5)
@@ -84,12 +86,13 @@ export function LessonRun({
     setAlertError(null)
 
     try {
+      badgeAnnouncements.beforeSave()
       const result = await completeLesson.mutateAsync({
         lesson_id: lesson.id,
         mistakes_made,
         code_answers: codeAnswers,
       })
-      setNewBadges(result.new_badges)
+      setNewBadges(await badgeAnnouncements.toAnnounce(result.new_badges))
 
       // Also record final lesson progress state as completed
       await saveProgress

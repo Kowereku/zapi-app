@@ -8,6 +8,8 @@ export function useUpdateTrack() {
     mutationFn: updateTrack,
     onSuccess: (user) => {
       queryClient.setQueryData(['currentUser'], user)
+      // The profile shows the area and suggests a course from it.
+      queryClient.invalidateQueries({ queryKey: ['profile'] })
     },
   })
 }

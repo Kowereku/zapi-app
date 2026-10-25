@@ -9,8 +9,9 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { useBadgeAnnouncements } from '@/hooks/useBadgeAnnouncements'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
-import type { LessonDetail } from '@/services/api'
+import type { Badge, LessonDetail } from '@/services/api'
 
 const passPercent = 70
 
@@ -25,6 +26,8 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
   const { t } = useTranslation()
   const navigate = useNavigate()
   const completeLesson = useCompleteLesson()
+  const badgeAnnouncements = useBadgeAnnouncements()
+  const [newBadges, setNewBadges] = useState<Badge[]>([])
   const [view, setView] = useState<'questions' | 'dialogue' | 'result'>('questions')
   const [index, setIndex] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
@@ -53,13 +56,23 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
   ).length
   const percent = Math.round((correctCount / questions.length) * 100)
 
-  const save = () =>
-    completeLesson.mutate({ lesson_id: lesson.id, mistakes_made: questions.length - correctCount })
+  const saveResult = (mistakes_made: number) => {
+    badgeAnnouncements.beforeSave()
+    completeLesson.mutate(
+      { lesson_id: lesson.id, mistakes_made },
+      {
+        onSuccess: async (result) =>
+          setNewBadges(await badgeAnnouncements.toAnnounce(result.new_badges)),
+      },
+    )
+  }
+
+  const save = () => saveResult(questions.length - correctCount)
 
   const pass = (mistakes_made: number) => {
     setXp(alreadyCompleted ? 0 : lesson.xp_reward)
     setView('result')
-    completeLesson.mutate({ lesson_id: lesson.id, mistakes_made })
+    saveResult(mistakes_made)
   }
 
   const next = () => {
@@ -91,7 +104,7 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
         passPercent={passPercent}
         passed={(correctCount / questions.length) * 100 >= passPercent}
         xp={xp}
-        newBadges={completeLesson.data?.new_badges ?? []}
+        newBadges={newBadges}
         pending={completeLesson.isPending}
         error={completeLesson.error}
         onSave={save}

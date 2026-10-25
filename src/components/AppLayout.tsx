@@ -44,8 +44,10 @@ export function AppLayout() {
               <>
                 <span>⚡ {t('nav.xp', { count: user.total_xp })}</span>
                 <span>🔥 {t('nav.streak', { count: user.streak_days })}</span>
-                <Link to="/profile" aria-label={t('nav.profile')} className="hover:underline">
-                  👤 <span className="hidden sm:inline">{user.username}</span>
+                {/* On phones only the icon shows; the username stays readable for screen readers. */}
+                <Link to="/profile" className="hover:underline">
+                  <span aria-hidden>👤</span>{' '}
+                  <span className="sr-only sm:not-sr-only">{user.username}</span>
                 </Link>
               </>
             )

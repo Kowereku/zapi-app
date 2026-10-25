@@ -40,8 +40,7 @@
     "streak_few": "{{count}} dni",
     "streak_many": "{{count}} dni",
     "streak_other": "{{count}} dni",
-    "logOut": "Wyloguj",
-    "profile": "Profil"
+    "logOut": "Wyloguj"
   },
   "achievements": {
     "title": "Osiągnięcia",

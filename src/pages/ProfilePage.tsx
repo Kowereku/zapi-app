@@ -13,6 +13,7 @@ import { useProfile } from '@/hooks/useProfile'
 import { badgeTitle, formatBadgeDate } from '@/lib/badges'
 import { trackIcon } from '@/lib/tracks'
 import type { Badge as BadgeData, Track } from '@/services/api'
+import { cn } from '@/utils/cn'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const headingClass = 'text-3xl font-bold text-on-page sm:text-4xl'
@@ -199,7 +200,7 @@ export function ProfilePage() {
           </Card>
         )}
 
-        <Card className="flex flex-col gap-5">
+        <Card className={cn('flex flex-col gap-5', !suggested_course && 'sm:col-span-2')}>
           <h2 className={labelClass}>{t('profile.myCourses')}</h2>
           {courses.length > 0 ? (
             <ul className="flex flex-col gap-4">
