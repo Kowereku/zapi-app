@@ -3,12 +3,16 @@ import i18n from '@/locale'
 
 const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '')
 
+/** Learning area picked on the Choice page; courses are preset per area. */
+export type Track = 'data_science' | 'linux' | 'backend'
+
 export type User = {
   id: number
   username: string
   email: string
   total_xp: number
   streak_days: number
+  track: Track | null
   is_admin: boolean
   created_at: string
 }
@@ -23,6 +27,7 @@ export type CourseListItem = {
   name: string
   description: string | null
   icon_url: string | null
+  track: Track | null
   modules_count: number
   lessons_count: number
 }
@@ -183,6 +188,15 @@ export const register = async (body: {
 
 export const getCurrentUser = async (): Promise<User> => {
   const response = await apiFetch('/api/auth/me')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const updateTrack = async (track: Track): Promise<User> => {
+  const response = await apiFetch('/api/users/me/track', {
+    method: 'PUT',
+    body: JSON.stringify({ track }),
+  })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }

@@ -9,7 +9,7 @@ export function RegisterPage() {
 
   return (
     <AuthScreen title={t('auth.signUpTitle')} mascot="duckRegister" onClose={() => navigate('/')}>
-      <RegisterForm onSuccess={() => navigate('/home')} />
+      <RegisterForm onSuccess={() => navigate('/choice')} />
     </AuthScreen>
   )
 }
