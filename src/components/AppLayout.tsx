@@ -18,6 +18,11 @@ export function AppLayout() {
     return <Navigate to="/login" replace />
   }
 
+  // Accounts created before the Choice page existed pick their area on the next visit.
+  if (user && !user.track) {
+    return <Navigate to="/choice" replace />
+  }
+
   const logOut = () => {
     session.clear()
     queryClient.clear()

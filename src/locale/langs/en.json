@@ -44,8 +44,30 @@
     "welcome": "Welcome aboard, {{username}}! 👋",
     "intro": "Choose your first course and start writing code in Dual Mode. Every task earns you XP and learning progress."
   },
+  "choice": {
+    "prompt": "Hi, I'm Ducky! I'll help you with learning programming. Choose the area that interests you most.",
+    "saving": "Saving your choice…",
+    "tracks": {
+      "data_science": {
+        "name": "Data Science & AI",
+        "description": "Analyze complex data, train machine learning models, and explore artificial intelligence using Python."
+      },
+      "linux": {
+        "name": "Essentials of Linux",
+        "description": "Master the command line, identify system vulnerabilities, and learn the fundamentals of secure network infrastructure."
+      },
+      "backend": {
+        "name": "Backend Engineering",
+        "description": "Design the invisible logic, manage databases, and build scalable server architectures with Java and C# that power the web."
+      }
+    }
+  },
   "courses": {
     "available": "Available courses",
+    "recommended": "Recommended for you · {{track}}",
+    "other": "Other courses",
+    "changeTrack": "Change area",
+    "noRecommended": "There are no courses in this area yet. Check back soon!",
     "progress": "Progress: {{percent}}%",
     "progressLabel": "Course progress",
     "start": "Start",

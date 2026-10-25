@@ -5,6 +5,7 @@ import { AppLayout } from '@/components/AppLayout'
 import { CodeBackdrop } from '@/components/CodeBackdrop'
 import { queryClient } from '@/lib/queryClient'
 import { session } from '@/lib/session'
+import { ChoicePage } from '@/pages/ChoicePage'
 import { CoursePage } from '@/pages/CoursePage'
 import { HomePage } from '@/pages/HomePage'
 import { LessonPage } from '@/pages/LessonPage'
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
           { path: '/courses/:course_id', Component: CoursePage },
         ],
       },
+      { path: '/choice', Component: ChoicePage },
       { path: '/courses/:course_id/lessons/:lesson_id', Component: LessonPage },
     ],
   },

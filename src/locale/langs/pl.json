@@ -46,8 +46,30 @@
     "welcome": "Witaj na pokładzie, {{username}}! 👋",
     "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
   },
+  "choice": {
+    "prompt": "Cześć, jestem Ducky! Pomogę Ci w nauce programowania. Wybierz obszar, który najbardziej Cię interesuje.",
+    "saving": "Zapisuję Twój wybór…",
+    "tracks": {
+      "data_science": {
+        "name": "Data Science i AI",
+        "description": "Analizuj złożone dane, trenuj modele uczenia maszynowego i odkrywaj sztuczną inteligencję w Pythonie."
+      },
+      "linux": {
+        "name": "Podstawy Linuksa",
+        "description": "Opanuj wiersz poleceń, wykrywaj podatności systemu i poznaj podstawy bezpiecznej infrastruktury sieciowej."
+      },
+      "backend": {
+        "name": "Inżynieria backendu",
+        "description": "Projektuj niewidoczną logikę, zarządzaj bazami danych i buduj skalowalne architektury serwerowe w Javie i C#, które napędzają sieć."
+      }
+    }
+  },
   "courses": {
     "available": "Dostępne kursy",
+    "recommended": "Polecane dla Ciebie · {{track}}",
+    "other": "Pozostałe kursy",
+    "changeTrack": "Zmień obszar",
+    "noRecommended": "W tym obszarze nie ma jeszcze kursów. Zajrzyj wkrótce!",
     "progress": "Postęp: {{percent}}%",
     "progressLabel": "Postęp kursu",
     "start": "Start",
