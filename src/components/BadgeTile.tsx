@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { BadgeMedal } from '@/components/BadgeMedal'
 import { Card } from '@/components/ui/Card'
 import { ProgressBar } from '@/components/ui/ProgressBar'
-import { formatBadgeDate } from '@/lib/badges'
+import { badgeTitle, formatBadgeDate } from '@/lib/badges'
 import type { Badge } from '@/services/api'
 
 type BadgeTileProps = {
@@ -26,7 +26,7 @@ export function BadgeTile({ badge }: BadgeTileProps) {
         <div className="flex w-full items-center gap-3">
           <ProgressBar
             value={(badge.progress / badge.goal) * 100}
-            label={t('badges.progressLabel')}
+            label={`${t('badges.progressLabel')}: ${badgeTitle(badge, t)}`}
             showValue={false}
           />
           <span className="font-semibold">
