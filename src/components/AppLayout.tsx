@@ -44,7 +44,9 @@ export function AppLayout() {
               <>
                 <span>⚡ {t('nav.xp', { count: user.total_xp })}</span>
                 <span>🔥 {t('nav.streak', { count: user.streak_days })}</span>
-                <span className="hidden sm:inline">👤 {user.username}</span>
+                <Link to="/profile" aria-label={t('nav.profile')} className="hover:underline">
+                  👤 <span className="hidden sm:inline">{user.username}</span>
+                </Link>
               </>
             )
           )}
