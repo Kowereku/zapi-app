@@ -1,15 +1,17 @@
 import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
+import { NewBadgeCard } from '@/components/NewBadgeCard'
 import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
-import { ApiRequestError } from '@/services/api'
+import { ApiRequestError, type Badge } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 type LessonCompleteProps = {
   xp: number
   mistakes_made: number
+  newBadges: Badge[]
   pending: boolean
   error: Error | null
   onRetry: () => void
@@ -20,6 +22,7 @@ type LessonCompleteProps = {
 export function LessonComplete({
   xp,
   mistakes_made,
+  newBadges,
   pending,
   error,
   onRetry,
@@ -42,6 +45,10 @@ export function LessonComplete({
         </p>
         <p className="text-lg">{t('lesson.complete.mistakes', { count: mistakes_made })}</p>
       </DuckyBubble>
+
+      {newBadges.map((badge) => (
+        <NewBadgeCard key={badge.code} badge={badge} />
+      ))}
 
       {pending ? (
         <Spinner size="lg" label={t('lesson.complete.saving')} />

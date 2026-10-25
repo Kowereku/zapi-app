@@ -91,6 +91,7 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
         passPercent={passPercent}
         passed={(correctCount / questions.length) * 100 >= passPercent}
         xp={xp}
+        newBadges={completeLesson.data?.new_badges ?? []}
         pending={completeLesson.isPending}
         error={completeLesson.error}
         onSave={save}

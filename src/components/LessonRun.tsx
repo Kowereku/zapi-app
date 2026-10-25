@@ -16,7 +16,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import { useSaveUserLessonProgress } from '@/hooks/useUserLessonProgress'
-import type { Exercise, LessonDetail } from '@/services/api'
+import type { Badge, Exercise, LessonDetail } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const optionTypes: Exercise['type'][] = ['block_assembly', 'multiple_choice', 'matching']
@@ -49,6 +49,9 @@ export function LessonRun({
   const [index, setIndex] = useState(0)
   const [hearts, setHearts] = useState(5)
   const [mistakes_made, setMistakesMade] = useState(0)
+  // Code exercises answered correctly by typing; they count towards the "Own code" badges.
+  const [codeAnswers, setCodeAnswers] = useState(0)
+  const [newBadges, setNewBadges] = useState<Badge[]>([])
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
   const [checked, setChecked] = useState(false)
@@ -81,7 +84,12 @@ export function LessonRun({
     setAlertError(null)
 
     try {
-      await completeLesson.mutateAsync({ lesson_id: lesson.id, mistakes_made })
+      const result = await completeLesson.mutateAsync({
+        lesson_id: lesson.id,
+        mistakes_made,
+        code_answers: codeAnswers,
+      })
+      setNewBadges(result.new_badges)
 
       // Also record final lesson progress state as completed
       await saveProgress
@@ -108,6 +116,7 @@ export function LessonRun({
       <LessonComplete
         xp={xp}
         mistakes_made={mistakes_made}
+        newBadges={newBadges}
         pending={isCompleting || completeLesson.isPending}
         error={completeLesson.error}
         onRetry={handleFinish}
@@ -148,6 +157,7 @@ export function LessonRun({
     setCorrect(passed)
     setNote(nextNote)
     setChecked(true)
+    if (passed && exercise.type === 'code') setCodeAnswers(codeAnswers + 1)
     if (!passed) {
       setHearts(hearts - 1)
       setMistakesMade(mistakes_made + 1)
