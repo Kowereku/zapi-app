@@ -12,6 +12,7 @@ export type User = {
   email: string
   total_xp: number
   streak_days: number
+  best_streak: number
   track: Track | null
   is_admin: boolean
   created_at: string
@@ -93,6 +94,17 @@ export type Progress = {
   completed_lessons: CompletedLesson[]
 }
 
+export type BadgeFamily = 'courses' | 'streak' | 'flawless_lesson' | 'perfect_quiz' | 'own_code'
+
+export type Badge = {
+  code: string
+  family: BadgeFamily
+  goal: number
+  progress: number
+  /** Null until the badge is earned. */
+  awarded_at: string | null
+}
+
 export type LessonCompleteResponse = {
   user_id: number
   lesson_id: number
@@ -102,6 +114,8 @@ export type LessonCompleteResponse = {
   mistakes_made: number
   completed_at: string
   course_completed: { course_id: number; course_name: string; bonus_xp: number } | null
+  streak_days: number
+  new_badges: Badge[]
 }
 
 export type NextLesson = {
@@ -119,7 +133,14 @@ export type ProfileCourse = {
 
 export type Profile = {
   user: User
-  stats: { total_xp: number; streak_days: number; courses_completed: number }
+  stats: {
+    total_xp: number
+    streak_days: number
+    courses_completed: number
+    badges_earned: number
+  }
+  latest_badge: Badge | null
+  next_badge: Badge | null
   courses: ProfileCourse[]
   suggested_course: CourseListItem | null
 }
@@ -256,6 +277,12 @@ export const getProfile = async (): Promise<Profile> => {
   return response.json()
 }
 
+export const getBadges = async (): Promise<Badge[]> => {
+  const response = await apiFetch('/api/users/me/badges')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
 export const getProgress = async (): Promise<Progress> => {
   const response = await apiFetch('/api/progress')
   if (!response.ok) throw await buildApiRequestError(response)
@@ -265,13 +292,16 @@ export const getProgress = async (): Promise<Progress> => {
 export const completeLesson = async ({
   lesson_id,
   mistakes_made,
+  code_answers = 0,
 }: {
   lesson_id: number
   mistakes_made: number
+  /** Code exercises in this run that were typed and judged correct. */
+  code_answers?: number
 }): Promise<LessonCompleteResponse> => {
   const response = await apiFetch(`/api/lessons/${lesson_id}/complete`, {
     method: 'POST',
-    body: JSON.stringify({ mistakes_made }),
+    body: JSON.stringify({ mistakes_made, code_answers }),
   })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()

@@ -43,13 +43,82 @@
     "logOut": "Wyloguj",
     "profile": "Profil"
   },
+  "achievements": {
+    "title": "Osiągnięcia",
+    "summary": "Odblokowane odznaki: {{earned}} z {{total}}",
+    "backToProfile": "< Wróć do profilu"
+  },
+  "badges": {
+    "newBadge": "Nowa odznaka odblokowana",
+    "seeAll": "Zobacz wszystkie odznaki >",
+    "unlocked": "Odblokowano {{date}}",
+    "progressLabel": "Postęp odznaki",
+    "families": {
+      "courses": {
+        "name": "Ukończone kursy",
+        "description": "Kończ całe kursy, razem z quizem końcowym."
+      },
+      "streak": {
+        "name": "Seria",
+        "description": "Ucz się codziennie. Liczy się Twoja najlepsza seria."
+      },
+      "flawless_lesson": {
+        "name": "Bezbłędna lekcja",
+        "description": "Ukończ lekcję bez ani jednego błędu."
+      },
+      "perfect_quiz": {
+        "name": "Perfekcyjny quiz",
+        "description": "Zalicz quiz końcowy, odpowiadając dobrze na każde pytanie."
+      },
+      "own_code": {
+        "name": "Własny kod",
+        "description": "Pisz własny kod zamiast korzystać z bloków Dual Mode."
+      }
+    },
+    "items": {
+      "courses_1": { "title": "1 kurs", "description": "Ukończ swój pierwszy kurs" },
+      "courses_5": { "title": "5 kursów", "description": "Ukończ 5 kursów" },
+      "courses_10": { "title": "10 kursów", "description": "Ukończ 10 kursów" },
+      "streak_3": { "title": "3 dni", "description": "Ucz się 3 dni z rzędu" },
+      "streak_5": { "title": "5 dni", "description": "Ucz się 5 dni z rzędu" },
+      "streak_10": { "title": "10 dni", "description": "Ucz się 10 dni z rzędu" },
+      "streak_30": { "title": "30 dni", "description": "Ucz się 30 dni z rzędu" },
+      "flawless_lesson": { "title": "Bezbłędnie", "description": "Ukończ lekcję bez błędów" },
+      "perfect_quiz": {
+        "title": "Perfekcyjny quiz",
+        "description": "Zalicz quiz końcowy bez błędów"
+      },
+      "own_code_10": {
+        "title": "10 odpowiedzi",
+        "description": "Rozwiąż 10 zadań z kodem, pisząc samodzielnie"
+      },
+      "own_code_50": {
+        "title": "50 odpowiedzi",
+        "description": "Rozwiąż 50 zadań z kodem, pisząc samodzielnie"
+      },
+      "own_code_100": {
+        "title": "100 odpowiedzi",
+        "description": "Rozwiąż 100 zadań z kodem, pisząc samodzielnie"
+      }
+    }
+  },
   "profile": {
     "memberSince": "Dołączono: {{date}}",
     "stats": {
       "xp": "Łączne XP",
       "streak": "Seria dni",
+      "badges": "Odznaki",
       "courses": "Ukończone kursy"
     },
+    "achievements": "Osiągnięcia",
+    "latestBadge": "Ostatnia odznaka",
+    "nextBadge": "Najbliższa odznaka",
+    "toGo_one": "Jeszcze {{count}}. Tak trzymaj!",
+    "toGo_few": "Jeszcze {{count}}. Tak trzymaj!",
+    "toGo_many": "Jeszcze {{count}}. Tak trzymaj!",
+    "toGo_other": "Jeszcze {{count}}. Tak trzymaj!",
+    "noBadges": "Nie masz jeszcze odznak. Ukończ lekcję, aby zdobyć pierwszą!",
+    "allBadges": "Masz już wszystkie odznaki! 🎉",
     "continueLearning": "Kontynuuj naukę",
     "nothingInProgress": "Nic nie jest w toku. Zacznij polecany kurs poniżej!",
     "allDone": "Ukończono wszystkie kursy! 🎉",

@@ -1,19 +1,77 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { BadgeMedal } from '@/components/BadgeMedal'
 import { CourseProgressCard } from '@/components/CourseProgressCard'
 import { StatTile } from '@/components/StatTile'
 import { Badge } from '@/components/ui/Badge'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Card } from '@/components/ui/Card'
 import { Mascot } from '@/components/ui/Mascot'
+import { ProgressBar } from '@/components/ui/ProgressBar'
 import { Spinner } from '@/components/ui/Spinner'
 import { useProfile } from '@/hooks/useProfile'
+import { badgeTitle, formatBadgeDate } from '@/lib/badges'
 import { trackIcon } from '@/lib/tracks'
-import type { Track } from '@/services/api'
+import type { Badge as BadgeData, Track } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const headingClass = 'text-3xl font-bold text-on-page sm:text-4xl'
 const labelClass = 'text-sm font-semibold tracking-wider text-ink/70 uppercase'
+
+function LatestBadgeCard({ badge }: { badge: BadgeData | null }) {
+  const { t, i18n } = useTranslation()
+  if (!badge?.awarded_at) {
+    return (
+      <Card className="flex items-center">
+        <p className="text-lg">{t('profile.noBadges')}</p>
+      </Card>
+    )
+  }
+  return (
+    <Card className="flex items-center gap-6">
+      <BadgeMedal family={badge.family} earned />
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <h3 className={labelClass}>{t('profile.latestBadge')}</h3>
+        <p className="text-2xl font-bold">{badgeTitle(badge, t)}</p>
+        <p className="text-ink/70">{t(`badges.items.${badge.code}.description`)}</p>
+        <p className="font-semibold text-tile">
+          {t('badges.unlocked', { date: formatBadgeDate(badge.awarded_at, i18n.language) })}
+        </p>
+      </div>
+    </Card>
+  )
+}
+
+function NextBadgeCard({ badge }: { badge: BadgeData | null }) {
+  const { t } = useTranslation()
+  if (!badge) {
+    return (
+      <Card className="flex items-center">
+        <p className="text-lg">{t('profile.allBadges')}</p>
+      </Card>
+    )
+  }
+  return (
+    <Card className="flex items-center gap-6">
+      <BadgeMedal family={badge.family} earned={false} />
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <h3 className={labelClass}>{t('profile.nextBadge')}</h3>
+        <p className="text-2xl font-bold">{badgeTitle(badge, t)}</p>
+        <div className="flex items-center gap-3">
+          <ProgressBar
+            value={(badge.progress / badge.goal) * 100}
+            label={t('badges.progressLabel')}
+            showValue={false}
+          />
+          <span className="font-semibold">
+            {badge.progress}/{badge.goal}
+          </span>
+        </div>
+        <p className="text-ink/70">{t('profile.toGo', { count: badge.goal - badge.progress })}</p>
+      </div>
+    </Card>
+  )
+}
 
 function TrackBadge({ track, className }: { track: Track; className?: string }) {
   const { t } = useTranslation()
@@ -48,7 +106,7 @@ export function ProfilePage() {
     )
   }
 
-  const { user, stats, courses, suggested_course } = profile.data
+  const { user, stats, latest_badge, next_badge, courses, suggested_course } = profile.data
   const inProgress = courses.filter((item) => !item.completed)
   const memberSince = new Intl.DateTimeFormat(i18n.language, {
     month: 'long',
@@ -67,21 +125,35 @@ export function ProfilePage() {
               {user.username[0]}
             </span>
             <div className="min-w-0 flex-1">
-              <h1 className="text-3xl font-bold break-words sm:text-4xl">{user.username}</h1>
+              <h1 className="text-3xl font-bold wrap-break-word sm:text-4xl">{user.username}</h1>
               <p className="text-lg font-medium text-ink/70">
                 {t('profile.memberSince', { date: memberSince })}
               </p>
             </div>
             {user.track && <TrackBadge track={user.track} />}
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <StatTile value={`⚡ ${stats.total_xp}`} label={t('profile.stats.xp')} />
             <StatTile value={`🔥 ${stats.streak_days}`} label={t('profile.stats.streak')} />
+            <StatTile value={`🏅 ${stats.badges_earned}`} label={t('profile.stats.badges')} />
             <StatTile value={`🎓 ${stats.courses_completed}`} label={t('profile.stats.courses')} />
           </div>
         </Card>
         <Mascot variant="ducky" size="md" />
       </div>
+
+      <section className="flex flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className={headingClass}>{t('profile.achievements')}</h2>
+          <Link to="/achievements" className="text-lg font-semibold text-on-page underline">
+            {t('badges.seeAll')}
+          </Link>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <LatestBadgeCard badge={latest_badge} />
+          <NextBadgeCard badge={next_badge} />
+        </div>
+      </section>
 
       <section className="flex flex-col gap-6">
         <h2 className={headingClass}>{t('profile.continueLearning')}</h2>
