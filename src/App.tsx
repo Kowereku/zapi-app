@@ -11,6 +11,7 @@ import { HomePage } from '@/pages/HomePage'
 import { LessonPage } from '@/pages/LessonPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { ProfilePage } from '@/pages/ProfilePage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { StartPage } from '@/pages/StartPage'
 
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
         children: [
           { path: '/home', Component: HomePage },
           { path: '/courses/:course_id', Component: CoursePage },
+          { path: '/profile', Component: ProfilePage },
         ],
       },
       { path: '/choice', Component: ChoicePage },

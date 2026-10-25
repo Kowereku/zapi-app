@@ -40,7 +40,25 @@
     "streak_few": "{{count}} dni",
     "streak_many": "{{count}} dni",
     "streak_other": "{{count}} dni",
-    "logOut": "Wyloguj"
+    "logOut": "Wyloguj",
+    "profile": "Profil"
+  },
+  "profile": {
+    "memberSince": "Dołączono: {{date}}",
+    "stats": {
+      "xp": "Łączne XP",
+      "streak": "Seria dni",
+      "courses": "Ukończone kursy"
+    },
+    "continueLearning": "Kontynuuj naukę",
+    "nothingInProgress": "Nic nie jest w toku. Zacznij polecany kurs poniżej!",
+    "allDone": "Ukończono wszystkie kursy! 🎉",
+    "suggested": "Polecany kolejny kurs",
+    "myCourses": "Moje kursy",
+    "noCourses": "Nie masz jeszcze rozpoczętych kursów.",
+    "completed": "✓ Ukończony",
+    "inProgress": "W toku · {{percent}}%",
+    "nextLesson": "{{module}} · {{lesson}}"
   },
   "home": {
     "welcome": "Witaj na pokładzie, {{username}}! 👋",

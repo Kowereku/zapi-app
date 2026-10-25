@@ -38,7 +38,25 @@
     "xp": "{{count}} XP",
     "streak_one": "{{count}} day",
     "streak_other": "{{count}} days",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "profile": "Profile"
+  },
+  "profile": {
+    "memberSince": "Member since {{date}}",
+    "stats": {
+      "xp": "Total XP",
+      "streak": "Day streak",
+      "courses": "Courses completed"
+    },
+    "continueLearning": "Continue learning",
+    "nothingInProgress": "Nothing in progress. Start the suggested course below!",
+    "allDone": "You've finished every course! 🎉",
+    "suggested": "Suggested next course",
+    "myCourses": "My courses",
+    "noCourses": "You haven't started a course yet.",
+    "completed": "✓ Completed",
+    "inProgress": "In progress · {{percent}}%",
+    "nextLesson": "{{module}} · {{lesson}}"
   },
   "home": {
     "welcome": "Welcome aboard, {{username}}! 👋",

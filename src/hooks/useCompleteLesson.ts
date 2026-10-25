@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { completeLesson, type Progress } from '@/services/api'
+import { completeLesson, type Progress, type User } from '@/services/api'
 
 export function useCompleteLesson(course_id?: number) {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: completeLesson,
-    onSuccess: (user, variables) => {
-      queryClient.setQueryData(['currentUser'], user)
+    onSuccess: (result, variables) => {
+      // The response describes the completion, not the user, so only the XP is carried over.
+      queryClient.setQueryData<User>(['currentUser'], (old) =>
+        old ? { ...old, total_xp: result.total_xp } : old,
+      )
       if (course_id) {
         queryClient.setQueryData<Progress>(['progress'], (old) => {
           const list = old?.completed_lessons ?? []
@@ -21,6 +24,7 @@ export function useCompleteLesson(course_id?: number) {
       }
       queryClient.invalidateQueries({ queryKey: ['progress'] })
       queryClient.invalidateQueries({ queryKey: ['courses'] })
+      queryClient.invalidateQueries({ queryKey: ['profile'] })
     },
   })
 }

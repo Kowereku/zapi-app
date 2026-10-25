@@ -93,6 +93,37 @@ export type Progress = {
   completed_lessons: CompletedLesson[]
 }
 
+export type LessonCompleteResponse = {
+  user_id: number
+  lesson_id: number
+  xp_earned: number
+  total_xp: number
+  is_first_completion: boolean
+  mistakes_made: number
+  completed_at: string
+  course_completed: { course_id: number; course_name: string; bonus_xp: number } | null
+}
+
+export type NextLesson = {
+  id: number
+  title: string
+  module_title: string
+}
+
+export type ProfileCourse = {
+  course: CourseListItem
+  completed_lessons: number
+  completed: boolean
+  next_lesson: NextLesson | null
+}
+
+export type Profile = {
+  user: User
+  stats: { total_xp: number; streak_days: number; courses_completed: number }
+  courses: ProfileCourse[]
+  suggested_course: CourseListItem | null
+}
+
 export type ChatMessage = {
   role: 'assistant' | 'user'
   content: string
@@ -219,6 +250,12 @@ export const getLesson = async (lesson_id: number): Promise<LessonDetail> => {
   return response.json()
 }
 
+export const getProfile = async (): Promise<Profile> => {
+  const response = await apiFetch('/api/users/me/profile')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
 export const getProgress = async (): Promise<Progress> => {
   const response = await apiFetch('/api/progress')
   if (!response.ok) throw await buildApiRequestError(response)
@@ -231,7 +268,7 @@ export const completeLesson = async ({
 }: {
   lesson_id: number
   mistakes_made: number
-}): Promise<User> => {
+}): Promise<LessonCompleteResponse> => {
   const response = await apiFetch(`/api/lessons/${lesson_id}/complete`, {
     method: 'POST',
     body: JSON.stringify({ mistakes_made }),
