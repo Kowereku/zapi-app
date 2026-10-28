@@ -37,13 +37,9 @@ export function useBadgeAnnouncements() {
         queryFn: getBadges,
         staleTime: 0,
       })
-      const missed = after.filter(
-        (badge) =>
-          badge.awarded_at &&
-          !before.has(badge.code) &&
-          !fromResponse.some((announced) => announced.code === badge.code),
-      )
-      return [...fromResponse, ...missed]
+      const missed = after.filter((badge) => badge.awarded_at && !before.has(badge.code))
+      // A badge can be both in the response and among the missed ones; announce it once.
+      return [...new Map([...fromResponse, ...missed].map((badge) => [badge.code, badge])).values()]
     } catch {
       return fromResponse
     }

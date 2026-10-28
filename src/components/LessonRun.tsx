@@ -52,7 +52,7 @@ export function LessonRun({
   const [hearts, setHearts] = useState(5)
   const [mistakes_made, setMistakesMade] = useState(0)
   // Code exercises answered correctly by typing; they count towards the "Own code" badges.
-  const [codeAnswers, setCodeAnswers] = useState(0)
+  const [solvedCodeIds, setSolvedCodeIds] = useState<number[]>([])
   const [newBadges, setNewBadges] = useState<Badge[]>([])
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
@@ -90,7 +90,7 @@ export function LessonRun({
       const result = await completeLesson.mutateAsync({
         lesson_id: lesson.id,
         mistakes_made,
-        code_answers: codeAnswers,
+        code_exercise_ids: solvedCodeIds,
       })
       setNewBadges(await badgeAnnouncements.toAnnounce(result.new_badges))
 
@@ -160,7 +160,7 @@ export function LessonRun({
     setCorrect(passed)
     setNote(nextNote)
     setChecked(true)
-    if (passed && exercise.type === 'code') setCodeAnswers(codeAnswers + 1)
+    if (passed && exercise.type === 'code') setSolvedCodeIds([...solvedCodeIds, exercise.id])
     if (!passed) {
       setHearts(hearts - 1)
       setMistakesMade(mistakes_made + 1)

@@ -202,6 +202,8 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
     headers: {
       'Content-Type': 'application/json',
       'Accept-Language': i18n.language,
+      // The backend counts streak days in the user's own time zone, not UTC.
+      'X-Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
       ...(token && { Authorization: `Bearer ${token}` }),
       ...options.headers,
     },
@@ -292,16 +294,16 @@ export const getProgress = async (): Promise<Progress> => {
 export const completeLesson = async ({
   lesson_id,
   mistakes_made,
-  code_answers = 0,
+  code_exercise_ids = [],
 }: {
   lesson_id: number
   mistakes_made: number
-  /** Code exercises in this run that were typed and judged correct. */
-  code_answers?: number
+  /** Code exercises in this run solved by typing; each counts once per user towards "Own code". */
+  code_exercise_ids?: number[]
 }): Promise<LessonCompleteResponse> => {
   const response = await apiFetch(`/api/lessons/${lesson_id}/complete`, {
     method: 'POST',
-    body: JSON.stringify({ mistakes_made, code_answers }),
+    body: JSON.stringify({ mistakes_made, code_exercise_ids }),
   })
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
