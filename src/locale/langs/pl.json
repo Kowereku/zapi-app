@@ -40,12 +40,29 @@
     "streak_few": "{{count}} dni",
     "streak_many": "{{count}} dni",
     "streak_other": "{{count}} dni",
-    "logOut": "Wyloguj"
+    "logOut": "Wyloguj",
+    "level": "Lv {{level}}",
+    "ranking": "Ranking"
   },
   "achievements": {
     "title": "Osiągnięcia",
     "summary": "Odblokowane odznaki: {{earned}} z {{total}}",
     "backToProfile": "< Wróć do profilu"
+  },
+  "ranking": {
+    "title": "Ranking",
+    "subtitle": "Wszyscy użytkownicy Polycode według łącznego XP",
+    "you": "(ty)",
+    "position": "Miejsce {{position}}",
+    "empty": "Nikt nie zdobył jeszcze XP. Ukończ lekcję i zajmij pierwsze miejsce!",
+    "unranked": "Ukończ lekcję, aby dołączyć do rankingu."
+  },
+  "levelUp": {
+    "kicker": "Awans!",
+    "title": "Zdobywasz poziom {{level}}!",
+    "rank_ordinal_other": "Jesteś teraz na {{count}}. miejscu w rankingu!",
+    "seeRanking": "Zobacz ranking",
+    "close": "Zamknij"
   },
   "badges": {
     "newBadge": "Nowa odznaka odblokowana",
@@ -72,6 +89,10 @@
       "own_code": {
         "name": "Własny kod",
         "description": "Pisz własny kod zamiast korzystać z bloków Dual Mode."
+      },
+      "level": {
+        "name": "Awans",
+        "description": "Zdobywaj XP i awansuj na kolejne poziomy."
       }
     },
     "items": {
@@ -98,11 +119,17 @@
       "own_code_100": {
         "title": "100 odpowiedzi",
         "description": "Rozwiąż 100 zadań z kodem, pisząc samodzielnie"
-      }
+      },
+      "level_3": { "title": "Poziom 3", "description": "Osiągnij poziom 3" },
+      "level_5": { "title": "Poziom 5", "description": "Osiągnij poziom 5" },
+      "level_10": { "title": "Poziom 10", "description": "Osiągnij poziom 10" }
     }
   },
   "profile": {
     "memberSince": "Dołączono: {{date}}",
+    "level": "Poziom {{level}}",
+    "levelProgress": "Postęp do następnego poziomu",
+    "levelXp": "{{xp}} / {{next}} XP",
     "stats": {
       "xp": "Łączne XP",
       "streak": "Seria dni",

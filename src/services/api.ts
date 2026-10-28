@@ -13,6 +13,10 @@ export type User = {
   total_xp: number
   streak_days: number
   best_streak: number
+  /** Level reached with total_xp; level_xp and next_level_xp are its XP thresholds. */
+  level: number
+  level_xp: number
+  next_level_xp: number
   track: Track | null
   is_admin: boolean
   created_at: string
@@ -94,7 +98,8 @@ export type Progress = {
   completed_lessons: CompletedLesson[]
 }
 
-export type BadgeFamily = 'courses' | 'streak' | 'flawless_lesson' | 'perfect_quiz' | 'own_code'
+export type BadgeFamily =
+  'courses' | 'streak' | 'flawless_lesson' | 'perfect_quiz' | 'own_code' | 'level'
 
 export type Badge = {
   code: string
@@ -116,6 +121,25 @@ export type LessonCompleteResponse = {
   course_completed: { course_id: number; course_name: string; bonus_xp: number } | null
   streak_days: number
   new_badges: Badge[]
+  /** The level-up popup shows when level_after > level_before. */
+  level_before: number
+  level_after: number
+  /** Position in the ranking after this completion; null while the user has no XP. */
+  rank: number | null
+}
+
+export type LeaderboardEntry = {
+  position: number
+  username: string
+  level: number
+  total_xp: number
+  is_me: boolean
+}
+
+export type Leaderboard = {
+  top: LeaderboardEntry[]
+  /** The current user's own row; null while they have no XP. */
+  me: LeaderboardEntry | null
 }
 
 export type NextLesson = {
@@ -281,6 +305,12 @@ export const getProfile = async (): Promise<Profile> => {
 
 export const getBadges = async (): Promise<Badge[]> => {
   const response = await apiFetch('/api/users/me/badges')
+  if (!response.ok) throw await buildApiRequestError(response)
+  return response.json()
+}
+
+export const getLeaderboard = async (): Promise<Leaderboard> => {
+  const response = await apiFetch('/api/leaderboard')
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }

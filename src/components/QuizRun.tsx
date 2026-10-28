@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
-import { useBadgeAnnouncements } from '@/hooks/useBadgeAnnouncements'
+import type { LevelUp } from '@/lib/levelUp'
+import { useSaveAnnouncements } from '@/hooks/useSaveAnnouncements'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import type { Badge, LessonDetail } from '@/services/api'
 
@@ -26,8 +27,9 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
   const { t } = useTranslation()
   const navigate = useNavigate()
   const completeLesson = useCompleteLesson()
-  const badgeAnnouncements = useBadgeAnnouncements()
+  const announcements = useSaveAnnouncements()
   const [newBadges, setNewBadges] = useState<Badge[]>([])
+  const [levelUp, setLevelUp] = useState<LevelUp | null>(null)
   const [view, setView] = useState<'questions' | 'dialogue' | 'result'>('questions')
   const [index, setIndex] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
@@ -57,12 +59,14 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
   const percent = Math.round((correctCount / questions.length) * 100)
 
   const saveResult = (mistakes_made: number) => {
-    badgeAnnouncements.beforeSave()
+    announcements.beforeSave()
     completeLesson.mutate(
       { lesson_id: lesson.id, mistakes_made },
       {
-        onSuccess: async (result) =>
-          setNewBadges(await badgeAnnouncements.toAnnounce(result.new_badges)),
+        onSuccess: async (result) => {
+          setLevelUp(announcements.toLevelUp(result))
+          setNewBadges(await announcements.toAnnounce(result.new_badges))
+        },
       },
     )
   }
@@ -105,6 +109,7 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
         passed={(correctCount / questions.length) * 100 >= passPercent}
         xp={xp}
         newBadges={newBadges}
+        levelUp={levelUp}
         pending={completeLesson.isPending}
         error={completeLesson.error}
         onSave={save}

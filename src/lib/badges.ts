@@ -8,6 +8,7 @@ export const familyIcon: Record<BadgeFamily, string> = {
   flawless_lesson: '🎯',
   perfect_quiz: '🏆',
   own_code: '⌨️',
+  level: '⭐',
 }
 
 /** Families with a single badge, whose name alone identifies it. */

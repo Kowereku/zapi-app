@@ -38,12 +38,32 @@
     "xp": "{{count}} XP",
     "streak_one": "{{count}} day",
     "streak_other": "{{count}} days",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "level": "Lv {{level}}",
+    "ranking": "Ranking"
   },
   "achievements": {
     "title": "Achievements",
     "summary": "{{earned}} of {{total}} badges unlocked",
     "backToProfile": "< Back to profile"
+  },
+  "ranking": {
+    "title": "Ranking",
+    "subtitle": "Everyone on Polycode, ranked by total XP",
+    "you": "(you)",
+    "position": "Position {{position}}",
+    "empty": "Nobody has earned XP yet. Finish a lesson to be the first!",
+    "unranked": "Finish a lesson to join the ranking."
+  },
+  "levelUp": {
+    "kicker": "Level up!",
+    "title": "You reached level {{level}}!",
+    "rank_ordinal_one": "You are now {{count}}st in the ranking!",
+    "rank_ordinal_two": "You are now {{count}}nd in the ranking!",
+    "rank_ordinal_few": "You are now {{count}}rd in the ranking!",
+    "rank_ordinal_other": "You are now {{count}}th in the ranking!",
+    "seeRanking": "See the ranking",
+    "close": "Close"
   },
   "badges": {
     "newBadge": "New badge unlocked",
@@ -70,6 +90,10 @@
       "own_code": {
         "name": "Own code",
         "description": "Type your own code instead of using Dual Mode blocks."
+      },
+      "level": {
+        "name": "Level up",
+        "description": "Reach higher levels by earning XP."
       }
     },
     "items": {
@@ -87,11 +111,17 @@
       },
       "own_code_10": { "title": "10 answers", "description": "Solve 10 code tasks by typing" },
       "own_code_50": { "title": "50 answers", "description": "Solve 50 code tasks by typing" },
-      "own_code_100": { "title": "100 answers", "description": "Solve 100 code tasks by typing" }
+      "own_code_100": { "title": "100 answers", "description": "Solve 100 code tasks by typing" },
+      "level_3": { "title": "Level 3", "description": "Reach level 3" },
+      "level_5": { "title": "Level 5", "description": "Reach level 5" },
+      "level_10": { "title": "Level 10", "description": "Reach level 10" }
     }
   },
   "profile": {
     "memberSince": "Member since {{date}}",
+    "level": "Level {{level}}",
+    "levelProgress": "Progress to the next level",
+    "levelXp": "{{xp}} / {{next}} XP",
     "stats": {
       "xp": "Total XP",
       "streak": "Day streak",

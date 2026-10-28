@@ -13,7 +13,8 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { CloseButton } from '@/components/ui/CloseButton'
 import { ProgressBar } from '@/components/ui/ProgressBar'
-import { useBadgeAnnouncements } from '@/hooks/useBadgeAnnouncements'
+import type { LevelUp } from '@/lib/levelUp'
+import { useSaveAnnouncements } from '@/hooks/useSaveAnnouncements'
 import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import { useSaveUserLessonProgress } from '@/hooks/useUserLessonProgress'
@@ -46,7 +47,7 @@ export function LessonRun({
   const completeLesson = useCompleteLesson(courseId)
   const checkExercise = useCheckExercise()
   const saveProgress = useSaveUserLessonProgress()
-  const badgeAnnouncements = useBadgeAnnouncements()
+  const announcements = useSaveAnnouncements()
   const [view, setView] = useState<'question' | 'complete' | 'outOfHearts'>('question')
   const [index, setIndex] = useState(0)
   const [hearts, setHearts] = useState(5)
@@ -54,6 +55,7 @@ export function LessonRun({
   // Code exercises answered correctly by typing; they count towards the "Own code" badges.
   const [solvedCodeIds, setSolvedCodeIds] = useState<number[]>([])
   const [newBadges, setNewBadges] = useState<Badge[]>([])
+  const [levelUp, setLevelUp] = useState<LevelUp | null>(null)
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
   const [checked, setChecked] = useState(false)
@@ -86,13 +88,14 @@ export function LessonRun({
     setAlertError(null)
 
     try {
-      badgeAnnouncements.beforeSave()
+      announcements.beforeSave()
       const result = await completeLesson.mutateAsync({
         lesson_id: lesson.id,
         mistakes_made,
         code_exercise_ids: solvedCodeIds,
       })
-      setNewBadges(await badgeAnnouncements.toAnnounce(result.new_badges))
+      setLevelUp(announcements.toLevelUp(result))
+      setNewBadges(await announcements.toAnnounce(result.new_badges))
 
       // Also record final lesson progress state as completed
       await saveProgress
@@ -120,6 +123,7 @@ export function LessonRun({
         xp={xp}
         mistakes_made={mistakes_made}
         newBadges={newBadges}
+        levelUp={levelUp}
         pending={isCompleting || completeLesson.isPending}
         error={completeLesson.error}
         onRetry={handleFinish}
