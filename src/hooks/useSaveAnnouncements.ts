@@ -1,23 +1,25 @@
 import { useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useBadges } from '@/hooks/useBadges'
-import { getBadges, type Badge } from '@/services/api'
+import { levelUpFrom, type LevelUp } from '@/lib/levelUp'
+import { getBadges, type Badge, type LessonCompleteResponse, type User } from '@/services/api'
 
 const earnedCodes = (badges: Badge[]) =>
   new Set(badges.filter((badge) => badge.awarded_at).map((badge) => badge.code))
 
 /**
- * Works out which badges to announce after a lesson or quiz is saved.
+ * Works out what to announce after a lesson or quiz is saved: new badges and a level-up.
  *
- * Normally that is the save response's new_badges. When a save had to be retried (its first
- * response may have been lost after the server already awarded the badges), the badges earned
- * since the run started are announced too.
+ * Normally that comes straight from the save response. When a save had to be retried (its first
+ * response may have been lost after the server already saved it), the badges earned and the level
+ * reached since the run started are announced too.
  */
-export function useBadgeAnnouncements() {
+export function useSaveAnnouncements() {
   const queryClient = useQueryClient()
   // Loads the earned badges while the run is in progress, so the snapshot costs no extra request.
   useBadges()
   const earnedBefore = useRef<Set<string> | null>(null)
+  const levelBefore = useRef<number | null>(null)
   const attempts = useRef(0)
 
   /** Call right before every save attempt. */
@@ -25,6 +27,7 @@ export function useBadgeAnnouncements() {
     attempts.current += 1
     const cached = queryClient.getQueryData<Badge[]>(['badges'])
     if (!earnedBefore.current && cached) earnedBefore.current = earnedCodes(cached)
+    levelBefore.current ??= queryClient.getQueryData<User>(['currentUser'])?.level ?? null
   }
 
   /** Call with a successful save's new_badges; returns every badge to announce. */
@@ -45,5 +48,9 @@ export function useBadgeAnnouncements() {
     }
   }
 
-  return { beforeSave, toAnnounce }
+  /** Call with a successful save; returns the level-up to celebrate, if any. */
+  const toLevelUp = (result: LessonCompleteResponse): LevelUp | null =>
+    levelUpFrom(result, attempts.current > 1 ? levelBefore.current : null)
+
+  return { beforeSave, toAnnounce, toLevelUp }
 }

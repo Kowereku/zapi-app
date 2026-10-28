@@ -13,6 +13,7 @@ import { LessonPage } from '@/pages/LessonPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { ProfilePage } from '@/pages/ProfilePage'
+import { RankingPage } from '@/pages/RankingPage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { StartPage } from '@/pages/StartPage'
 
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
           { path: '/courses/:course_id', Component: CoursePage },
           { path: '/profile', Component: ProfilePage },
           { path: '/achievements', Component: AchievementsPage },
+          { path: '/ranking', Component: RankingPage },
         ],
       },
       { path: '/choice', Component: ChoicePage },

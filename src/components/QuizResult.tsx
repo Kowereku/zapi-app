@@ -1,11 +1,14 @@
+import { useRef, useState } from 'react'
 import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
+import { LevelUpDialog } from '@/components/LevelUpDialog'
 import { NewBadgeCard } from '@/components/NewBadgeCard'
 import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
 import { Tile } from '@/components/ui/Tile'
+import type { LevelUp } from '@/lib/levelUp'
 import { ApiRequestError, type Badge, type Exercise } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
@@ -17,6 +20,7 @@ type QuizResultProps = {
   passed: boolean
   xp: number
   newBadges: Badge[]
+  levelUp: LevelUp | null
   pending: boolean
   error: Error | null
   onSave: () => void
@@ -32,6 +36,7 @@ export function QuizResult({
   passed,
   xp,
   newBadges,
+  levelUp,
   pending,
   error,
   onSave,
@@ -39,6 +44,14 @@ export function QuizResult({
   coursePath,
 }: QuizResultProps) {
   const { t } = useTranslation()
+  const [levelUpSeen, setLevelUpSeen] = useState(false)
+  const backToCourse = useRef<HTMLAnchorElement>(null)
+
+  const closeLevelUp = () => {
+    setLevelUpSeen(true)
+    // Focus lands on the next likely step instead of falling back to <body>.
+    requestAnimationFrame(() => backToCourse.current?.focus())
+  }
 
   if (error instanceof ApiRequestError && error.status === 401) {
     return <Navigate to="/login" replace />
@@ -61,6 +74,8 @@ export function QuizResult({
       </DuckyBubble>
 
       {passed && newBadges.map((badge) => <NewBadgeCard key={badge.code} badge={badge} />)}
+
+      {passed && levelUp && !levelUpSeen && <LevelUpDialog {...levelUp} onClose={closeLevelUp} />}
 
       {passed && pending && <Spinner size="lg" label={t('lesson.complete.saving')} />}
       {passed && error && (
@@ -94,6 +109,7 @@ export function QuizResult({
           {t('quiz.retake')}
         </Button>
         <Link
+          ref={backToCourse}
           to={coursePath}
           className={buttonVariants({ variant: 'outline', size: 'lg', fullWidth: true })}
         >

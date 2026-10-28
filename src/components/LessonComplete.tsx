@@ -1,10 +1,13 @@
+import { useRef, useState } from 'react'
 import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
+import { LevelUpDialog } from '@/components/LevelUpDialog'
 import { NewBadgeCard } from '@/components/NewBadgeCard'
 import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
+import type { LevelUp } from '@/lib/levelUp'
 import { ApiRequestError, type Badge } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
@@ -12,6 +15,7 @@ type LessonCompleteProps = {
   xp: number
   mistakes_made: number
   newBadges: Badge[]
+  levelUp: LevelUp | null
   pending: boolean
   error: Error | null
   onRetry: () => void
@@ -23,6 +27,7 @@ export function LessonComplete({
   xp,
   mistakes_made,
   newBadges,
+  levelUp,
   pending,
   error,
   onRetry,
@@ -30,6 +35,14 @@ export function LessonComplete({
   nextPath,
 }: LessonCompleteProps) {
   const { t } = useTranslation()
+  const [levelUpSeen, setLevelUpSeen] = useState(false)
+  const primaryAction = useRef<HTMLAnchorElement>(null)
+
+  const closeLevelUp = () => {
+    setLevelUpSeen(true)
+    // The button that led here is gone, so focus moves to the main action instead of <body>.
+    requestAnimationFrame(() => primaryAction.current?.focus())
+  }
 
   // The session has expired, so retrying can't succeed.
   if (error instanceof ApiRequestError && error.status === 401) {
@@ -50,6 +63,8 @@ export function LessonComplete({
         <NewBadgeCard key={badge.code} badge={badge} />
       ))}
 
+      {levelUp && !levelUpSeen && <LevelUpDialog {...levelUp} onClose={closeLevelUp} />}
+
       {pending ? (
         <Spinner size="lg" label={t('lesson.complete.saving')} />
       ) : error ? (
@@ -62,6 +77,7 @@ export function LessonComplete({
       ) : (
         <div className="flex w-full max-w-xl flex-col gap-4 sm:flex-row">
           <Link
+            ref={primaryAction}
             to={nextPath ?? coursePath}
             className={buttonVariants({ variant: 'success', size: 'lg', fullWidth: true })}
           >

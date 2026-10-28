@@ -113,6 +113,9 @@ export function ProfilePage() {
     month: 'long',
     year: 'numeric',
   }).format(new Date(user.created_at))
+  const levelXp = user.total_xp - user.level_xp
+  const levelSpan = user.next_level_xp - user.level_xp
+  const levelText = t('profile.levelXp', { xp: levelXp, next: levelSpan })
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8">
@@ -134,10 +137,29 @@ export function ProfilePage() {
             {user.track && <TrackBadge track={user.track} />}
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatTile value={`⚡ ${stats.total_xp}`} label={t('profile.stats.xp')} />
-            <StatTile value={`🔥 ${stats.streak_days}`} label={t('profile.stats.streak')} />
-            <StatTile value={`🏅 ${stats.badges_earned}`} label={t('profile.stats.badges')} />
-            <StatTile value={`🎓 ${stats.courses_completed}`} label={t('profile.stats.courses')} />
+            <StatTile icon="⚡" value={stats.total_xp} label={t('profile.stats.xp')} />
+            <StatTile icon="🔥" value={stats.streak_days} label={t('profile.stats.streak')} />
+            <StatTile icon="🏅" value={stats.badges_earned} label={t('profile.stats.badges')} />
+            <StatTile
+              icon="🎓"
+              value={stats.courses_completed}
+              label={t('profile.stats.courses')}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <h2 className={labelClass}>
+              <span aria-hidden>⭐</span> {t('profile.level', { level: user.level })}
+            </h2>
+            <div className="flex items-center gap-4">
+              <ProgressBar
+                value={(levelXp / levelSpan) * 100}
+                label={t('profile.levelProgress')}
+                valueText={levelText}
+                showValue={false}
+              />
+              {/* XP within the current level, so the text and the bar show the same share. */}
+              <span className="shrink-0 font-semibold">{levelText}</span>
+            </div>
           </div>
         </Card>
         <Mascot variant="ducky" size="md" />

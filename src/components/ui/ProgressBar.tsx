@@ -4,10 +4,18 @@ type ProgressBarProps = {
   value: number
   label: string
   showValue?: boolean
+  /** Spoken instead of the bare percentage, e.g. "40 / 300 XP". */
+  valueText?: string
   className?: string
 }
 
-export function ProgressBar({ value, label, showValue = true, className }: ProgressBarProps) {
+export function ProgressBar({
+  value,
+  label,
+  showValue = true,
+  valueText,
+  className,
+}: ProgressBarProps) {
   const percent = Math.round(Math.min(100, Math.max(0, value)))
 
   return (
@@ -17,6 +25,7 @@ export function ProgressBar({ value, label, showValue = true, className }: Progr
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={percent}
+      aria-valuetext={valueText}
       className={cn('relative h-5 w-full overflow-hidden rounded-full bg-tile/60', className)}
     >
       <div

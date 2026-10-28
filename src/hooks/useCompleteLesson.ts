@@ -7,10 +7,22 @@ export function useCompleteLesson(course_id?: number) {
   return useMutation({
     mutationFn: completeLesson,
     onSuccess: (result, variables) => {
-      // The response describes the completion, not the user, so only XP and streak are carried over.
+      // The response describes the completion, not the user, so only XP, streak and level are
+      // carried over right away; the refetch below brings the new level's XP thresholds.
+      // Until it lands, level_xp / next_level_xp still belong to the old level, so anything that
+      // draws level progress should read it from the profile query, not from currentUser.
       queryClient.setQueryData<User>(['currentUser'], (old) =>
-        old ? { ...old, total_xp: result.total_xp, streak_days: result.streak_days } : old,
+        old
+          ? {
+              ...old,
+              total_xp: result.total_xp,
+              streak_days: result.streak_days,
+              level: result.level_after,
+            }
+          : old,
       )
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] })
+      queryClient.invalidateQueries({ queryKey: ['leaderboard'] })
       if (course_id) {
         queryClient.setQueryData<Progress>(['progress'], (old) => {
           const list = old?.completed_lessons ?? []
