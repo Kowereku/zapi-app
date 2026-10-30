@@ -59,6 +59,8 @@ export function LessonRun({
   const [levelUp, setLevelUp] = useState<LevelUp | null>(null)
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
+  // False when a code exercise is answered with blocks (Dual mode).
+  const [typed, setTyped] = useState(true)
   const [checked, setChecked] = useState(false)
   const [aiUnavailable, setAiUnavailable] = useState(false)
   const [xp, setXp] = useState(0)
@@ -141,9 +143,10 @@ export function LessonRun({
   const exerciseProps = {
     exercise,
     checked: checked || checking,
-    onChange: (nextCorrect: boolean | null, nextAnswer: string) => {
+    onChange: (nextCorrect: boolean | null, nextAnswer: string, nextTyped = true) => {
       setCorrect(nextCorrect)
       setAnswer(nextAnswer)
+      setTyped(nextTyped)
     },
   }
 
@@ -165,7 +168,10 @@ export function LessonRun({
     setCorrect(passed)
     setAiUnavailable(nextAiUnavailable)
     setChecked(true)
-    if (passed && exercise.type === 'code') setSolvedCodeIds([...solvedCodeIds, exercise.id])
+    // Only typed code counts towards the "Own code" badges, not code built from blocks.
+    if (passed && exercise.type === 'code' && typed) {
+      setSolvedCodeIds([...solvedCodeIds, exercise.id])
+    }
     if (!passed) {
       setHearts(hearts - 1)
       setMistakesMade(mistakes_made + 1)
@@ -174,7 +180,8 @@ export function LessonRun({
 
   const check = () => {
     setAlertError(null)
-    if (exercise.type !== 'code' || correct) {
+    // Blocks have only one correct order, so a wrong block answer needs no AI check either.
+    if (exercise.type !== 'code' || correct || !typed) {
       finish(correct === true)
       return
     }
@@ -203,6 +210,7 @@ export function LessonRun({
     setIndex(index + 1)
     setCorrect(null)
     setAnswer('')
+    setTyped(true)
     setAiUnavailable(false)
     setChecked(false)
     setAlertError(null)

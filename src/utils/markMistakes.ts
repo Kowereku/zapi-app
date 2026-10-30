@@ -2,6 +2,10 @@ const tokenPattern = /\w+|[^\s\w]/g
 
 export const splitTokens = (text: string) => text.match(tokenPattern) ?? []
 
+/** Same tokens in the same order; spacing and line breaks don't matter. */
+export const sameCode = (a: string, b: string) =>
+  splitTokens(a).join(' ') === splitTokens(b).join(' ')
+
 export const markMistakes = (expected: string, actual: string) => {
   const words = [...expected.matchAll(tokenPattern)]
   const typed = splitTokens(actual)
