@@ -1,23 +1,21 @@
 import { useTranslation } from 'react-i18next'
+import { ErrorState } from '@/components/ErrorState'
 import { RankingRow } from '@/components/RankingRow'
 import { Card } from '@/components/ui/Card'
 import { Mascot } from '@/components/ui/Mascot'
 import { Spinner } from '@/components/ui/Spinner'
 import { useLeaderboard } from '@/hooks/useLeaderboard'
-import { getErrorMessage } from '@/utils/getErrorMessage'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 
 export function RankingPage() {
   const { t } = useTranslation()
   const leaderboard = useLeaderboard()
+  const retryFailed = useRetryFailedQueries()
 
   if (leaderboard.error) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <p role="alert" className="font-medium text-danger">
-            {getErrorMessage(leaderboard.error, t)}
-          </p>
-        </Card>
+        <ErrorState error={leaderboard.error} onRetry={retryFailed} />
       </div>
     )
   }

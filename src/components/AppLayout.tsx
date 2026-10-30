@@ -6,7 +6,6 @@ import { Mascot } from '@/components/ui/Mascot'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useWarmUpAi } from '@/hooks/useWarmUpAi'
 import { session } from '@/lib/session'
-import { ApiRequestError } from '@/services/api'
 
 // Icon-only on phones, so the tap area is padded out; the matching negative margin keeps the
 // header's layout width unchanged (the nav only just fits at 360px).
@@ -37,12 +36,8 @@ export function AppLayout() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { data: user, error, isPending } = useCurrentUser()
+  const { data: user, isPending } = useCurrentUser()
   useWarmUpAi()
-
-  if (error instanceof ApiRequestError && error.status === 401) {
-    return <Navigate to="/login" replace />
-  }
 
   // Accounts created before the Choice page existed pick their area on the next visit.
   if (user && !user.track) {

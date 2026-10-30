@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { LevelUpDialog } from '@/components/LevelUpDialog'
@@ -9,7 +9,7 @@ import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
 import { Tile } from '@/components/ui/Tile'
 import type { LevelUp } from '@/lib/levelUp'
-import { ApiRequestError, type Badge, type Exercise } from '@/services/api'
+import type { Badge, Exercise } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 type QuizResultProps = {
@@ -51,10 +51,6 @@ export function QuizResult({
     setLevelUpSeen(true)
     // Focus lands on the next likely step instead of falling back to <body>.
     requestAnimationFrame(() => backToCourse.current?.focus())
-  }
-
-  if (error instanceof ApiRequestError && error.status === 401) {
-    return <Navigate to="/login" replace />
   }
 
   const mistakes = questions.filter((question, index) => answers[index] !== question.correct_answer)

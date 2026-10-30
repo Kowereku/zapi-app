@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { DuckyBubble } from '@/components/DuckyBubble'
+import { ErrorState } from '@/components/ErrorState'
 import { LessonRun } from '@/components/LessonRun'
 import { QuizRun } from '@/components/QuizRun'
 import { buttonVariants } from '@/components/ui/buttonVariants'
@@ -9,9 +9,8 @@ import { Spinner } from '@/components/ui/Spinner'
 import { useCourse } from '@/hooks/useCourse'
 import { useLesson } from '@/hooks/useLesson'
 import { useProgress } from '@/hooks/useProgress'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 import { useWarmUpAi } from '@/hooks/useWarmUpAi'
-import { ApiRequestError } from '@/services/api'
-import { getErrorMessage } from '@/utils/getErrorMessage'
 
 export function LessonPage() {
   const { t } = useTranslation()
@@ -25,17 +24,15 @@ export function LessonPage() {
   useWarmUpAi()
   const coursePath = `/courses/${course_id}`
   const error = lesson.error ?? course.error ?? progress.error
-
-  if (error instanceof ApiRequestError && error.status === 401) {
-    return <Navigate to="/login" replace />
-  }
+  const retryFailed = useRetryFailedQueries()
 
   // A failed background refetch must not replace a lesson that is already on screen.
   if (error && !(lesson.data && course.data && progress.data)) {
     return (
-      <main className="flex min-h-dvh flex-col items-center justify-center gap-10 px-4">
-        <DuckyBubble>{getErrorMessage(error, t)}</DuckyBubble>
-        <Link to={coursePath} className={buttonVariants({ size: 'lg' })}>
+      <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-4">
+        <ErrorState error={error} onRetry={retryFailed} />
+        {/* Lessons have no header, so this is the way out while the server is unreachable. */}
+        <Link to={coursePath} className={buttonVariants({ variant: 'outline', size: 'lg' })}>
           {t('lesson.backToCourse')}
         </Link>
       </main>

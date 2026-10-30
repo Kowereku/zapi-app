@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { BadgeMedal } from '@/components/BadgeMedal'
 import { CourseProgressCard } from '@/components/CourseProgressCard'
+import { ErrorState } from '@/components/ErrorState'
 import { StatTile } from '@/components/StatTile'
 import { Badge } from '@/components/ui/Badge'
 import { buttonVariants } from '@/components/ui/buttonVariants'
@@ -10,11 +11,11 @@ import { Mascot } from '@/components/ui/Mascot'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { Spinner } from '@/components/ui/Spinner'
 import { useProfile } from '@/hooks/useProfile'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 import { badgeTitle, formatBadgeDate } from '@/lib/badges'
 import { trackIcon } from '@/lib/tracks'
 import type { Badge as BadgeData, Track } from '@/services/api'
 import { cn } from '@/utils/cn'
-import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const headingClass = 'text-3xl font-bold text-on-page sm:text-4xl'
 const labelClass = 'text-sm font-semibold tracking-wider text-ink/70 uppercase'
@@ -86,15 +87,12 @@ function TrackBadge({ track, className }: { track: Track; className?: string }) 
 export function ProfilePage() {
   const { t, i18n } = useTranslation()
   const profile = useProfile()
+  const retryFailed = useRetryFailedQueries()
 
   if (profile.error) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <p role="alert" className="font-medium text-danger">
-            {getErrorMessage(profile.error, t)}
-          </p>
-        </Card>
+        <ErrorState error={profile.error} onRetry={retryFailed} />
       </div>
     )
   }

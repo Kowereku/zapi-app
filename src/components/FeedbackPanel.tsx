@@ -9,7 +9,8 @@ type FeedbackPanelProps = {
   exercise: Exercise
   answer: string
   language: string
-  note: string | null
+  /** Ducky couldn't check the answer, so it was compared with the model answer instead. */
+  aiUnavailable: boolean
   onContinue: () => void
   continueLabel?: string
   loading?: boolean
@@ -21,7 +22,7 @@ export function FeedbackPanel({
   exercise,
   answer,
   language,
-  note,
+  aiUnavailable,
   onContinue,
   continueLabel,
   loading = false,
@@ -45,7 +46,12 @@ export function FeedbackPanel({
           <p className="text-2xl font-bold sm:text-3xl">
             {correct ? t('lesson.correct') : t('lesson.wrong')}
           </p>
-          {note && <p className="text-lg">{note}</p>}
+          {aiUnavailable && (
+            <div className="my-2 rounded-card bg-warning px-4 py-3 text-on-primary">
+              <p className="font-bold">{t('lesson.aiNap.title')}</p>
+              <p>{t('lesson.aiNap.body')}</p>
+            </div>
+          )}
           {!correct && (
             <>
               <p className="text-lg">{t('lesson.correctAnswer')}</p>

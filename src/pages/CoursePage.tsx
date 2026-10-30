@@ -1,12 +1,13 @@
 import { useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { ErrorState } from '@/components/ErrorState'
 import { LessonTile } from '@/components/LessonTile'
 import { Card } from '@/components/ui/Card'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { Spinner } from '@/components/ui/Spinner'
 import { useCourse } from '@/hooks/useCourse'
 import { useProgress } from '@/hooks/useProgress'
-import { getErrorMessage } from '@/utils/getErrorMessage'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 
 export function CoursePage() {
   const { t } = useTranslation()
@@ -14,15 +15,12 @@ export function CoursePage() {
   const course = useCourse(course_id)
   const progress = useProgress()
   const error = course.error ?? progress.error
+  const retryFailed = useRetryFailedQueries()
 
   if (error) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <Card>
-          <p role="alert" className="font-medium text-danger">
-            {getErrorMessage(error, t)}
-          </p>
-        </Card>
+        <ErrorState error={error} onRetry={retryFailed} />
       </div>
     )
   }

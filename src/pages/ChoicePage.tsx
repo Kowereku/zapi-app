@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { CloseButton } from '@/components/ui/CloseButton'
@@ -6,19 +6,15 @@ import { Spinner } from '@/components/ui/Spinner'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useUpdateTrack } from '@/hooks/useUpdateTrack'
 import { tracks } from '@/lib/tracks'
-import { ApiRequestError, type Track } from '@/services/api'
+import type { Track } from '@/services/api'
 import { cn } from '@/utils/cn'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 export function ChoicePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { data: user, error } = useCurrentUser()
+  const { data: user } = useCurrentUser()
   const updateTrack = useUpdateTrack()
-
-  if (error instanceof ApiRequestError && error.status === 401) {
-    return <Navigate to="/login" replace />
-  }
 
   const choose = (track: Track) => {
     updateTrack.mutate(track, { onSuccess: () => navigate('/home') })

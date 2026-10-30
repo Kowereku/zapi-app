@@ -200,12 +200,21 @@ export type UserProgress = {
 
 export class ApiRequestError extends Error {
   status: number
+  /** A 401 outside login and register: the session ended, not a wrong password. */
+  sessionExpired: boolean
 
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, sessionExpired = false) {
     super(message)
     this.status = status
+    this.sessionExpired = sessionExpired
   }
 }
+
+/** 401 responses that mean the session has expired (see apiFetch). */
+const expiredSessionResponses = new WeakSet<Response>()
+
+/** Here a 401 means wrong credentials; everywhere else it means the session is gone. */
+const publicEndpoints = ['/api/auth/login', '/api/auth/register']
 
 const buildApiRequestError = async (response: Response) => {
   const data = await response.json().catch(() => null)
@@ -215,14 +224,28 @@ const buildApiRequestError = async (response: Response) => {
       ? detail
       : `API error: ${response.status} ${response.statusText}`,
     response.status,
+    expiredSessionResponses.has(response),
   )
 }
 
-const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
+/** A request with no answer by then fails with a TimeoutError instead of spinning forever. */
+const REQUEST_TIMEOUT_MS = 15_000
+/**
+ * AI calls get longer. For check and chat the backend's own AI limit (60 s) is shorter, so it
+ * answers first with its "Ducky is unavailable" error; the warm-up is fire-and-forget.
+ */
+const AI_TIMEOUT_MS = 90_000
+
+const apiFetch = async (
+  endpoint: string,
+  options: RequestInit = {},
+  timeoutMs: number = REQUEST_TIMEOUT_MS,
+) => {
   const token = session.getToken()
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
+    signal: options.signal ?? AbortSignal.timeout(timeoutMs),
     headers: {
       'Content-Type': 'application/json',
       'Accept-Language': i18n.language,
@@ -233,8 +256,16 @@ const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
     },
   })
 
-  // An expired or invalid token ends the session.
-  if (response.status === 401 && token) session.clear()
+  // Marked here, ended in one place: the query client's error handler (lib/sessionExpiry).
+  // A missing token (deleted, or logged out in another tab) counts too; a token that changed
+  // while the request was in flight means the user already logged in again.
+  if (
+    response.status === 401 &&
+    !publicEndpoints.includes(endpoint) &&
+    session.getToken() === token
+  ) {
+    expiredSessionResponses.add(response)
+  }
 
   return response
 }
@@ -348,10 +379,11 @@ export const chatExercise = async ({
   messages: ChatMessage[]
   locale: string
 }): Promise<ExerciseChatRead> => {
-  const response = await apiFetch(`/api/exercises/${exercise_id}/chat`, {
-    method: 'POST',
-    body: JSON.stringify({ messages, locale }),
-  })
+  const response = await apiFetch(
+    `/api/exercises/${exercise_id}/chat`,
+    { method: 'POST', body: JSON.stringify({ messages, locale }) },
+    AI_TIMEOUT_MS,
+  )
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }
@@ -363,16 +395,17 @@ export const checkExercise = async ({
   exercise_id: number
   answer: string
 }): Promise<ExerciseCheckRead> => {
-  const response = await apiFetch(`/api/exercises/${exercise_id}/check`, {
-    method: 'POST',
-    body: JSON.stringify({ answer }),
-  })
+  const response = await apiFetch(
+    `/api/exercises/${exercise_id}/check`,
+    { method: 'POST', body: JSON.stringify({ answer }) },
+    AI_TIMEOUT_MS,
+  )
   if (!response.ok) throw await buildApiRequestError(response)
   return response.json()
 }
 
 export const warmUpAi = async (): Promise<void> => {
-  const response = await apiFetch('/api/ai/warmup', { method: 'POST' })
+  const response = await apiFetch('/api/ai/warmup', { method: 'POST' }, AI_TIMEOUT_MS)
   if (!response.ok) throw await buildApiRequestError(response)
 }
 
