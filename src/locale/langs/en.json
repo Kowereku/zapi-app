@@ -20,6 +20,7 @@
     "logInButton": "Log in",
     "signUpButton": "Sign up",
     "forgotPassword": "Forgot your password?",
+    "sessionExpired": "Your session expired, please log in again.",
     "legal": "By signing in to Polycode, you agree to our <bold>Terms</bold> and <bold>Privacy Policy</bold>.",
     "errors": {
       "required": "This field is required.",
@@ -30,9 +31,25 @@
       "accountCreated": "Your account was created, but we couldn't log you in. Please log in."
     }
   },
+  "errorState": {
+    "offline": "Ducky can't reach the server",
+    "offlineBody": "Check your connection, or try again in a moment. Your progress is safe.",
+    "server": "Something went wrong on our side",
+    "generic": "Ducky can't load this",
+    "progressSafe": "Your progress is safe.",
+    "retry": "Try again"
+  },
+  "crash": {
+    "title": "Oops! Something went wrong.",
+    "body": "It's not you, it's us. You can go back while we fix the issue.",
+    "home": "Back to home",
+    "retry": "Try again"
+  },
   "errors": {
     "network": "Can't reach the server. Check your connection and try again.",
-    "unexpected": "Something went wrong. Please try again."
+    "unexpected": "Something went wrong. Please try again.",
+    "timeout": "The server is taking too long. Try again in a moment.",
+    "server": "Something went wrong on our side. Try again in a moment."
   },
   "nav": {
     "xp": "{{count}} XP",
@@ -203,7 +220,10 @@
     "backToCourse": "Back to course",
     "outOfHearts": "Oh no, you're out of hearts! Take a breath and try the lesson again.",
     "tryAgain": "Try again",
-    "aiFallback": "Ducky couldn't check this one, so your code was compared with the model answer.",
+    "aiNap": {
+      "title": "Ducky is taking a nap 😴",
+      "body": "He couldn't check this one, so your code was compared with the model answer. You can keep going."
+    },
     "complete": {
       "title": "Lesson complete! 🎉",
       "xp": "+{{count}} XP",
@@ -232,6 +252,8 @@
     "messageLabel": "Your answer to Ducky",
     "send": "Send",
     "thinking": "Ducky is thinking…",
+    "aiNap": "Ducky is taking a nap 😴 You can skip this question. It won't affect your score.",
+    "skip": "Skip this question",
     "continue": "Continue"
   },
   "notFound": {

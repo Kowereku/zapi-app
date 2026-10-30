@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { LevelUpDialog } from '@/components/LevelUpDialog'
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Spinner } from '@/components/ui/Spinner'
 import type { LevelUp } from '@/lib/levelUp'
-import { ApiRequestError, type Badge } from '@/services/api'
+import type { Badge } from '@/services/api'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 type LessonCompleteProps = {
@@ -42,11 +42,6 @@ export function LessonComplete({
     setLevelUpSeen(true)
     // The button that led here is gone, so focus moves to the main action instead of <body>.
     requestAnimationFrame(() => primaryAction.current?.focus())
-  }
-
-  // The session has expired, so retrying can't succeed.
-  if (error instanceof ApiRequestError && error.status === 401) {
-    return <Navigate to="/login" replace />
   }
 
   return (

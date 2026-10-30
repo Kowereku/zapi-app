@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { CourseCard } from '@/components/CourseCard'
+import { ErrorState } from '@/components/ErrorState'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Card } from '@/components/ui/Card'
 import { Mascot } from '@/components/ui/Mascot'
@@ -8,9 +9,9 @@ import { Spinner } from '@/components/ui/Spinner'
 import { useCourses } from '@/hooks/useCourses'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useProgress } from '@/hooks/useProgress'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 import { trackIcon } from '@/lib/tracks'
 import type { CompletedLesson, CourseListItem } from '@/services/api'
-import { getErrorMessage } from '@/utils/getErrorMessage'
 
 type CourseListProps = {
   courses: CourseListItem[]
@@ -41,6 +42,7 @@ export function HomePage() {
   const courses = useCourses()
   const progress = useProgress()
   const error = courses.error ?? progress.error
+  const retryFailed = useRetryFailedQueries()
   const completedLessons = progress.data?.completed_lessons
 
   const track = user?.track
@@ -65,11 +67,7 @@ export function HomePage() {
       </div>
 
       {error ? (
-        <Card>
-          <p role="alert" className="font-medium text-danger">
-            {getErrorMessage(error, t)}
-          </p>
-        </Card>
+        <ErrorState error={error} onRetry={retryFailed} />
       ) : courses.data && completedLessons ? (
         <>
           {track && (

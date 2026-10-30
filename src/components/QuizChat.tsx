@@ -1,5 +1,4 @@
 import { useState, type SubmitEvent } from 'react'
-import { Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { Button } from '@/components/ui/Button'
@@ -7,7 +6,8 @@ import { SpeechBubble } from '@/components/ui/SpeechBubble'
 import { Spinner } from '@/components/ui/Spinner'
 import { TextField } from '@/components/ui/TextField'
 import { useChatExercise } from '@/hooks/useChatExercise'
-import { ApiRequestError, type ChatMessage, type Exercise } from '@/services/api'
+import type { ChatMessage, Exercise } from '@/services/api'
+import { isUnavailable } from '@/utils/errorKind'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const maxMessages = 20
@@ -25,10 +25,6 @@ export function QuizChat({ exercise, onPassed }: QuizChatProps) {
   ])
   const [draft, setDraft] = useState('')
   const [passed, setPassed] = useState(false)
-
-  if (chat.error instanceof ApiRequestError && chat.error.status === 401) {
-    return <Navigate to="/login" replace />
-  }
 
   const send = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -77,11 +73,20 @@ export function QuizChat({ exercise, onPassed }: QuizChatProps) {
         </p>
       )}
 
-      {chat.error && (
-        <p role="alert" className="rounded-card bg-surface px-4 py-2 font-medium text-danger">
-          {getErrorMessage(chat.error, t)}
-        </p>
-      )}
+      {chat.error &&
+        (isUnavailable(chat.error) ? (
+          // Ducky can't answer, so the question can be skipped and the quiz still finished.
+          <div role="alert" className="flex flex-col items-start gap-4">
+            <DuckyBubble>{t('quiz.aiNap')}</DuckyBubble>
+            <Button size="lg" onClick={onPassed}>
+              {t('quiz.skip')}
+            </Button>
+          </div>
+        ) : (
+          <p role="alert" className="rounded-card bg-surface px-4 py-2 font-medium text-danger">
+            {getErrorMessage(chat.error, t)}
+          </p>
+        ))}
 
       {passed ? (
         <div className="flex justify-end">

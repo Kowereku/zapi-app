@@ -1,25 +1,22 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { BadgeTile } from '@/components/BadgeTile'
-import { Card } from '@/components/ui/Card'
+import { ErrorState } from '@/components/ErrorState'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { Spinner } from '@/components/ui/Spinner'
 import { useBadges } from '@/hooks/useBadges'
+import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
 import { familyIcon } from '@/lib/badges'
-import { getErrorMessage } from '@/utils/getErrorMessage'
 
 export function AchievementsPage() {
   const { t } = useTranslation()
   const badges = useBadges()
+  const retryFailed = useRetryFailedQueries()
 
   if (badges.error) {
     return (
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <Card>
-          <p role="alert" className="font-medium text-danger">
-            {getErrorMessage(badges.error, t)}
-          </p>
-        </Card>
+        <ErrorState error={badges.error} onRetry={retryFailed} />
       </div>
     )
   }

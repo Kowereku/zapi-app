@@ -19,6 +19,7 @@ import { useCheckExercise } from '@/hooks/useCheckExercise'
 import { useCompleteLesson } from '@/hooks/useCompleteLesson'
 import { useSaveUserLessonProgress } from '@/hooks/useUserLessonProgress'
 import type { Badge, Exercise, LessonDetail } from '@/services/api'
+import { isUnavailable } from '@/utils/errorKind'
 import { getErrorMessage } from '@/utils/getErrorMessage'
 
 const optionTypes: Exercise['type'][] = ['block_assembly', 'multiple_choice', 'matching']
@@ -59,7 +60,7 @@ export function LessonRun({
   const [correct, setCorrect] = useState<boolean | null>(null)
   const [answer, setAnswer] = useState('')
   const [checked, setChecked] = useState(false)
-  const [note, setNote] = useState<string | null>(null)
+  const [aiUnavailable, setAiUnavailable] = useState(false)
   const [xp, setXp] = useState(0)
   const [isCompleting, setIsCompleting] = useState(false)
   const [alertError, setAlertError] = useState<string | null>(null)
@@ -146,7 +147,7 @@ export function LessonRun({
     },
   }
 
-  const finish = async (passed: boolean, nextNote: string | null) => {
+  const finish = async (passed: boolean, nextAiUnavailable = false) => {
     if (passed) {
       try {
         await saveProgress.mutateAsync({
@@ -162,7 +163,7 @@ export function LessonRun({
       }
     }
     setCorrect(passed)
-    setNote(nextNote)
+    setAiUnavailable(nextAiUnavailable)
     setChecked(true)
     if (passed && exercise.type === 'code') setSolvedCodeIds([...solvedCodeIds, exercise.id])
     if (!passed) {
@@ -174,14 +175,16 @@ export function LessonRun({
   const check = () => {
     setAlertError(null)
     if (exercise.type !== 'code' || correct) {
-      finish(correct === true, null)
+      finish(correct === true)
       return
     }
     checkExercise.mutate(
       { exercise_id: exercise.id, answer },
       {
-        onSuccess: (result) => finish(result.passed, null),
-        onError: () => finish(false, t('lesson.aiFallback')),
+        onSuccess: (result) => finish(result.passed),
+        // The answer already differs from the model answer, so without Ducky it counts as wrong;
+        // the nap note explains why when the server or the AI is unavailable.
+        onError: (error) => finish(false, isUnavailable(error)),
       },
     )
   }
@@ -200,7 +203,7 @@ export function LessonRun({
     setIndex(index + 1)
     setCorrect(null)
     setAnswer('')
-    setNote(null)
+    setAiUnavailable(false)
     setChecked(false)
     setAlertError(null)
   }
@@ -258,7 +261,7 @@ export function LessonRun({
             exercise={exercise}
             answer={answer}
             language={language}
-            note={note}
+            aiUnavailable={aiUnavailable}
             onContinue={next}
             continueLabel={isLastQuestion ? t('lesson.finish') : t('lesson.continue')}
             loading={isCompleting}

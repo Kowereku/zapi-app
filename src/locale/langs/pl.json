@@ -20,6 +20,7 @@
     "logInButton": "Zaloguj się",
     "signUpButton": "Zarejestruj się",
     "forgotPassword": "Nie pamiętasz hasła?",
+    "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie.",
     "legal": "Logując się do Polycode, akceptujesz nasz <bold>Regulamin</bold> i <bold>Politykę prywatności</bold>.",
     "errors": {
       "required": "To pole jest wymagane.",
@@ -30,9 +31,25 @@
       "accountCreated": "Konto zostało utworzone, ale nie udało się zalogować. Zaloguj się."
     }
   },
+  "errorState": {
+    "offline": "Ducky nie może połączyć się z serwerem",
+    "offlineBody": "Sprawdź połączenie albo spróbuj ponownie za chwilę. Twoje postępy są bezpieczne.",
+    "server": "Coś poszło nie tak po naszej stronie",
+    "generic": "Ducky nie może tego wczytać",
+    "progressSafe": "Twoje postępy są bezpieczne.",
+    "retry": "Spróbuj ponownie"
+  },
+  "crash": {
+    "title": "Ups! Coś poszło nie tak.",
+    "body": "To nie Twoja wina, tylko nasza. Możesz wrócić, a my w tym czasie naprawimy problem.",
+    "home": "Wróć na stronę główną",
+    "retry": "Spróbuj ponownie"
+  },
   "errors": {
     "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
-    "unexpected": "Coś poszło nie tak. Spróbuj ponownie."
+    "unexpected": "Coś poszło nie tak. Spróbuj ponownie.",
+    "timeout": "Serwer zbyt długo nie odpowiada. Spróbuj ponownie za chwilę.",
+    "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
   },
   "nav": {
     "xp": "{{count}} XP",
@@ -215,7 +232,10 @@
     "backToCourse": "Wróć do kursu",
     "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
     "tryAgain": "Spróbuj ponownie",
-    "aiFallback": "Ducky nie mógł tego sprawdzić, więc porównaliśmy twój kod z wzorcową odpowiedzią.",
+    "aiNap": {
+      "title": "Ducky ucina sobie drzemkę 😴",
+      "body": "Nie mógł tego sprawdzić, więc porównaliśmy Twój kod z wzorcową odpowiedzią. Możesz iść dalej."
+    },
     "complete": {
       "title": "Lekcja ukończona! 🎉",
       "xp": "+{{count}} XP",
@@ -246,6 +266,8 @@
     "messageLabel": "Twoja odpowiedź dla Ducky'ego",
     "send": "Wyślij",
     "thinking": "Ducky się zastanawia…",
+    "aiNap": "Ducky ucina sobie drzemkę 😴 Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
+    "skip": "Pomiń to pytanie",
     "continue": "Dalej"
   },
   "notFound": {

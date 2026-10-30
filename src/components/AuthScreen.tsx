@@ -8,10 +8,12 @@ type AuthScreenProps = {
   title: string
   mascot: 'duckLogin' | 'duckRegister'
   onClose: () => void
+  /** A short message shown above the form, e.g. why the user has to log in again. */
+  notice?: string
   children: ReactNode
 }
 
-export function AuthScreen({ title, mascot, onClose, children }: AuthScreenProps) {
+export function AuthScreen({ title, mascot, onClose, notice, children }: AuthScreenProps) {
   const { t } = useTranslation()
   const isLogin = mascot === 'duckLogin'
 
@@ -32,6 +34,14 @@ export function AuthScreen({ title, mascot, onClose, children }: AuthScreenProps
           <div className="relative">
             <Card padding="lg">
               <h1 className="mb-8 text-center text-4xl font-bold sm:text-5xl">{title}</h1>
+              {notice && (
+                <p
+                  role="status"
+                  className="mb-6 rounded-card bg-primary/25 px-4 py-3 text-center font-medium"
+                >
+                  {notice}
+                </p>
+              )}
               {children}
             </Card>
           </div>
