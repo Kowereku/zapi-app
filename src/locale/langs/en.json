@@ -216,6 +216,10 @@
     "answer": "Your answer",
     "codeLabel": "Your code",
     "codePlaceholder": "Type your code here…",
+    "dualMode": {
+      "toBlocks": "🧩 Switch to blocks",
+      "toTyping": "⌨️ Type code instead"
+    },
     "empty": "Quack! This lesson has no exercises yet.",
     "backToCourse": "Back to course",
     "outOfHearts": "Oh no, you're out of hearts! Take a breath and try the lesson again.",

@@ -228,6 +228,10 @@
     "answer": "Twoja odpowiedź",
     "codeLabel": "Twój kod",
     "codePlaceholder": "Wpisz tutaj swój kod…",
+    "dualMode": {
+      "toBlocks": "🧩 Ułóż z bloków",
+      "toTyping": "⌨️ Wpisz kod samodzielnie"
+    },
     "empty": "Kwa! Ta lekcja nie ma jeszcze zadań.",
     "backToCourse": "Wróć do kursu",
     "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
