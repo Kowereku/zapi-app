@@ -23,7 +23,11 @@ export function CourseCard({ course, progress }: CourseCardProps) {
       <p className="flex-1 text-lg">{course.description}</p>
       <p className="font-semibold">{t('courses.progress', { percent: Math.round(progress) })}</p>
       <Link to={`/courses/${course.id}`} className={buttonVariants({ fullWidth: true })}>
-        {progress > 0 ? t('courses.continue') : t('courses.start')}
+        {progress >= 100
+          ? t('courses.retake')
+          : progress > 0
+            ? t('courses.continue')
+            : t('courses.start')}
         {/* Says which course, for screen readers and search engines; sighted users see the card. */}
         <span className="sr-only"> {course.name}</span>
       </Link>
