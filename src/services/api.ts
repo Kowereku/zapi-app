@@ -295,6 +295,22 @@ export const register = async (body: {
   return response.json()
 }
 
+export const forgotPassword = async (body: { email: string }): Promise<void> => {
+  const response = await apiFetch('/api/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) throw await buildApiRequestError(response)
+}
+
+export const resetPassword = async (body: { token: string; password: string }): Promise<void> => {
+  const response = await apiFetch('/api/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) throw await buildApiRequestError(response)
+}
+
 export const getCurrentUser = async (): Promise<User> => {
   const response = await apiFetch('/api/auth/me')
   if (!response.ok) throw await buildApiRequestError(response)

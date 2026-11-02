@@ -7,11 +7,13 @@ import { ChoicePage } from '@/pages/ChoicePage'
 import { CoursePage } from '@/pages/CoursePage'
 import { HomePage } from '@/pages/HomePage'
 import { LessonPage } from '@/pages/LessonPage'
+import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { RankingPage } from '@/pages/RankingPage'
 import { RegisterPage } from '@/pages/RegisterPage'
+import { ResetPasswordPage } from '@/pages/ResetPasswordPage'
 import { RouteErrorPage } from '@/pages/RouteErrorPage'
 import { StartPage } from '@/pages/StartPage'
 
@@ -31,8 +33,11 @@ export const router = createBrowserRouter([
           { path: '/', Component: StartPage },
           { path: '/login', Component: LoginPage },
           { path: '/register', Component: RegisterPage },
+          { path: '/forgot-password', Component: ForgotPasswordPage },
         ],
       },
+      // Not guest-only: the emailed link must work even in a browser that is still logged in.
+      { path: '/reset-password', Component: ResetPasswordPage },
       { path: '*', Component: NotFoundPage },
     ],
     // A page that throws while rendering shows the friendly crash screen, not a blank page.

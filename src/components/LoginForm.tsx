@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { TextField } from '@/components/ui/TextField'
@@ -52,9 +53,9 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <Button type="submit" size="lg" fullWidth loading={login.isPending}>
           <span className="uppercase">{t('auth.logInButton')}</span>
         </Button>
-        <button type="button" disabled className="font-semibold text-ink/60">
+        <Link to="/forgot-password" className="font-semibold hover:underline">
           {t('auth.forgotPassword')}
-        </button>
+        </Link>
       </div>
     </form>
   )
