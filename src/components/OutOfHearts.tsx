@@ -20,6 +20,7 @@ export function OutOfHearts({ coursePath, onRetry }: OutOfHeartsProps) {
           {t('lesson.tryAgain')}
         </Button>
         <Link
+          replace
           to={coursePath}
           className={buttonVariants({ variant: 'outline', size: 'lg', fullWidth: true })}
         >

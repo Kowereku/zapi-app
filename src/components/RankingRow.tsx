@@ -1,8 +1,13 @@
 import { useTranslation } from 'react-i18next'
+import { Medal, Star } from 'lucide-react'
 import type { LeaderboardEntry } from '@/services/api'
 import { cn } from '@/utils/cn'
 
-const medals: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
+const medals: Record<number, string> = {
+  1: 'text-primary',
+  2: 'text-medal-silver',
+  3: 'text-medal-bronze',
+}
 
 type RankingRowProps = {
   entry: LeaderboardEntry
@@ -29,7 +34,11 @@ export function RankingRow({ entry }: RankingRowProps) {
           entry.position >= 100 ? 'text-lg' : 'text-2xl',
         )}
       >
-        <span aria-hidden>{medals[entry.position] ?? entry.position}</span>
+        {medals[entry.position] ? (
+          <Medal aria-hidden className={cn('mx-auto size-8', medals[entry.position])} />
+        ) : (
+          <span aria-hidden>{entry.position}</span>
+        )}
         <span className="sr-only">{t('ranking.position', { position: entry.position })}</span>
       </span>
       <span
@@ -51,8 +60,9 @@ export function RankingRow({ entry }: RankingRowProps) {
           {t('nav.xp', { count: entry.total_xp })}
         </span>
       </span>
-      <span className="shrink-0 rounded-full bg-tile/15 px-3 py-1 text-sm font-semibold text-ink sm:text-lg">
-        <span aria-hidden>⭐</span> {t('nav.level', { level: entry.level })}
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-tile/15 px-3 py-1 text-sm font-semibold text-ink sm:text-lg">
+        <Star aria-hidden className="size-4 shrink-0" />
+        {t('nav.level', { level: entry.level })}
       </span>
       <span className="hidden w-28 shrink-0 text-right text-lg font-semibold text-ink/70 sm:block">
         {t('nav.xp', { count: entry.total_xp })}

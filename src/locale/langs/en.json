@@ -20,6 +20,17 @@
     "logInButton": "Log in",
     "signUpButton": "Sign up",
     "forgotPassword": "Forgot your password?",
+    "forgotTitle": "Reset password",
+    "forgotIntro": "Enter your account's email and we'll send you a link to choose a new password.",
+    "sendResetLink": "Send link",
+    "resetLinkSent": "We've sent you an email. Check your inbox.",
+    "backToLogin": "Back to log in",
+    "newPasswordTitle": "New password",
+    "newPassword": "New password",
+    "saveNewPassword": "Save password",
+    "resetLinkMissing": "This link is incomplete. Request a new one.",
+    "requestNewLink": "Request a new link",
+    "passwordChanged": "Password changed. Log in with your new password.",
     "sessionExpired": "Your session expired, please log in again.",
     "legal": "By signing in to Polycode, you agree to our <bold>Terms</bold> and <bold>Privacy Policy</bold>.",
     "errors": {
@@ -49,7 +60,15 @@
     "network": "Can't reach the server. Check your connection and try again.",
     "unexpected": "Something went wrong. Please try again.",
     "timeout": "The server is taking too long. Try again in a moment.",
-    "server": "Something went wrong on our side. Try again in a moment."
+    "server": "Something went wrong on our side. Try again in a moment.",
+    "notFound": "We couldn't find what you were looking for.",
+    "invalid": "Something in the request wasn't right. Check it and try again.",
+    "api": {
+      "wrongCredentials": "Wrong email/username or password.",
+      "usernameTaken": "This username is already taken.",
+      "emailTaken": "This email is already registered.",
+      "resetLinkInvalid": "This reset link is invalid or has expired."
+    }
   },
   "nav": {
     "xp": "{{count}} XP",
@@ -151,19 +170,20 @@
     "toGo_one": "{{count}} more to go. Keep it up!",
     "toGo_other": "{{count}} more to go. Keep it up!",
     "noBadges": "No badges yet. Finish a lesson to earn your first one!",
-    "allBadges": "You've earned every badge! 🎉",
+    "allBadges": "You've earned every badge!",
     "continueLearning": "Continue learning",
     "nothingInProgress": "Nothing in progress. Start the suggested course below!",
-    "allDone": "You've finished every course! 🎉",
+    "allDone": "You've finished every course!",
     "suggested": "Suggested next course",
     "myCourses": "My courses",
     "noCourses": "You haven't started a course yet.",
-    "completed": "✓ Completed",
+    "settings": "Settings",
+    "completed": "Completed",
     "inProgress": "In progress · {{percent}}%",
     "nextLesson": "{{module}} · {{lesson}}"
   },
   "home": {
-    "welcome": "Welcome aboard, {{username}}! 👋",
+    "welcome": "Welcome aboard, {{username}}!",
     "intro": "Choose your first course and start writing code in Dual Mode. Every task earns you XP and learning progress."
   },
   "choice": {
@@ -194,6 +214,9 @@
     "progressLabel": "Course progress",
     "start": "Start",
     "continue": "Continue",
+    "retake": "Retake",
+    "finished": "Completed courses",
+    "trackDone": "You've finished every course in this area. Pick another course below or change your area.",
     "module": "Module {{number}} · {{title}}",
     "status": {
       "done": "Completed",
@@ -217,19 +240,19 @@
     "codeLabel": "Your code",
     "codePlaceholder": "Type your code here…",
     "dualMode": {
-      "toBlocks": "🧩 Switch to blocks",
-      "toTyping": "⌨️ Type code instead"
+      "toBlocks": "Switch to blocks",
+      "toTyping": "Type code instead"
     },
     "empty": "Quack! This lesson has no exercises yet.",
     "backToCourse": "Back to course",
     "outOfHearts": "Oh no, you're out of hearts! Take a breath and try the lesson again.",
     "tryAgain": "Try again",
     "aiNap": {
-      "title": "Ducky is taking a nap 😴",
+      "title": "Ducky is taking a nap",
       "body": "He couldn't check this one, so your code was compared with the model answer. You can keep going."
     },
     "complete": {
-      "title": "Lesson complete! 🎉",
+      "title": "Lesson complete!",
       "xp": "+{{count}} XP",
       "noXp": "Already completed, so no XP this time.",
       "mistakes_one": "{{count}} mistake",
@@ -243,7 +266,7 @@
     "exit": "Exit quiz",
     "progress": "Quiz progress",
     "next": "Next",
-    "passedTitle": "Course complete! 🎉",
+    "passedTitle": "Course complete!",
     "failedTitle": "Not quite there yet",
     "score": "Your score: {{percent}}%",
     "needed": "You need {{percent}}% to pass.",
@@ -256,7 +279,7 @@
     "messageLabel": "Your answer to Ducky",
     "send": "Send",
     "thinking": "Ducky is thinking…",
-    "aiNap": "Ducky is taking a nap 😴 You can skip this question. It won't affect your score.",
+    "aiNap": "Ducky is taking a nap. You can skip this question. It won't affect your score.",
     "skip": "Skip this question",
     "continue": "Continue"
   },

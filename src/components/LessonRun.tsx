@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { Heart, TriangleAlert, X } from 'lucide-react'
 import { BlockAssemblyExercise } from '@/components/BlockAssemblyExercise'
 import { CodeExercise } from '@/components/CodeExercise'
 import { DuckyBubble } from '@/components/DuckyBubble'
@@ -78,7 +79,7 @@ export function LessonRun({
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center gap-10 px-4">
         <DuckyBubble>{t('lesson.empty')}</DuckyBubble>
-        <Link to={coursePath} className={buttonVariants({ size: 'lg' })}>
+        <Link replace to={coursePath} className={buttonVariants({ size: 'lg' })}>
           {t('lesson.backToCourse')}
         </Link>
       </main>
@@ -221,13 +222,18 @@ export function LessonRun({
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-5xl items-center gap-4 px-4 py-4">
-        <CloseButton label={t('lesson.exit')} onClick={() => navigate(coursePath)} />
+        <CloseButton
+          label={t('lesson.exit')}
+          onClick={() => navigate(coursePath, { replace: true })}
+        />
         <ProgressBar
           value={((index + (checked ? 1 : 0)) / exercises.length) * 100}
           label={t('lesson.progress')}
         />
         <p className="shrink-0 text-xl font-bold text-danger">
-          <span aria-hidden>{hearts} ❤️</span>
+          <span aria-hidden className="inline-flex items-center gap-1">
+            {hearts} <Heart className="size-6 fill-current" />
+          </span>
           <span className="sr-only">{t('lesson.hearts', { count: hearts })}</span>
         </p>
       </header>
@@ -251,13 +257,17 @@ export function LessonRun({
           role="alert"
           className="mx-auto mb-4 flex w-full max-w-4xl items-center justify-between rounded-card border border-danger/40 bg-surface px-4 py-3 text-sm font-semibold text-danger shadow-md sm:text-base"
         >
-          <span>⚠️ {alertError}</span>
+          <span className="flex items-center gap-2">
+            <TriangleAlert aria-hidden className="size-5 shrink-0" />
+            {alertError}
+          </span>
           <button
             type="button"
+            aria-label={t('common.close')}
             onClick={() => setAlertError(null)}
-            className="cursor-pointer text-sm font-bold text-danger/80 uppercase hover:text-danger"
+            className="cursor-pointer text-danger/80 hover:text-danger"
           >
-            ✕
+            <X aria-hidden className="size-5" />
           </button>
         </div>
       )}

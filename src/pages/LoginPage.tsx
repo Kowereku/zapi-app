@@ -6,16 +6,20 @@ import { LoginForm } from '@/components/LoginForm'
 export function LoginPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  // Set by the session-expiry handler when a logged-in request found the token no longer valid.
+  // `expired` is set by the session-expiry handler, `reset` after a new password was saved.
   const [searchParams] = useSearchParams()
-  const expired = searchParams.has('expired')
+  const notice = searchParams.has('expired')
+    ? t('auth.sessionExpired')
+    : searchParams.has('reset')
+      ? t('auth.passwordChanged')
+      : undefined
 
   return (
     <AuthScreen
       title={t('auth.logInTitle')}
       mascot="duckLogin"
       onClose={() => navigate('/')}
-      notice={expired ? t('auth.sessionExpired') : undefined}
+      notice={notice}
     >
       <LoginForm onSuccess={() => navigate('/home')} />
     </AuthScreen>

@@ -1,9 +1,12 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { Award, Check, Flame, GraduationCap, Zap } from 'lucide-react'
 import { BadgeMedal } from '@/components/BadgeMedal'
 import { CourseProgressCard } from '@/components/CourseProgressCard'
 import { ErrorState } from '@/components/ErrorState'
+import { LanguageSelect } from '@/components/LanguageSelect'
 import { StatTile } from '@/components/StatTile'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { Badge } from '@/components/ui/Badge'
 import { buttonVariants } from '@/components/ui/buttonVariants'
 import { Card } from '@/components/ui/Card'
@@ -77,9 +80,11 @@ function NextBadgeCard({ badge }: { badge: BadgeData | null }) {
 
 function TrackBadge({ track, className }: { track: Track; className?: string }) {
   const { t } = useTranslation()
+  const Icon = trackIcon[track]
   return (
-    <Badge className={className}>
-      {trackIcon(track)} {t(`choice.tracks.${track}.name`)}
+    <Badge className={cn('gap-1.5', className)}>
+      <Icon aria-hidden className="size-4" />
+      {t(`choice.tracks.${track}.name`)}
     </Badge>
   )
 }
@@ -135,19 +140,17 @@ export function ProfilePage() {
             {user.track && <TrackBadge track={user.track} />}
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatTile icon="⚡" value={stats.total_xp} label={t('profile.stats.xp')} />
-            <StatTile icon="🔥" value={stats.streak_days} label={t('profile.stats.streak')} />
-            <StatTile icon="🏅" value={stats.badges_earned} label={t('profile.stats.badges')} />
+            <StatTile icon={Zap} value={stats.total_xp} label={t('profile.stats.xp')} />
+            <StatTile icon={Flame} value={stats.streak_days} label={t('profile.stats.streak')} />
+            <StatTile icon={Award} value={stats.badges_earned} label={t('profile.stats.badges')} />
             <StatTile
-              icon="🎓"
+              icon={GraduationCap}
               value={stats.courses_completed}
               label={t('profile.stats.courses')}
             />
           </div>
           <div className="flex flex-col gap-2">
-            <h2 className={labelClass}>
-              <span aria-hidden>⭐</span> {t('profile.level', { level: user.level })}
-            </h2>
+            <h2 className={labelClass}>{t('profile.level', { level: user.level })}</h2>
             <div className="flex items-center gap-4">
               <ProgressBar
                 value={(levelXp / levelSpan) * 100}
@@ -216,6 +219,7 @@ export function ProfilePage() {
             )}
             <Link to={`/courses/${suggested_course.id}`} className={buttonVariants()}>
               {t('courses.start')}
+              <span className="sr-only"> {suggested_course.name}</span>
             </Link>
           </Card>
         )}
@@ -233,7 +237,10 @@ export function ProfilePage() {
                     {course.name}
                   </Link>
                   {completed ? (
-                    <Badge>{t('profile.completed')}</Badge>
+                    <Badge className="gap-1.5">
+                      <Check aria-hidden className="size-4" />
+                      {t('profile.completed')}
+                    </Badge>
                   ) : (
                     <Badge className="bg-primary/30">
                       {t('profile.inProgress', {
@@ -251,6 +258,14 @@ export function ProfilePage() {
           )}
         </Card>
       </div>
+
+      <Card className="flex flex-col gap-5">
+        <h2 className={labelClass}>{t('profile.settings')}</h2>
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+          <LanguageSelect />
+          <ThemeToggle />
+        </div>
+      </Card>
     </div>
   )
 }

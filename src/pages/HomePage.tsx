@@ -10,7 +10,6 @@ import { useCourses } from '@/hooks/useCourses'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useProgress } from '@/hooks/useProgress'
 import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
-import { trackIcon } from '@/lib/tracks'
 import type { CompletedLesson, CourseListItem } from '@/services/api'
 
 type CourseListProps = {
@@ -43,11 +42,19 @@ export function HomePage() {
   const progress = useProgress()
   const error = courses.error ?? progress.error
   const retryFailed = useRetryFailedQueries()
-  const completedLessons = progress.data?.completed_lessons
+  const completedLessons = progress.data?.completed_lessons ?? []
 
   const track = user?.track
-  const recommended = courses.data?.filter((course) => track && course.track === track) ?? []
-  const others = courses.data?.filter((course) => !recommended.includes(course)) ?? []
+  const all = courses.data ?? []
+  const isFinished = (course: CourseListItem) =>
+    course.lessons_count > 0 &&
+    completedLessons.filter((lesson) => lesson.course_id === course.id).length >=
+      course.lessons_count
+  const finished = all.filter(isFinished)
+  const open = all.filter((course) => !isFinished(course))
+  const recommended = open.filter((course) => track && course.track === track)
+  const others = open.filter((course) => !recommended.includes(course))
+  const trackHasCourses = all.some((course) => track && course.track === track)
   const headingClass = 'text-3xl font-bold text-on-page sm:text-4xl'
 
   return (
@@ -68,15 +75,13 @@ export function HomePage() {
 
       {error ? (
         <ErrorState error={error} onRetry={retryFailed} />
-      ) : courses.data && completedLessons ? (
+      ) : courses.data && progress.data ? (
         <>
           {track && (
             <section className="flex flex-col gap-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <h2 className={headingClass}>
-                  {t('courses.recommended', {
-                    track: `${trackIcon(track)} ${t(`choice.tracks.${track}.name`)}`,
-                  })}
+                  {t('courses.recommended', { track: t(`choice.tracks.${track}.name`) })}
                 </h2>
                 <Link to="/choice" className={buttonVariants({ variant: 'outline', size: 'sm' })}>
                   {t('courses.changeTrack')}
@@ -86,7 +91,9 @@ export function HomePage() {
                 <CourseList courses={recommended} completedLessons={completedLessons} />
               ) : (
                 <Card>
-                  <p className="text-lg">{t('courses.noRecommended')}</p>
+                  <p className="text-lg">
+                    {trackHasCourses ? t('courses.trackDone') : t('courses.noRecommended')}
+                  </p>
                 </Card>
               )}
             </section>
@@ -98,6 +105,13 @@ export function HomePage() {
                 {track ? t('courses.other') : t('courses.available')}
               </h2>
               <CourseList courses={others} completedLessons={completedLessons} />
+            </section>
+          )}
+
+          {finished.length > 0 && (
+            <section className="flex flex-col gap-6">
+              <h2 className={headingClass}>{t('courses.finished')}</h2>
+              <CourseList courses={finished} completedLessons={completedLessons} />
             </section>
           )}
         </>

@@ -32,7 +32,11 @@ export function LessonPage() {
       <main className="flex min-h-dvh flex-col items-center justify-center gap-6 px-4">
         <ErrorState error={error} onRetry={retryFailed} />
         {/* Lessons have no header, so this is the way out while the server is unreachable. */}
-        <Link to={coursePath} className={buttonVariants({ variant: 'outline', size: 'lg' })}>
+        <Link
+          replace
+          to={coursePath}
+          className={buttonVariants({ variant: 'outline', size: 'lg' })}
+        >
           {t('lesson.backToCourse')}
         </Link>
       </main>

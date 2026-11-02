@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Keyboard, Puzzle } from 'lucide-react'
 import EditorModule from 'react-simple-code-editor'
 import { TileAssembly } from '@/components/TileAssembly'
 import { buttonVariants } from '@/components/ui/buttonVariants'
@@ -76,6 +77,11 @@ export function CodeExercise({ exercise, language, checked, onChange }: CodeExer
         onClick={switchMode}
         className={cn(buttonVariants({ variant: 'outline', size: 'md' }), 'self-end')}
       >
+        {mode === 'typing' ? (
+          <Puzzle aria-hidden className="size-5" />
+        ) : (
+          <Keyboard aria-hidden className="size-5" />
+        )}
         {mode === 'typing' ? t('lesson.dualMode.toBlocks') : t('lesson.dualMode.toTyping')}
       </button>
     </div>

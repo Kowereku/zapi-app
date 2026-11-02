@@ -20,6 +20,17 @@
     "logInButton": "Zaloguj się",
     "signUpButton": "Zarejestruj się",
     "forgotPassword": "Nie pamiętasz hasła?",
+    "forgotTitle": "Resetowanie hasła",
+    "forgotIntro": "Podaj e-mail swojego konta, a wyślemy Ci link do ustawienia nowego hasła.",
+    "sendResetLink": "Wyślij link",
+    "resetLinkSent": "Wysłaliśmy Ci e-mail. Sprawdź skrzynkę.",
+    "backToLogin": "Wróć do logowania",
+    "newPasswordTitle": "Nowe hasło",
+    "newPassword": "Nowe hasło",
+    "saveNewPassword": "Zapisz hasło",
+    "resetLinkMissing": "Ten link jest niekompletny. Poproś o nowy.",
+    "requestNewLink": "Poproś o nowy link",
+    "passwordChanged": "Hasło zostało zmienione. Zaloguj się nowym hasłem.",
     "sessionExpired": "Twoja sesja wygasła. Zaloguj się ponownie.",
     "legal": "Logując się do Polycode, akceptujesz nasz <bold>Regulamin</bold> i <bold>Politykę prywatności</bold>.",
     "errors": {
@@ -49,7 +60,15 @@
     "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
     "unexpected": "Coś poszło nie tak. Spróbuj ponownie.",
     "timeout": "Serwer zbyt długo nie odpowiada. Spróbuj ponownie za chwilę.",
-    "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
+    "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę.",
+    "notFound": "Nie znaleźliśmy tego, czego szukasz.",
+    "invalid": "Coś w zapytaniu było nie tak. Sprawdź dane i spróbuj ponownie.",
+    "api": {
+      "wrongCredentials": "Nieprawidłowy e-mail/nazwa użytkownika lub hasło.",
+      "usernameTaken": "Ta nazwa użytkownika jest już zajęta.",
+      "emailTaken": "Ten adres e-mail jest już zarejestrowany.",
+      "resetLinkInvalid": "Ten link do resetowania hasła jest nieprawidłowy lub wygasł."
+    }
   },
   "nav": {
     "xp": "{{count}} XP",
@@ -161,19 +180,20 @@
     "toGo_many": "Jeszcze {{count}}. Tak trzymaj!",
     "toGo_other": "Jeszcze {{count}}. Tak trzymaj!",
     "noBadges": "Nie masz jeszcze odznak. Ukończ lekcję, aby zdobyć pierwszą!",
-    "allBadges": "Masz już wszystkie odznaki! 🎉",
+    "allBadges": "Masz już wszystkie odznaki!",
     "continueLearning": "Kontynuuj naukę",
     "nothingInProgress": "Nic nie jest w toku. Zacznij polecany kurs poniżej!",
-    "allDone": "Ukończono wszystkie kursy! 🎉",
+    "allDone": "Ukończono wszystkie kursy!",
     "suggested": "Polecany kolejny kurs",
     "myCourses": "Moje kursy",
     "noCourses": "Nie masz jeszcze rozpoczętych kursów.",
-    "completed": "✓ Ukończony",
+    "settings": "Ustawienia",
+    "completed": "Ukończony",
     "inProgress": "W toku · {{percent}}%",
     "nextLesson": "{{module}} · {{lesson}}"
   },
   "home": {
-    "welcome": "Witaj na pokładzie, {{username}}! 👋",
+    "welcome": "Witaj na pokładzie, {{username}}!",
     "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
   },
   "choice": {
@@ -204,6 +224,9 @@
     "progressLabel": "Postęp kursu",
     "start": "Start",
     "continue": "Kontynuuj",
+    "retake": "Powtórz",
+    "finished": "Ukończone kursy",
+    "trackDone": "Ukończono wszystkie kursy z tego obszaru. Wybierz inny kurs poniżej albo zmień obszar.",
     "module": "Moduł {{number}} · {{title}}",
     "status": {
       "done": "Ukończona",
@@ -229,19 +252,19 @@
     "codeLabel": "Twój kod",
     "codePlaceholder": "Wpisz tutaj swój kod…",
     "dualMode": {
-      "toBlocks": "🧩 Ułóż z bloków",
-      "toTyping": "⌨️ Wpisz kod samodzielnie"
+      "toBlocks": "Ułóż z bloków",
+      "toTyping": "Wpisz kod samodzielnie"
     },
     "empty": "Kwa! Ta lekcja nie ma jeszcze zadań.",
     "backToCourse": "Wróć do kursu",
     "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
     "tryAgain": "Spróbuj ponownie",
     "aiNap": {
-      "title": "Ducky ucina sobie drzemkę 😴",
+      "title": "Ducky ucina sobie drzemkę",
       "body": "Nie mógł tego sprawdzić, więc porównaliśmy Twój kod z wzorcową odpowiedzią. Możesz iść dalej."
     },
     "complete": {
-      "title": "Lekcja ukończona! 🎉",
+      "title": "Lekcja ukończona!",
       "xp": "+{{count}} XP",
       "noXp": "Lekcja była już ukończona, więc tym razem bez XP.",
       "mistakes_one": "{{count}} błąd",
@@ -257,7 +280,7 @@
     "exit": "Wyjdź z quizu",
     "progress": "Postęp quizu",
     "next": "Dalej",
-    "passedTitle": "Kurs ukończony! 🎉",
+    "passedTitle": "Kurs ukończony!",
     "failedTitle": "Jeszcze nie tym razem",
     "score": "Twój wynik: {{percent}}%",
     "needed": "Aby zdać, potrzebujesz {{percent}}%.",
@@ -270,7 +293,7 @@
     "messageLabel": "Twoja odpowiedź dla Ducky'ego",
     "send": "Wyślij",
     "thinking": "Ducky się zastanawia…",
-    "aiNap": "Ducky ucina sobie drzemkę 😴 Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
+    "aiNap": "Ducky ucina sobie drzemkę. Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
     "skip": "Pomiń to pytanie",
     "continue": "Dalej"
   },
