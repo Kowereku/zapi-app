@@ -2,8 +2,6 @@ import { useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DuckyBubble } from '@/components/DuckyBubble'
 import { Button } from '@/components/ui/Button'
-import { SpeechBubble } from '@/components/ui/SpeechBubble'
-import { Spinner } from '@/components/ui/Spinner'
 import { TextField } from '@/components/ui/TextField'
 import { useChatExercise } from '@/hooks/useChatExercise'
 import type { ChatMessage, Exercise } from '@/services/api'
@@ -45,43 +43,28 @@ export function QuizChat({ exercise, onPassed }: QuizChatProps) {
     )
   }
 
+  const unavailable = chat.error && isUnavailable(chat.error)
+  // Ducky keeps one bubble with his latest message; only the learner's latest answer is shown.
+  const lastAnswer = chat.isPending ? draft.trim() : messages.at(-2)?.content
+
   return (
     <div className="flex flex-col gap-6">
-      <DuckyBubble>{exercise.content}</DuckyBubble>
+      <DuckyBubble live thinking={chat.isPending}>
+        {unavailable ? t('quiz.aiNap') : messages.at(-1)?.content}
+      </DuckyBubble>
 
-      <ol aria-live="polite" className="flex flex-col gap-4">
-        {messages.slice(1).map((message, index) => (
-          <li
-            key={index}
-            className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
-          >
-            {message.role === 'user' ? (
-              <p className="max-w-md rounded-card bg-tile px-5 py-3 text-lg text-white">
-                {message.content}
-              </p>
-            ) : (
-              <SpeechBubble className="max-w-md text-lg">{message.content}</SpeechBubble>
-            )}
-          </li>
-        ))}
-      </ol>
-
-      {chat.isPending && (
-        <p className="flex items-center gap-3 text-lg">
-          <Spinner size="md" />
-          {t('quiz.thinking')}
+      {lastAnswer && (
+        <p className="max-w-md self-end rounded-card bg-tile px-5 py-3 text-lg wrap-break-word text-white">
+          {lastAnswer}
         </p>
       )}
 
       {chat.error &&
-        (isUnavailable(chat.error) ? (
+        (unavailable ? (
           // Ducky can't answer, so the question can be skipped and the quiz still finished.
-          <div role="alert" className="flex flex-col items-start gap-4">
-            <DuckyBubble>{t('quiz.aiNap')}</DuckyBubble>
-            <Button size="lg" onClick={onPassed}>
-              {t('quiz.skip')}
-            </Button>
-          </div>
+          <Button size="lg" onClick={onPassed} className="self-start">
+            {t('quiz.skip')}
+          </Button>
         ) : (
           <p role="alert" className="rounded-card bg-surface px-4 py-2 font-medium text-danger">
             {getErrorMessage(chat.error, t)}

@@ -216,6 +216,9 @@
     "progressLabel": "Postęp kursu",
     "start": "Start",
     "continue": "Kontynuuj",
+    "retake": "Powtórz",
+    "finished": "Ukończone kursy",
+    "trackDone": "Ukończono wszystkie kursy z tego obszaru. Wybierz inny kurs poniżej albo zmień obszar.",
     "module": "Moduł {{number}} · {{title}}",
     "status": {
       "done": "Ukończona",
@@ -282,7 +285,7 @@
     "messageLabel": "Twoja odpowiedź dla Ducky'ego",
     "send": "Wyślij",
     "thinking": "Ducky się zastanawia…",
-    "aiNap": "Ducky ucina sobie drzemkę Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
+    "aiNap": "Ducky ucina sobie drzemkę. Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
     "skip": "Pomiń to pytanie",
     "continue": "Dalej"
   },
