@@ -219,6 +219,7 @@ export function ProfilePage() {
             )}
             <Link to={`/courses/${suggested_course.id}`} className={buttonVariants()}>
               {t('courses.start')}
+              <span className="sr-only"> {suggested_course.name}</span>
             </Link>
           </Card>
         )}

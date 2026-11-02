@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { createBrowserRouter, Outlet } from 'react-router'
 import { AppLayout } from '@/components/AppLayout'
 import { CodeBackdrop } from '@/components/CodeBackdrop'
@@ -6,7 +7,6 @@ import { AchievementsPage } from '@/pages/AchievementsPage'
 import { ChoicePage } from '@/pages/ChoicePage'
 import { CoursePage } from '@/pages/CoursePage'
 import { HomePage } from '@/pages/HomePage'
-import { LessonPage } from '@/pages/LessonPage'
 import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -16,6 +16,12 @@ import { RegisterPage } from '@/pages/RegisterPage'
 import { ResetPasswordPage } from '@/pages/ResetPasswordPage'
 import { RouteErrorPage } from '@/pages/RouteErrorPage'
 import { StartPage } from '@/pages/StartPage'
+
+// The code editor and Prism are only needed in lessons, so they download with this page.
+// eslint-disable-next-line react-refresh/only-export-components -- the rule is about hot reload only
+const LessonPage = lazy(() =>
+  import('@/pages/LessonPage').then((module) => ({ default: module.LessonPage })),
+)
 
 /** The app's routes; exported so code outside React (the session-expiry handler) can navigate. */
 export const router = createBrowserRouter([

@@ -33,6 +33,7 @@ export function CourseProgressCard({ item }: CourseProgressCardProps) {
       </div>
       <Link to={`/courses/${course.id}`} className={buttonVariants({ fullWidth: true })}>
         {t('courses.continue')}
+        <span className="sr-only"> {course.name}</span>
       </Link>
     </Card>
   )
