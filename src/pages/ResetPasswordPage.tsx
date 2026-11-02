@@ -22,9 +22,14 @@ export function ResetPasswordPage() {
           onSuccess={() => navigate('/login?reset', { replace: true })}
         />
       )}
-      <Link to="/forgot-password" className="mt-6 block text-center font-semibold hover:underline">
-        {t('auth.requestNewLink')}
-      </Link>
+      {!token && (
+        <Link
+          to="/forgot-password"
+          className="mt-6 block text-center font-semibold hover:underline"
+        >
+          {t('auth.requestNewLink')}
+        </Link>
+      )}
     </AuthScreen>
   )
 }

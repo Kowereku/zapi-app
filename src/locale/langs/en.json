@@ -23,7 +23,7 @@
     "forgotTitle": "Reset password",
     "forgotIntro": "Enter your account's email and we'll send you a link to choose a new password.",
     "sendResetLink": "Send link",
-    "resetLinkSent": "If an account with this email exists, we've sent it a link. Check your inbox.",
+    "resetLinkSent": "We've sent you an email. Check your inbox.",
     "backToLogin": "Back to log in",
     "newPasswordTitle": "New password",
     "newPassword": "New password",
@@ -60,7 +60,15 @@
     "network": "Can't reach the server. Check your connection and try again.",
     "unexpected": "Something went wrong. Please try again.",
     "timeout": "The server is taking too long. Try again in a moment.",
-    "server": "Something went wrong on our side. Try again in a moment."
+    "server": "Something went wrong on our side. Try again in a moment.",
+    "notFound": "We couldn't find what you were looking for.",
+    "invalid": "Something in the request wasn't right. Check it and try again.",
+    "api": {
+      "wrongCredentials": "Wrong email/username or password.",
+      "usernameTaken": "This username is already taken.",
+      "emailTaken": "This email is already registered.",
+      "resetLinkInvalid": "This reset link is invalid or has expired."
+    }
   },
   "nav": {
     "xp": "{{count}} XP",
