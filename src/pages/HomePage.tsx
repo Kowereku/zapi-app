@@ -10,7 +10,6 @@ import { useCourses } from '@/hooks/useCourses'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useProgress } from '@/hooks/useProgress'
 import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
-import { trackIcon } from '@/lib/tracks'
 import type { CompletedLesson, CourseListItem } from '@/services/api'
 
 type CourseListProps = {
@@ -74,9 +73,7 @@ export function HomePage() {
             <section className="flex flex-col gap-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <h2 className={headingClass}>
-                  {t('courses.recommended', {
-                    track: `${trackIcon(track)} ${t(`choice.tracks.${track}.name`)}`,
-                  })}
+                  {t('courses.recommended', { track: t(`choice.tracks.${track}.name`) })}
                 </h2>
                 <Link to="/choice" className={buttonVariants({ variant: 'outline', size: 'sm' })}>
                   {t('courses.changeTrack')}

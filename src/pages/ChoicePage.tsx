@@ -55,8 +55,9 @@ export function ChoicePage() {
                     isCurrent && 'ring-4 ring-primary',
                   )}
                 >
+                  <track.icon aria-hidden className="size-10 text-tile" />
                   <span className="text-2xl font-bold sm:text-3xl">
-                    <span aria-hidden>{track.icon}</span> {t(`choice.tracks.${track.id}.name`)}
+                    {t(`choice.tracks.${track.id}.name`)}
                   </span>
                   <span className="text-lg">{t(`choice.tracks.${track.id}.description`)}</span>
                 </button>

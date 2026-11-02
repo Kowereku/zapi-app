@@ -72,6 +72,7 @@ export function LessonComplete({
       ) : (
         <div className="flex w-full max-w-xl flex-col gap-4 sm:flex-row">
           <Link
+            replace
             ref={primaryAction}
             to={nextPath ?? coursePath}
             className={buttonVariants({ variant: 'success', size: 'lg', fullWidth: true })}
@@ -80,6 +81,7 @@ export function LessonComplete({
           </Link>
           {nextPath && (
             <Link
+              replace
               to={coursePath}
               className={buttonVariants({ variant: 'outline', size: 'lg', fullWidth: true })}
             >

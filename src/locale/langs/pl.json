@@ -161,19 +161,20 @@
     "toGo_many": "Jeszcze {{count}}. Tak trzymaj!",
     "toGo_other": "Jeszcze {{count}}. Tak trzymaj!",
     "noBadges": "Nie masz jeszcze odznak. Ukończ lekcję, aby zdobyć pierwszą!",
-    "allBadges": "Masz już wszystkie odznaki! 🎉",
+    "allBadges": "Masz już wszystkie odznaki!",
     "continueLearning": "Kontynuuj naukę",
     "nothingInProgress": "Nic nie jest w toku. Zacznij polecany kurs poniżej!",
-    "allDone": "Ukończono wszystkie kursy! 🎉",
+    "allDone": "Ukończono wszystkie kursy!",
     "suggested": "Polecany kolejny kurs",
     "myCourses": "Moje kursy",
     "noCourses": "Nie masz jeszcze rozpoczętych kursów.",
-    "completed": "✓ Ukończony",
+    "settings": "Ustawienia",
+    "completed": "Ukończony",
     "inProgress": "W toku · {{percent}}%",
     "nextLesson": "{{module}} · {{lesson}}"
   },
   "home": {
-    "welcome": "Witaj na pokładzie, {{username}}! 👋",
+    "welcome": "Witaj na pokładzie, {{username}}!",
     "intro": "Wybierz swój pierwszy kurs i zacznij pisać kod w trybie Dual Mode. Każde zadanie daje XP i postęp w nauce."
   },
   "choice": {
@@ -229,19 +230,19 @@
     "codeLabel": "Twój kod",
     "codePlaceholder": "Wpisz tutaj swój kod…",
     "dualMode": {
-      "toBlocks": "🧩 Ułóż z bloków",
-      "toTyping": "⌨️ Wpisz kod samodzielnie"
+      "toBlocks": "Ułóż z bloków",
+      "toTyping": "Wpisz kod samodzielnie"
     },
     "empty": "Kwa! Ta lekcja nie ma jeszcze zadań.",
     "backToCourse": "Wróć do kursu",
     "outOfHearts": "Ojej, skończyły ci się serca! Weź oddech i spróbuj lekcji jeszcze raz.",
     "tryAgain": "Spróbuj ponownie",
     "aiNap": {
-      "title": "Ducky ucina sobie drzemkę 😴",
+      "title": "Ducky ucina sobie drzemkę",
       "body": "Nie mógł tego sprawdzić, więc porównaliśmy Twój kod z wzorcową odpowiedzią. Możesz iść dalej."
     },
     "complete": {
-      "title": "Lekcja ukończona! 🎉",
+      "title": "Lekcja ukończona!",
       "xp": "+{{count}} XP",
       "noXp": "Lekcja była już ukończona, więc tym razem bez XP.",
       "mistakes_one": "{{count}} błąd",
@@ -257,7 +258,7 @@
     "exit": "Wyjdź z quizu",
     "progress": "Postęp quizu",
     "next": "Dalej",
-    "passedTitle": "Kurs ukończony! 🎉",
+    "passedTitle": "Kurs ukończony!",
     "failedTitle": "Jeszcze nie tym razem",
     "score": "Twój wynik: {{percent}}%",
     "needed": "Aby zdać, potrzebujesz {{percent}}%.",
@@ -270,7 +271,7 @@
     "messageLabel": "Twoja odpowiedź dla Ducky'ego",
     "send": "Wyślij",
     "thinking": "Ducky się zastanawia…",
-    "aiNap": "Ducky ucina sobie drzemkę 😴 Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
+    "aiNap": "Ducky ucina sobie drzemkę Możesz pominąć to pytanie – nie wpłynie to na Twój wynik.",
     "skip": "Pomiń to pytanie",
     "continue": "Dalej"
   },

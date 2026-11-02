@@ -105,6 +105,7 @@ export function QuizResult({
           {t('quiz.retake')}
         </Button>
         <Link
+          replace
           ref={backToCourse}
           to={coursePath}
           className={buttonVariants({ variant: 'outline', size: 'lg', fullWidth: true })}

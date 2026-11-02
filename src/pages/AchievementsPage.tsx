@@ -6,7 +6,6 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import { Spinner } from '@/components/ui/Spinner'
 import { useBadges } from '@/hooks/useBadges'
 import { useRetryFailedQueries } from '@/hooks/useRetryFailedQueries'
-import { familyIcon } from '@/lib/badges'
 
 export function AchievementsPage() {
   const { t } = useTranslation()
@@ -58,7 +57,7 @@ export function AchievementsPage() {
         <section key={family} className="flex flex-col gap-4">
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <h2 className="text-2xl font-bold text-on-page sm:text-3xl">
-              {familyIcon[family]} {t(`badges.families.${family}.name`)}
+              {t(`badges.families.${family}.name`)}
             </h2>
             <p className="text-lg text-on-page-muted">
               {t(`badges.families.${family}.description`)}

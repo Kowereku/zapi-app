@@ -46,7 +46,7 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center gap-10 px-4">
         <DuckyBubble>{t('lesson.empty')}</DuckyBubble>
-        <Link to={coursePath} className={buttonVariants({ size: 'lg' })}>
+        <Link replace to={coursePath} className={buttonVariants({ size: 'lg' })}>
           {t('lesson.backToCourse')}
         </Link>
       </main>
@@ -123,7 +123,10 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
     return (
       <div className="flex min-h-dvh flex-col">
         <header className="mx-auto flex w-full max-w-5xl items-center gap-4 px-4 py-4">
-          <CloseButton label={t('quiz.exit')} onClick={() => navigate(coursePath)} />
+          <CloseButton
+            label={t('quiz.exit')}
+            onClick={() => navigate(coursePath, { replace: true })}
+          />
           <ProgressBar value={100} label={t('quiz.progress')} />
         </header>
         <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-10 px-4 py-6">
@@ -146,7 +149,10 @@ export function QuizRun({ lesson, alreadyCompleted, coursePath, onRetry }: QuizR
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-5xl items-center gap-4 px-4 py-4">
-        <CloseButton label={t('quiz.exit')} onClick={() => navigate(coursePath)} />
+        <CloseButton
+          label={t('quiz.exit')}
+          onClick={() => navigate(coursePath, { replace: true })}
+        />
         <ProgressBar value={(index / questions.length) * 100} label={t('quiz.progress')} />
       </header>
 

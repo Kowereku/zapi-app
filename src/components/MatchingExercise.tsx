@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ArrowLeftRight } from 'lucide-react'
 import { Tile } from '@/components/ui/Tile'
 import type { Exercise } from '@/services/api'
 import { shuffle } from '@/utils/shuffle'
@@ -43,7 +44,7 @@ export function MatchingExercise({ exercise, checked, onChange }: MatchingExerci
                 className="w-full justify-between"
               >
                 <span>{options[pair.left][0]}</span>
-                <span aria-hidden>↔</span>
+                <ArrowLeftRight aria-hidden className="size-5 shrink-0" />
                 <span>{options[pair.right][1]}</span>
               </Tile>
             </li>

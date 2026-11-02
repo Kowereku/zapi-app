@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { Check, Lock, Play, Trophy } from 'lucide-react'
 import { Mascot } from '@/components/ui/Mascot'
 import type { Lesson } from '@/services/api'
 import { cn } from '@/utils/cn'
@@ -10,7 +11,7 @@ const styles = {
   locked: 'bg-tile/60 text-white/70',
 }
 
-const icons = { done: '✓', current: '▶', locked: '🔒' }
+const icons = { done: Check, current: Play, locked: Lock }
 
 type LessonTileProps = {
   lesson: Lesson
@@ -18,17 +19,17 @@ type LessonTileProps = {
   to: string
 }
 
+// Entering and leaving a lesson replace the history entry, so Back never returns into a finished one.
 export function LessonTile({ lesson, status, to }: LessonTileProps) {
   const { t } = useTranslation()
   const className = cn(
     'flex min-h-16 flex-1 items-center gap-4 rounded-card px-5 py-3 transition',
     styles[status],
   )
+  const Icon = lesson.is_quiz && status !== 'locked' ? Trophy : icons[status]
   const content = (
     <>
-      <span aria-hidden className="w-6 text-center text-xl font-bold">
-        {lesson.is_quiz && status !== 'locked' ? '🏆' : icons[status]}
-      </span>
+      <Icon aria-hidden className="size-6 shrink-0" />
       <span className="flex-1 text-lg font-semibold">{lesson.title}</span>
       {/* Replaying a done lesson gives no XP, so only upcoming lessons show it. */}
       <span className="text-sm font-semibold">
@@ -49,7 +50,7 @@ export function LessonTile({ lesson, status, to }: LessonTileProps) {
 
   if (status === 'done') {
     return (
-      <Link to={to} className={className}>
+      <Link replace to={to} className={className}>
         {content}
       </Link>
     )
@@ -58,7 +59,7 @@ export function LessonTile({ lesson, status, to }: LessonTileProps) {
   return (
     <div className="flex items-center gap-3">
       <Mascot variant="ducky" size="icon" />
-      <Link to={to} className={className}>
+      <Link replace to={to} className={className}>
         {content}
       </Link>
     </div>

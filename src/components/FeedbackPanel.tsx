@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Check, X } from 'lucide-react'
 import { CorrectAnswer } from '@/components/CorrectAnswer'
 import { Button } from '@/components/ui/Button'
 import type { Exercise } from '@/services/api'
@@ -36,11 +37,15 @@ export function FeedbackPanel({
         <span
           aria-hidden
           className={cn(
-            'flex size-16 shrink-0 items-center justify-center rounded-full text-3xl font-bold sm:size-24 sm:text-5xl',
+            'flex size-16 shrink-0 items-center justify-center rounded-full sm:size-24',
             correct ? 'bg-tile' : 'bg-danger',
           )}
         >
-          {correct ? '✓' : '✕'}
+          {correct ? (
+            <Check strokeWidth={3} className="size-9 sm:size-14" />
+          ) : (
+            <X strokeWidth={3} className="size-9 sm:size-14" />
+          )}
         </span>
         <div className="flex-1 text-center sm:text-left">
           <p className="text-2xl font-bold sm:text-3xl">

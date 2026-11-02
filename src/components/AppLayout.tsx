@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Flame, Star, Trophy, User, Zap, type LucideIcon } from 'lucide-react'
 import { Link, Navigate, Outlet, useNavigate } from 'react-router'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -6,24 +7,25 @@ import { Mascot } from '@/components/ui/Mascot'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useWarmUpAi } from '@/hooks/useWarmUpAi'
 import { session } from '@/lib/session'
+import { cn } from '@/utils/cn'
 
 // Icon-only on phones, so the tap area is padded out; the matching negative margin keeps the
 // header's layout width unchanged (the nav only just fits at 360px).
-const iconLinkClass = '-m-1.5 inline-flex items-center p-1.5 hover:underline'
+const iconLinkClass = '-m-1.5 inline-flex items-center gap-1 p-1.5 hover:underline'
 
 type HeaderStatProps = {
-  icon: string
+  icon: LucideIcon
   /** What phones show, e.g. "1120"; screen readers always get the full text. */
   short: ReactNode
   full: string
   className?: string
 }
 
-/** A header number that shortens to icon + value on phones, e.g. "⚡ 1120" instead of "⚡ 1120 XP". */
-function HeaderStat({ icon, short, full, className }: HeaderStatProps) {
+/** A header number that shortens to icon + value on phones, e.g. "1120" instead of "1120 XP". */
+function HeaderStat({ icon: Icon, short, full, className }: HeaderStatProps) {
   return (
-    <span className={className}>
-      <span aria-hidden>{icon}</span>{' '}
+    <span className={cn('inline-flex items-center gap-1', className)}>
+      <Icon aria-hidden className="size-4 shrink-0 sm:size-5" />
       <span aria-hidden className="sm:hidden">
         {short}
       </span>
@@ -65,28 +67,28 @@ export function AppLayout() {
             user && (
               <>
                 <HeaderStat
-                  icon="⚡"
+                  icon={Zap}
                   short={user.total_xp}
                   full={t('nav.xp', { count: user.total_xp })}
                 />
                 <HeaderStat
-                  icon="⭐"
+                  icon={Star}
                   short={t('nav.level', { level: user.level })}
                   full={t('nav.level', { level: user.level })}
                   className="font-semibold"
                 />
                 <HeaderStat
-                  icon="🔥"
+                  icon={Flame}
                   short={user.streak_days}
                   full={t('nav.streak', { count: user.streak_days })}
                 />
                 {/* On phones only the icons show; the labels stay readable for screen readers. */}
                 <Link to="/ranking" className={iconLinkClass}>
-                  <span aria-hidden>📊</span>{' '}
+                  <Trophy aria-hidden className="size-5 shrink-0" />
                   <span className="sr-only sm:not-sr-only">{t('nav.ranking')}</span>
                 </Link>
                 <Link to="/profile" className={iconLinkClass}>
-                  <span aria-hidden>👤</span>{' '}
+                  <User aria-hidden className="size-5 shrink-0" />
                   <span className="sr-only sm:not-sr-only">{user.username}</span>
                 </Link>
               </>
