@@ -23,7 +23,7 @@
     "forgotTitle": "Resetowanie hasła",
     "forgotIntro": "Podaj e-mail swojego konta, a wyślemy Ci link do ustawienia nowego hasła.",
     "sendResetLink": "Wyślij link",
-    "resetLinkSent": "Jeśli konto z tym adresem istnieje, wysłaliśmy na nie link. Sprawdź skrzynkę.",
+    "resetLinkSent": "Wysłaliśmy Ci e-mail. Sprawdź skrzynkę.",
     "backToLogin": "Wróć do logowania",
     "newPasswordTitle": "Nowe hasło",
     "newPassword": "Nowe hasło",
@@ -60,7 +60,15 @@
     "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
     "unexpected": "Coś poszło nie tak. Spróbuj ponownie.",
     "timeout": "Serwer zbyt długo nie odpowiada. Spróbuj ponownie za chwilę.",
-    "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę."
+    "server": "Coś poszło nie tak po naszej stronie. Spróbuj ponownie za chwilę.",
+    "notFound": "Nie znaleźliśmy tego, czego szukasz.",
+    "invalid": "Coś w zapytaniu było nie tak. Sprawdź dane i spróbuj ponownie.",
+    "api": {
+      "wrongCredentials": "Nieprawidłowy e-mail/nazwa użytkownika lub hasło.",
+      "usernameTaken": "Ta nazwa użytkownika jest już zajęta.",
+      "emailTaken": "Ten adres e-mail jest już zarejestrowany.",
+      "resetLinkInvalid": "Ten link do resetowania hasła jest nieprawidłowy lub wygasł."
+    }
   },
   "nav": {
     "xp": "{{count}} XP",
