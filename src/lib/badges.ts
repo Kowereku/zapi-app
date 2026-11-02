@@ -1,14 +1,15 @@
 import type { TFunction } from 'i18next'
+import { Flame, GraduationCap, Keyboard, Star, Target, Trophy, type LucideIcon } from 'lucide-react'
 import type { Badge, BadgeFamily } from '@/services/api'
 
-/** Emoji shown in the medal of every badge in a family, as in the Figma designs. */
-export const familyIcon: Record<BadgeFamily, string> = {
-  courses: '🎓',
-  streak: '🔥',
-  flawless_lesson: '🎯',
-  perfect_quiz: '🏆',
-  own_code: '⌨️',
-  level: '⭐',
+/** Icon shown in the medal of every badge in a family. */
+export const familyIcon: Record<BadgeFamily, LucideIcon> = {
+  courses: GraduationCap,
+  streak: Flame,
+  flawless_lesson: Target,
+  perfect_quiz: Trophy,
+  own_code: Keyboard,
+  level: Star,
 }
 
 /** Families with a single badge, whose name alone identifies it. */
